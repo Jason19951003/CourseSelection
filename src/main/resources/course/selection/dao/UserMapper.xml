@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course.selection.dao.UserMapper">
+
+	<select id="findPermission" resultType="java.lang.Integer">
+			select department_type from department
+			where department_id = #{depId}
+	</select>
+	
+	<select id="findUser" resultType="java.util.Map" parameterType="java.util.Map">
+		<if test="depType == null">
+			select 
+				root_account, root_password, permission_id, root_name 
+			from root_info
+			where root_account = #{username} and root_password = #{password}
+		</if>
+		<if test="depType eq 2">
+			select 
+				teacher_id, permission_id, teacher_password, teacher_name,
+				birthdate, department_id, class, admission_date, sticker
+			from teacher_info
+			where teacher_id = #{username} and teacher_password = #{password}
+		</if>
+		<if test="depType eq 3">
+			select 
+				student_id, permission_id, student_password, student_name,
+				birthdate, department_id, class, admission_time, sticker
+			from student_info
+			where student_id = #{username} and student_password = #{password}
+		</if>
+	</select>
+</mapper>
