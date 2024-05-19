@@ -80,10 +80,11 @@
                 passwordIcon.removeClass('bi-eye-slash').addClass('bi-eye');
             }
         });
-        $('#login').submit(function (e) {
+        $('#login').submit(async(e) => {
             e.preventDefault();
             var username = $("#username").val();
             var password = $("#password").val();
+
             $.post('/login', { username: username, password: password }, function (data) {
                 // 成功接收到響應，處理數據
                 if (!data) {
@@ -104,6 +105,7 @@
                 // 請求出錯
                 console.error('Request failed:', error);
             });
+
         });
     </script>
 </body>
