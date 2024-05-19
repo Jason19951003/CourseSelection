@@ -13,15 +13,11 @@ public class LoginService {
 	@Autowired
 	private UserMapper userMapper;
 	/**
-	 * 根據帳號前兩碼到部門資料判斷使用者的權限,再根據權限去查對應的資料表,判斷帳號密碼是否正確
+	 * 將root,學生,老師資料表整合成一個所以不需要再判斷使用者權限可以直接查詢
 	 * @param param
 	 * @return
 	 */
 	public Map<String, Object> login(Map<String, Object> param) {
-		param.put("depId", String.valueOf(param.get("username")).substring(0, 2));
-		Integer depType = userMapper.findPermission(String.valueOf(param.get("username")).substring(0, 2));
-		
-		param.put("depType", depType);
 		return userMapper.findUser(param);
 	}
 }

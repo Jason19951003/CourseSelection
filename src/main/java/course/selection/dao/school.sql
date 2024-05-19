@@ -46,7 +46,7 @@ create table if not exists user_info(
     user_password varchar(255) not null,
     permission_id tinyint not null,
     user_name varchar(255) not null,
-    birthdate Date,
+    birth_date Date,
     sex ENUM('1','2'),
     email varchar(255),
     phone varchar(255),
@@ -60,13 +60,13 @@ create table if not exists user_info(
 );
 
 insert into user_info (user_id, user_password, permission_id, user_name) values ('root', 'root', 1, '管理員');
-insert into user_info (user_id, user_password, permission_id, user_name, birthdate, sex, email, phone, department_id, class_id, admission_date) values ('IM103001', 'IM103001', 3, '王小明', '1995-10-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
-insert into user_info (user_id, user_password, permission_id, user_name, birthdate, sex, email, phone, department_id, class_id, admission_date) values ('IM103002', 'IM103002', 3, '黃小華', '1995-10-04', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
-insert into user_info (user_id, user_password, permission_id, user_name, birthdate, sex, email, phone, department_id, class_id, admission_date) values ('TE100001', 'TE100001', 3, '方仁威', '1964-08-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2008-09-01');
+insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('IM103001', 'IM103001', 3, '王小明', '1995-10-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
+insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('IM103002', 'IM103002', 3, '黃小華', '1995-10-04', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
+insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('TE100001', 'TE100001', 3, '方仁威', '1964-08-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2008-09-01');
 
 create table if not exists course (
 	course_dep char(2) not null,
-		course_id char(3) not null,
+	course_id char(3) not null,
     course_name varchar(255) not null,
     course_required ENUM('1','2') not null,
     course_year smallint not null,
