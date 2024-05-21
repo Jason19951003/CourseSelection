@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course.selection.dao.CourseMapper">
+	
+	<select id="findCourse">
+        SELECT a.*, CONCAT(a.courseOfWeek, ' ', a.course_start, '-', a.course_end, '節課') AS courseTime
+        FROM (
+        SELECT
+            a.course_dep,
+            c.department_name AS deptName,
+            a.course_id,
+            a.course_name AS courseName,
+            a.course_required,
+            CASE a.course_required
+                WHEN '1' THEN '必修'
+                WHEN '2' THEN '選修' 
+            END AS required,
+            a.course_year,
+            a.course_semester,
+            CASE a.course_semester
+                WHEN '1' THEN '上'
+                WHEN '2' THEN '下' 
+            END AS semester,
+            a.course_of_week,
+            CASE a.course_of_week
+                WHEN 'Monday' THEN '星期一'
+                WHEN 'Tuesday' THEN '星期二'
+                WHEN 'Wednesday' THEN '星期三'
+                WHEN 'Thursday' THEN '星期四'
+                WHEN 'Friday' THEN '星期五'
+            END AS courseOfWeek,
+            a.course_start, 
+            a.course_end,
+            a.course_locate,
+            a.teacher_id,
+            b.user_name as teacherName,
+            a.course_content as courseContent
+        FROM course a
+        LEFT JOIN user_info b ON a.teacher_id = b.user_id
+        LEFT JOIN department c ON a.course_dep = c.department_id) a
+    </select>
+</mapper>
