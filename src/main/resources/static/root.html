@@ -286,17 +286,17 @@
 			const res = await fetch('http://localhost:8080/findcourse');
 			const {state, message, data} = await res.json();
 			if (state) {
-				data.forEach(d => {
+				data.forEach(coursedata => {
 					$('#courseBody').append(`
 					<tr>
-						<td>${d.deptName}</td>
-						<td>${d.courseName}</td>
-						<td>${d.required}</td>
-						<td>${d.teacherName}</td>
-						<td>${d.course_year}</td>
-						<td>${d.semester}</td>
-						<td>${d.courseTime}</td>
-						<td>${d.course_locate}</td>
+						<td>${coursedata.deptName}</td>
+						<td>${coursedata.courseName}</td>
+						<td>${coursedata.required}</td>
+						<td>${coursedata.teacherName}</td>
+						<td>${coursedata.course_year}</td>
+						<td>${coursedata.semester}</td>
+						<td>${coursedata.courseTime}</td>
+						<td>${coursedata.course_locate}</td>
 						<td>
 							<button class="btn btn-success btn-sm">編輯</button>
 							<button class="btn btn-danger btn-sm">刪除</button>
