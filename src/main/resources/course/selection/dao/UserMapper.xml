@@ -4,10 +4,10 @@
 <mapper namespace="course.selection.dao.UserMapper">
 	
 	<select id="findUser">
-		select 
+		SELECT 
 			user_id, user_password, permission_id, user_name, birth_date,
 			sex, email, phone, department_id, class_id, admission_date, sticker 
-		from user_info
-		where user_id = #{username} and user_password = #{password}
+		FROM user_info
+		WHERE user_id = #{username} AND user_password = #{password}
 	</select>
 </mapper>

@@ -40,4 +40,13 @@
         LEFT JOIN user_info b ON a.teacher_id = b.user_id
         LEFT JOIN department c ON a.course_dep = c.department_id) a
     </select>
+    
+    <insert id="insertCourse">
+        INSERT INTO course(
+            course_dep, course_id, course_required, course_year, course_semester, course_of_week, 
+            course_start, courese_end, course_locate, teacher_id)
+        VALUES(
+            #{depId}, #{courseId}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
+            #{courseStart}, #{courseEnd}, #{courseLocate}, #{teacherId});
+    </insert>
 </mapper>
