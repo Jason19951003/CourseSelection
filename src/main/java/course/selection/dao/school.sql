@@ -19,14 +19,12 @@ insert into account_permissions (permission_id, permission_name) values (3, 'stu
 
 create table if not exists department (
 	department_id char(2) primary key,
-    department_name varchar(255) not null,
-    department_type tinyint not null,
-    foreign key (department_type) references account_permissions(permission_id)
+    department_name varchar(255) not null
 );
 
-insert into department (department_id, department_name, department_type) values('IM', '資訊管理系',3);
-insert into department (department_id, department_name, department_type) values('GE','通識', 3);
-insert into department (department_id, department_name, department_type) values('TE','老師', 2);
+insert into department (department_id, department_name) values('IM', '資訊管理系');
+insert into department (department_id, department_name) values('GE','通識');
+insert into department (department_id, department_name) values('TE','老師');
 
 create table if not exists class_info(
     class_id int AUTO_INCREMENT primary key,

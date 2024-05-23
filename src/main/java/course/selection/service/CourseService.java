@@ -16,4 +16,6 @@ public class CourseService {
     public List<Map<String, Object>> findCourse(Map<String, Object> param) {
         return courseMapper.findCourse(param);
     }
+
+    
 }

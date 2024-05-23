@@ -68,14 +68,14 @@
 
 		@media (max-width: 992px) {
 			.sidebar {
-				min-height: auto;
-				/* 移除min-height */
+				min-height: auto; /* 移除min-height */
 			}
 		}
 	</style>
 </head>
 
 <body>
+	<!-- header -->
 	<div class="header">
 		<div>
 			<h1><i class="fas fa-university"></i>大學選課系統</h1>
@@ -84,6 +84,7 @@
 			<span style="font-size: 24px;"><i class="fas fa-user-cog"></i>管理員</span>
 		</div>
 	</div>
+	<!-- main -->
 	<div class="container-fluid">
 		<div class="row">
 			<nav class="col-12 col-lg-2 order-2 order-lg-2 sidebar">
@@ -239,6 +240,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
+			sideBarLinkage();
+			searchCourse();
+		});
+
+		const sideBarLinkage = () => {
 			var navLink = document.getElementsByClassName('nav-link');
 			var personalInfoCollapse = new bootstrap.Collapse(document.getElementById('personalInfoCollapse'), {
                 toggle: false
@@ -279,8 +285,7 @@
 					}
 				})
 			}
-			searchCourse();
-		});
+		}
 
 		const searchCourse = async() => {
 			const res = await fetch('http://localhost:8080/findcourse');
