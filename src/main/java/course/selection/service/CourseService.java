@@ -17,5 +17,19 @@ public class CourseService {
         return courseMapper.findCourse(param);
     }
 
-    
+    public Integer insertCourse(Map<String, Object> param) {
+        return courseMapper.insertCourse(param);
+    }
+
+    public List<Map<String, Object>> findDepartment() {
+        return courseMapper.findDepartment();
+    }
+
+    public List<Map<String, Object>> findTeacher(String depId) {
+        return courseMapper.findTeacher(depId);
+    }
+
+    public Integer deleteCourse(Map<String, Object> param) {
+        return courseMapper.deleteCourse(param);
+    }
 }

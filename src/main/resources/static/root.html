@@ -170,80 +170,202 @@
 					<h5 class="modal-title" id="insertModalLabel">課程訊息</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<form class="modal-body">
-					<div class="form-group">
-						<label for="depId">科&#12288;&#12288;系:</label>
-						<select id="depId" name="depId" class="form-select" aria-label="Default select example">
-							<option selected value="IM">資訊管理系</option>
-							<option value="GE">通識</option>
-						</select>
+				<form id="courseForm" action="">
+					<input type="hidden" id="courseIndex" name="courseIndex">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="depId">科&#12288;&#12288;系:</label>
+							<select id="depId" name="depId" class="form-select" aria-label="Default select example">
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="courseId">課程代號:</label>
+							<input type="text" id="courseId" name="courseId" class="form-control" placeholder="請輸入課程代號" required>
+						</div>
+						<div class="form-group">
+							<label for="courseName">課程名稱:</label>
+							<input type="text" id="courseName" name="courseName" class="form-control" placeholder="請輸入課程名稱" required>
+						</div>
+						<div class="form-group">
+							<label for="courseRequired">課程類別:</label>
+							<select id="courseRequired" name="courseRequired" class="form-select">
+								<option selected value="1">必修</option>
+								<option value="2">選修</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="teacherId">授課老師:</label>
+							<select id="teacherId" name="teacherId" class="form-select">
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="courseYear">課程年份:</label>
+							<input type="number" id="courseYear" name="courseYear" class="form-control" required>
+							<select id="courseSemester" name="courseSemester" class="form-select">
+								<option selected value="1">上</option>
+								<option value="2">下</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="courseOfWeek">上課時間:</label>
+							<select id="courseOfWeek" name="courseOfWeek" class="form-select">
+								<option selected value="Monday">星期一</option>
+								<option value="Tuesday">星期二</option>
+								<option value="Wednesday">星期三</option>
+								<option value="Thursday">星期四</option>
+								<option value="Friday">星期五</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>&#12288;&#12288;&#12288;&#12288;&nbsp;</label>
+							第<input type="number" min="1" max="8" id="courseStart" name="courseStart" class="form-control" required>節到
+							<input type="number" min="1" max="8" id="courseEnd" name="courseEnd" class="form-control" required>節
+						</div>
+						<div class="form-group">
+							<label for="courseLocate">上課地點:</label>
+							<input type="text" id="courseLocate" name="courseLocate" class="form-control" placeholder="請輸入上課地點" required>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="courseId">課程代號:</label>
-						<input type="text" id="courseId" name="courseId" class="form-control" placeholder="請輸入課程代號">
-					</div>
-					<div class="form-group">
-						<label for="courseName">課程名稱:</label>
-						<input type="text" id="courseName" name="courseName" class="form-control" placeholder="請輸入課程名稱">
-					</div>
-					<div class="form-group">
-						<label for="courseRequired">課程類別:</label>
-						<select id="courseRequired" name="courseRequired" class="form-select">
-							<option selected value="1">必修</option>
-							<option value="2">選修</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="teacherId">授課老師:</label>
-						<select id="teacherId" name="teacherId" class="form-select">
-							<option selected value="TE100001">方仁威</option>
-							<option value="TE100002">林孟文</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="courseYear">課程年份:</label>
-						<input type="number" id="courseYear" name="courseYear" class="form-control">
-						<select id="courseSemester" name="courseSemester" class="form-select">
-							<option selected value="1">上</option>
-							<option value="2">下</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="courseOfWeek">上課時間:</label>
-						<select id="courseOfWeek" name="courseOfWeek" class="form-select">
-							<option selected value="Monday">星期一</option>
-							<option value="Tuesday">星期二</option>
-							<option value="Wednesday">星期三</option>
-							<option value="Thursday">星期四</option>
-							<option value="Friday">星期五</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="courseLocate">&#12288;&#12288;&#12288;&#12288;&nbsp;</label>
-						第<input type="number" min="1" max="8" id="courseStart" name="courseStart" class="form-control">節到
-						<input type="number" min="1" max="8" id="courseEnd" name="courseEnd" class="form-control">節
-					</div>
-					<div class="form-group">
-						<label for="courseLocate">上課地點:</label>
-						<input type="text" id="courseLocate" name="courseLocate" class="form-control" placeholder="請輸入上課地點">
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary">保存</button>
 					</div>
 				</form>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary">保存</button>
-				</div>
 			</div>
 		</div>
   	</div>
   
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="./js/common.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 			sideBarLinkage();
 			searchCourse();
-		});
+			loadDepartment();
 
+			$('#courseForm').submit((e) => {
+				e.preventDefault();
+				insertCourse();
+			});
+		});
+		
+		// 新增課程
+		const insertCourse = async() => {
+			var formData = {
+				courseIndex : $('#courseIndex').val(),
+				depId : $('#depId').val(),
+				courseId : $('#courseId').val(),
+				courseName : $('#courseName').val(),
+				courseRequired : $('#courseRequired').val(),
+				teacherId : $('#teacherId').val(),
+				courseYear : $('#courseYear').val(),
+				courseSemester : $('#courseSemester').val(),
+				courseOfWeek : $('#courseOfWeek').val(),
+				courseStart : $('#courseStart').val(),
+				courseEnd : $('#courseEnd').val(),
+				courseLocate : $('#courseLocate').val()
+			}
+
+			const response = await fetch('http://localhost:8080/insertcourse', {
+				method : 'POST',
+				headers : {
+					'Content-Type': 'application/json'
+				},
+				body : JSON.stringify(formData)
+			});
+			
+			const {state, message, data} = await response.json();
+			
+			if (state) {
+				// 關閉模態框
+				var modalElement = document.getElementById('insertModal');
+				var modalInstance = bootstrap.Modal.getInstance(modalElement);
+				modalInstance.hide();
+				$('#courseForm')[0].reset();
+				searchCourse();
+			} else {
+				alert(message);
+			}
+		}
+		// 刪除課程
+		const deleteCourse = async(e) => {
+			var formData = {
+				courseDep : e.getAttribute('course-dep'),
+				courseId : e.getAttribute('course-id'),
+				courseYear : e.getAttribute('course-year'),
+				courseSemester : e.getAttribute('cousre-semester')				
+			}
+			const response = await fetch('http://localhost:8080/deletecourse', {
+				method : "DELETE",
+				headers : {
+					'Content-Type': 'application/json'
+				},
+				body : JSON.stringify(formData)
+			});
+			const {state, message, data} = await response.json();
+			alert(message);
+			if (state) {				
+				searchCourse();
+			}
+		}
+		// 編輯課程
+		const updateCourse = async(e) => {
+			var formData = {
+				depId : e.getAttribute('course-dep'),
+				courseId : e.getAttribute('course-id'),
+				courseYear : e.getAttribute('course-year'),
+				courseSemester : e.getAttribute('cousre-semester')
+			}
+			var queryString = new URLSearchParams(formData).toString();
+
+			const response = await fetch(`http://localhost:8080/findcourse?${queryString}`, {
+				method : "GET",
+				headers : {
+					'Content-Type': 'application/json'
+				}
+			});
+			const {state, message, data} = await response.json();
+			await $('#depId').val(data[0].course_dep).change();
+			$('#courseId').val(data[0].course_id);
+			$('#courseName').val(data[0].courseName);
+			$('#courseRequired').val(data[0].course_required);
+			$('#teacherId').val(data[0].teacher_id);
+			$('#courseYear').val(data[0].courseYear);
+			$('#courseSemester').val(data[0].course_semester);
+			$('#courseOfWeek').val(data[0].course_of_week);
+			$('#courseStart').val(data[0].course_start);
+			$('#courseEnd').val(data[0].course_end);
+			$('#courseLocate').val(data[0].courseLocate);
+			$('#courseIndex').val(data[0].courseIndex);
+		}
+		// 查詢課程
+		const searchCourse = async() => {
+			$('#courseBody').html('');
+			const response = await fetch('http://localhost:8080/findcourse');
+			const {state, message, data} = await response.json();
+			if (state) {
+				data.forEach(obj => {
+					$('#courseBody').append(`
+					<tr>
+						<td>${obj.deptName}</td>
+						<td>${obj.courseName}</td>
+						<td>${obj.required}</td>
+						<td>${obj.teacherName}</td>
+						<td>${obj.courseYear}</td>
+						<td>${obj.semester}</td>
+						<td>${obj.courseTime}</td>
+						<td>${obj.courseLocate}</td>
+						<td>
+							<button id="updateCourse" onclick="updateCourse(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#insertModal" course-dep="${obj.course_dep}" course-id="${obj.course_id}" course-year="${obj.courseYear}" cousre-semester="${obj.course_semester}">編輯</button>
+							<button id="deleteCourse" onclick="deleteCourse(this)" class="btn btn-danger btn-sm" course-dep="${obj.course_dep}" course-id="${obj.course_id}" course-year="${obj.courseYear}" cousre-semester="${obj.course_semester}">刪除</button>
+						</td>
+					</tr>
+					`);
+				});
+			}
+		}
+		// sidebar 連動
 		const sideBarLinkage = () => {
 			var navLink = document.getElementsByClassName('nav-link');
 			var personalInfoCollapse = new bootstrap.Collapse(document.getElementById('personalInfoCollapse'), {
@@ -284,31 +406,6 @@
 						personalInfoCollapse.hide();
 					}
 				})
-			}
-		}
-
-		const searchCourse = async() => {
-			const res = await fetch('http://localhost:8080/findcourse');
-			const {state, message, data} = await res.json();
-			if (state) {
-				data.forEach(coursedata => {
-					$('#courseBody').append(`
-					<tr>
-						<td>${coursedata.deptName}</td>
-						<td>${coursedata.courseName}</td>
-						<td>${coursedata.required}</td>
-						<td>${coursedata.teacherName}</td>
-						<td>${coursedata.course_year}</td>
-						<td>${coursedata.semester}</td>
-						<td>${coursedata.courseTime}</td>
-						<td>${coursedata.course_locate}</td>
-						<td>
-							<button class="btn btn-success btn-sm">編輯</button>
-							<button class="btn btn-danger btn-sm">刪除</button>
-						</td>
-					</tr>
-					`);
-				});
 			}
 		}
 	</script>

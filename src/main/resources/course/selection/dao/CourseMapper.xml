@@ -7,6 +7,7 @@
         SELECT a.*, CONCAT(a.courseOfWeek, ' ', a.course_start, '-', a.course_end, '節課') AS courseTime
         FROM (
         SELECT
+            a.course_index as courseIndex,
             a.course_dep,
             c.department_name AS deptName,
             a.course_id,
@@ -16,7 +17,7 @@
                 WHEN '1' THEN '必修'
                 WHEN '2' THEN '選修' 
             END AS required,
-            a.course_year,
+            a.course_year as courseYear,
             a.course_semester,
             CASE a.course_semester
                 WHEN '1' THEN '上'
@@ -32,29 +33,86 @@
             END AS courseOfWeek,
             a.course_start, 
             a.course_end,
-            a.course_locate,
+            a.course_locate as courseLocate,
             a.teacher_id,
             b.user_name as teacherName,
             a.course_content as courseContent
         FROM course a
         LEFT JOIN user_info b ON a.teacher_id = b.user_id
-        LEFT JOIN department c ON a.course_dep = c.department_id) a
+        LEFT JOIN department c ON a.course_dep = c.department_id
+        <where>
+            <if test="depId != null">
+                a.course_dep = #{depId} AND
+            </if>
+            <if test="courseId != null">
+                a.course_id = #{courseId} AND
+            </if>
+            <if test="courseYear != null">
+                a.course_year = #{courseYear} AND
+            </if>
+            <if test="courseSemester != null">
+                a.course_semester = #{courseSemester}
+            </if>
+        </where>
+        ) a
     </select>
     
     <insert id="insertCourse">
         INSERT INTO course(
-            course_dep, course_id, course_required, course_year, course_semester, course_of_week, 
-            course_start, courese_end, course_locate, teacher_id)
+            course_dep, course_id, course_name, course_required, course_year, course_semester, course_of_week, 
+            course_start, course_end, course_locate, teacher_id)
         VALUES(
-            #{depId}, #{courseId}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
+            #{depId}, #{courseId}, #{courseName}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
             #{courseStart}, #{courseEnd}, #{courseLocate}, #{teacherId});
     </insert>
 
     <select id="findDepartment">
-        SELECT department_id, department_name FROM department
+        SELECT 
+            department_id as departmentId,
+            department_name as departmentName
+        FROM department
+        WHERE department_id != 'TE'
     </select>
 
-    <select id="findTeacher">
-        SELECT * FROM user_info
+    <select id="findTeacher" parameterType="java.lang.String">
+        SELECT 
+            user_id as userId,
+            user_password as userPassword,
+            permission_id as permissionId,
+            user_name as userName,
+            birth_date as birthDate,
+            sex,
+            email,
+            phone,
+            department_id as departmendId,
+            class_id as classId,
+            admission_date as admissionDate,
+            sticker
+        FROM user_info
+        WHERE department_id = #{depId} AND permission_id = 2
     </select>
+
+    <delete id="deleteCourse">
+        DELETE FROM course
+        WHERE 
+        course_id = #{courseId} AND course_dep = #{courseDep}
+        AND course_year = #{courseYear} AND course_semester = #{courseSemester}
+    </delete>
+
+    <update id="updateCourse">
+        UPDATE course 
+        SET 
+        course_dep = #{depId} AND
+        course_id = #{courseId} AND
+        course_name = #{courseName} AND
+        course_required = #{courseRequired} AND
+        teacher_id = #{teacherId} AND
+        course_year = #{courseYear} AND
+        course_semester = #{courseSemester} AND
+        course_of_week = #{courseOfWeek} AND
+        course_start = #{courseStart} AND
+        course_end = #{courseEnd} AND
+        course_locate = #{courseLocate}
+        WHERE course_index = #{courseIndex}
+    </update>
 </mapper>

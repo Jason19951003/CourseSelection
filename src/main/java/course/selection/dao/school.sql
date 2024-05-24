@@ -60,9 +60,12 @@ create table if not exists user_info(
 insert into user_info (user_id, user_password, permission_id, user_name) values ('root', 'root', 1, '管理員');
 insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('IM103001', 'IM103001', 3, '王小明', '1995-10-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
 insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('IM103002', 'IM103002', 3, '黃小華', '1995-10-04', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
-insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('TE100001', 'TE100001', 3, '方仁威', '1964-08-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2008-09-01');
+insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('TE100001', 'TE100001', 2, '方仁威', '1964-08-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2008-09-01');
+insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('TE100002', 'TE100002', 2, '林國滑', '1978-05-23', '1', 'abc123@gmai.com', '0912345678', 'GE', 1, '2018-09-01');
+
 
 create table if not exists course (
+    course_index int auto_increment primary key,
 	course_dep char(2) not null,
 	course_id char(3) not null,
     course_name varchar(255) not null,
@@ -74,10 +77,10 @@ create table if not exists course (
     course_end tinyint not null,
     course_locate varchar(255) not null,
     teacher_id varchar(255) not null,
-    course_content varchar(255),    
+    course_content varchar(255),
     foreign key (course_dep) references department(department_id),
     foreign key (teacher_id) references user_info(user_id),
-    primary key (course_dep, course_id)
+    CONSTRAINT unique_dep_id_year_semester UNIQUE(course_dep, course_id, course_year, course_semester)
 );
 
 insert into course (course_dep, course_id, course_name, course_required, course_year, course_semester, course_of_week, course_start, course_end, course_locate, teacher_id, course_content) values ('IM', '001', '程式設計', '1', 107, '1', 'Monday', 1, 4, '101教室' ,'TE100001', 'Java物件導向程式設計');
@@ -90,9 +93,6 @@ create table if not exists course_grade (
     student_id VARCHAR(255) not null,
     teacher_id VARCHAR(255) not null,
     grade tinyint,
-    primary key (course_dep, course_id, student_id),
-	foreign key (course_dep) references department(department_id),
-	foreign key (course_dep, course_id) references course(course_dep, course_id),
 	foreign key (student_id) references user_info(user_id),
 	foreign key (teacher_id) references user_info(user_id)
 );
