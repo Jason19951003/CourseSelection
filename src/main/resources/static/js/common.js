@@ -9,6 +9,7 @@ const loadDepartment = async() => {
 }
 
 $('#courseDep').on('change', async() => {
+    // 要先清空Select裡的html才能append(不然會接續在後面)
     $('#teacherId').html('');
     const courseDep = $('#courseDep').val();
     const response = await fetch(`http://localhost:8080/findTeacher/${courseDep}`);
