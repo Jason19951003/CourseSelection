@@ -91,10 +91,10 @@
 				<div class="position-sticky">
 					<ul class="nav flex-lg-column flex-row">
 						<li class="nav-item">
-							<a class="nav-link active" href="#"><i class="fas fa-home"></i> 系統首頁</a>
+							<a class="nav-link active" href="#" link-page="root_front_page"><i class="fas fa-home"></i> 系統首頁</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#"><i class="fas fa-book"></i> 課程管理</a>
+							<a class="nav-link" href="#" link-page="root_course"><i class="fas fa-book"></i> 課程管理</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link d-flex justify-content-between align-items-center check"
@@ -106,10 +106,10 @@
 							<div class="collapse" id="personalInfoCollapse" personal-data="1">
 								<ul class="nav flex-column ms-3">
 									<li class="nav-item">
-										<a class="nav-link check" href="#"><i class="fas fa-chalkboard-teacher"></i> 老師資料</a>
+										<a class="nav-link check" href="#" link-page="root_teacher"><i class="fas fa-chalkboard-teacher"></i> 老師資料</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link check" href="#"><i class="fas fa-user-graduate"></i> 學生資料</a>
+										<a class="nav-link check" href="#" link-page="root_student"><i class="fas fa-user-graduate"></i> 學生資料</a>
 									</li>
 								</ul>
 							</div>
@@ -121,44 +121,8 @@
 				</div>
 			</nav>
 
-			<main class="col-12 col-lg-10 order-2 order-lg-2 content">
-				<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
-					<input type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
-					<div class="ms-2">
-						<button class="btn btn-success">查詢</button>
-						<button class="btn btn-primary">重置</button>
-					</div>
-				</div>
+			<main id="content" class="col-12 col-lg-10 order-2 order-lg-2 content">
 
-				<div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
-					<table class="table table-striped table-hover">
-						<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#insertModal" onclick="insertCourse()">新增</button>
-						<thead>
-							<tr>
-								<th scope="col">科系</th>
-								<th scope="col">課程名稱</th>
-								<th scope="col">選/必修</th>
-								<th scope="col">老師</th>
-								<th scope="col">年份</th>
-								<th scope="col">學期</th>
-								<th scope="col">上課時間</th>
-								<th scope="col">上課地點</th>
-								<th scope="col">操作</th>
-							</tr>
-						</thead>
-						<tbody id="courseBody">
-						</tbody>
-					</table>
-				</div>
-
-				<div aria-label="Page navigation example" class="border border-opacity-100 bg-white rounded">
-					<div class="pagination p-3">
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<!-- 更多分頁按鈕 -->
-					</div>
-				</div>
 			</main>
 		</div>
 	</div>
@@ -241,10 +205,11 @@
 	<script src="./js/common.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
+			renderHtml('content', 'root/root_front_page.html');
 			sideBarLinkage();
 			searchCourse();
 			loadDepartment();
-
+			
 			$('#courseForm').submit((e) => {
 				e.preventDefault();
 				saveCourse();
@@ -268,7 +233,7 @@
 			}
 
 			var saveFunction = $('#saveFunction').val();
-			var uri = saveFunction == 'insert' ? 'insertCourse' : 'updateCourse';
+			var uri = saveFunction == 'insert' ? 'insertCourse' : `updateCourse/${formData.courseIndex}`;
 			var method = saveFunction == 'insert' ? 'POST' : 'PUT';
 
 			const response = await fetch(`http://localhost:8080/${uri}`, {
@@ -299,10 +264,10 @@
 		// 刪除課程
 		const deleteCourse = async(e) => {
 			if (confirm("是否要刪除?")) {
-				var formData = {
+				var formData  = {
 					courseIndex : e.getAttribute('course-index')
 				}
-				const response = await fetch('http://localhost:8080/deleteCourse', {
+				const response = await fetch(`http://localhost:8080/deleteCourse/${formData.courseIndex}`, {
 					method : "DELETE",
 					headers : {
 						'Content-Type': 'application/json'
@@ -311,10 +276,10 @@
 				});
 				const {state, message, data} = await response.json();
 				alert(message);
-				if (state) {				
+				if (state) {
 					searchCourse();
 				}
-			}			
+			}
 		}
 		// 編輯課程
 		const updateCourse = async(e) => {
@@ -384,6 +349,11 @@
 						clickedElement = clickedElement.closest('.nav-link');
 					}
 
+					var page = clickedElement.getAttribute('link-page')
+					if (page) {
+						renderHtml('content', `root/${page}.html`);
+						searchCourse();
+					}
 					// 切換 active 屬性
 					var activeElement = document.querySelector('.nav-link.active');
 					if (activeElement) {

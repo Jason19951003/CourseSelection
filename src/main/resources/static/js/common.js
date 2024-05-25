@@ -18,3 +18,10 @@ $('#courseDep').on('change', async() => {
         $('#teacherId').append(`<option value="${obj.userId}">${obj.userName}</option>`)
     })
 });
+
+
+const renderHtml = async(id, url) => {
+    const response = await fetch(`http://localhost:8080/${url}`);
+    const html = await response.text();
+    $(`#${id}`).html(html);
+}

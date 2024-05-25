@@ -64,7 +64,7 @@ public class CourseController {
 		}
 	}
 
-	@PutMapping("/updateCourse")
+	@PutMapping("/updateCourse/{courseIndex}")
 	public ResponseEntity<ApiResponse<?>> updateCourse(@RequestBody Map<String, Object> param) {
 		Integer rowCount = courseService.updateCourse(param);
 		boolean state = rowCount > 0;
@@ -73,7 +73,7 @@ public class CourseController {
 		return ResponseEntity.ok(result);
 	}
 
-	@DeleteMapping("/deleteCourse")
+	@DeleteMapping("/deleteCourse/{courseIndex}")
 	public ResponseEntity<ApiResponse<?>> deleteCourse(@RequestBody Map<String, Object> param) {
 		Integer rowCount = courseService.deleteCourse(param);
 		boolean state = rowCount > 0;

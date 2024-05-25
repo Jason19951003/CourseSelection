@@ -1,0 +1,37 @@
+<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
+    <input type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
+    <div class="ms-2">
+        <button class="btn btn-success">查詢</button>
+        <button class="btn btn-primary">重置</button>
+    </div>
+</div>
+
+<div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
+    <table class="table table-striped table-hover">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#insertModal" onclick="insertCourse()">新增</button>
+        <thead>
+            <tr>
+                <th scope="col">科系</th>
+                <th scope="col">課程名稱</th>
+                <th scope="col">選/必修</th>
+                <th scope="col">老師</th>
+                <th scope="col">年份</th>
+                <th scope="col">學期</th>
+                <th scope="col">上課時間</th>
+                <th scope="col">上課地點</th>
+                <th scope="col">操作</th>
+            </tr>
+        </thead>
+        <tbody id="courseBody">
+        </tbody>
+    </table>
+</div>
+
+<div aria-label="Page navigation example" class="border border-opacity-100 bg-white rounded">
+    <div class="pagination p-3">
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <!-- 更多分頁按鈕 -->
+    </div>
+</div>
