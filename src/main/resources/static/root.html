@@ -267,7 +267,7 @@
 			}
 
 			var saveFunction = $('#saveFunction').val();
-			var uri = saveFunction == 'insert' ? 'insertcourse' : 'updatecourse';
+			var uri = saveFunction == 'insert' ? 'insertCourse' : 'updateCourse';
 			var method = saveFunction == 'insert' ? 'POST' : 'PUT';
 
 			const response = await fetch(`http://localhost:8080/${uri}`, {
@@ -301,7 +301,7 @@
 				var formData = {
 					courseIndex : e.getAttribute('course-index')
 				}
-				const response = await fetch('http://localhost:8080/deletecourse', {
+				const response = await fetch('http://localhost:8080/deleteCourse', {
 					method : "DELETE",
 					headers : {
 						'Content-Type': 'application/json'
@@ -322,7 +322,7 @@
 			}
 			var queryString = new URLSearchParams(formData).toString();
 
-			const response = await fetch(`http://localhost:8080/findcourse?${queryString}`, {
+			const response = await fetch(`http://localhost:8080/findCourse?${queryString}`, {
 				method : "GET",
 				headers : {
 					'Content-Type': 'application/json'
@@ -346,7 +346,7 @@
 		// 查詢課程
 		const searchCourse = async() => {
 			$('#courseBody').html('');
-			const response = await fetch('http://localhost:8080/findcourse');
+			const response = await fetch('http://localhost:8080/findCourse');
 			const {state, message, data} = await response.json();
 			if (state) {
 				data.forEach(obj => {

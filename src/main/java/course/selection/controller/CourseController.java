@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.PutExchange;
 
 import course.selection.model.ApiResponse;
 import course.selection.service.CourseService;
@@ -24,28 +23,28 @@ public class CourseController {
 	@Autowired
 	private CourseService courseService;
 
-	@GetMapping("/findcourse")
+	@GetMapping("/findCourse")
 	public ResponseEntity<ApiResponse<?>> findCourse(@RequestParam() Map<String, Object> param) {
 		List<Map<String, Object>> result = courseService.findCourse(param);
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/finddepartment")
+	@GetMapping("/findDepartment")
 	public ResponseEntity<ApiResponse<?>> findDepartment() {
 		List<Map<String, Object>> result = courseService.findDepartment();
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/findteacher/{courseDep}")
+	@GetMapping("/findTeacher/{courseDep}")
 	public ResponseEntity<ApiResponse<?>> findTeacher(@PathVariable("courseDep") String courseDep) {
 		List<Map<String, Object>> result = courseService.findTeacher(courseDep);
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/insertcourse")
+	@PostMapping("/insertCourse")
 	public ResponseEntity<ApiResponse<?>> insertCourse(@RequestBody Map<String, Object> param) {
 		try {
 			Integer rowCount = courseService.insertCourse(param);
@@ -65,7 +64,7 @@ public class CourseController {
 		}
 	}
 
-	@PutMapping("/updatecourse")
+	@PutMapping("/updateCourse")
 	public ResponseEntity<ApiResponse<?>> updateCourse(@RequestBody Map<String, Object> param) {
 		Integer rowCount = courseService.updateCourse(param);
 		boolean state = rowCount > 0;
@@ -74,7 +73,7 @@ public class CourseController {
 		return ResponseEntity.ok(result);
 	}
 
-	@DeleteMapping("/deletecourse")
+	@DeleteMapping("/deleteCourse")
 	public ResponseEntity<ApiResponse<?>> deleteCourse(@RequestBody Map<String, Object> param) {
 		Integer rowCount = courseService.deleteCourse(param);
 		boolean state = rowCount > 0;
