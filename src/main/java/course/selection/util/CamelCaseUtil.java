@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /*
-    將Map的參數轉為駝峰命的的工具類別
+ *  將Map的參數轉為駝峰命的的工具類別
  */
 public class CamelCaseUtil {
 

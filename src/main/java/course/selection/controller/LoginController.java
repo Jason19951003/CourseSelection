@@ -17,7 +17,5 @@ public class LoginController {
 	@PostMapping("/login")
 	public Map<String, Object> login(@RequestParam() Map<String, Object> param) {
 		return loginService.login(param);
-	}
-
-	
+	}	
 }
