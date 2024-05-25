@@ -12,7 +12,7 @@ public interface CourseMapper {
 
     public List<Map<String, Object>> findTeacher(String courseDep);
 
-    public Integer deleteCourse(Map<String, Object> param);
+    public Integer deleteCourse(Integer courseIndex);
 
     public Integer updateCourse(Map<String, Object> param);
 }

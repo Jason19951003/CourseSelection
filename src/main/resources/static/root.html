@@ -264,15 +264,9 @@
 		// 刪除課程
 		const deleteCourse = async(e) => {
 			if (confirm("是否要刪除?")) {
-				var formData  = {
-					courseIndex : e.getAttribute('course-index')
-				}
-				const response = await fetch(`http://localhost:8080/deleteCourse/${formData.courseIndex}`, {
-					method : "DELETE",
-					headers : {
-						'Content-Type': 'application/json'
-					},
-					body : JSON.stringify(formData)
+				var courseIndex = e.getAttribute('course-index');
+				const response = await fetch(`http://localhost:8080/deleteCourse/${courseIndex}`, {
+					method : "DELETE"
 				});
 				const {state, message, data} = await response.json();
 				alert(message);

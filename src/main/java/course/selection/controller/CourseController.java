@@ -74,8 +74,8 @@ public class CourseController {
 	}
 
 	@DeleteMapping("/deleteCourse/{courseIndex}")
-	public ResponseEntity<ApiResponse<?>> deleteCourse(@RequestBody Map<String, Object> param) {
-		Integer rowCount = courseService.deleteCourse(param);
+	public ResponseEntity<ApiResponse<?>> deleteCourse(@PathVariable("courseIndex") Integer courseIndex) {
+		Integer rowCount = courseService.deleteCourse(courseIndex);
 		boolean state = rowCount > 0;
 		String message = state ? "刪除成功" : "刪除失敗";
 		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");

@@ -30,8 +30,8 @@ public class CourseService {
         return CamelCaseUtil.underlineToCamel(courseMapper.findTeacher(courseDep));
     }
 
-    public Integer deleteCourse(Map<String, Object> param) {
-        return courseMapper.deleteCourse(param);
+    public Integer deleteCourse(Integer courseIndex) {
+        return courseMapper.deleteCourse(courseIndex);
     }
 
     public Integer updateCourse(Map<String, Object> param) {
