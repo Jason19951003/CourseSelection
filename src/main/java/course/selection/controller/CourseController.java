@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.service.annotation.PutExchange;
 
 import course.selection.model.ApiResponse;
 import course.selection.service.CourseService;
@@ -36,9 +38,9 @@ public class CourseController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/findteacher/{depId}")
-	public ResponseEntity<ApiResponse<?>> findTeacher(@PathVariable("depId") String depId) {
-		List<Map<String, Object>> result = courseService.findTeacher(depId);
+	@GetMapping("/findteacher/{courseDep}")
+	public ResponseEntity<ApiResponse<?>> findTeacher(@PathVariable("courseDep") String courseDep) {
+		List<Map<String, Object>> result = courseService.findTeacher(courseDep);
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
 	}
@@ -61,6 +63,15 @@ public class CourseController {
 			ApiResponse<String> result = new ApiResponse<>(false, message, "失敗");
 			return ResponseEntity.ok(result);
 		}
+	}
+
+	@PutMapping("/updatecourse")
+	public ResponseEntity<ApiResponse<?>> updateCourse(@RequestBody Map<String, Object> param) {
+		Integer rowCount = courseService.updateCourse(param);
+		boolean state = rowCount > 0;
+		String message = state ? "修改成功" : "修改失敗";
+		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
+		return ResponseEntity.ok(result);
 	}
 
 	@DeleteMapping("/deletecourse")

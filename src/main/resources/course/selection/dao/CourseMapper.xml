@@ -4,20 +4,20 @@
 <mapper namespace="course.selection.dao.CourseMapper">
 	
 	<select id="findCourse">
-        SELECT a.*, CONCAT(a.courseOfWeek, ' ', a.course_start, '-', a.course_end, '節課') AS courseTime
+        SELECT a.*, CONCAT(a.weeks, ' ', a.course_start, '-', a.course_end, '節課') AS course_time
         FROM (
         SELECT
-            a.course_index as courseIndex,
+            a.course_index,
             a.course_dep,
-            c.department_name AS deptName,
+            c.department_name,
             a.course_id,
-            a.course_name AS courseName,
+            a.course_name,
             a.course_required,
             CASE a.course_required
                 WHEN '1' THEN '必修'
                 WHEN '2' THEN '選修' 
             END AS required,
-            a.course_year as courseYear,
+            a.course_year,
             a.course_semester,
             CASE a.course_semester
                 WHEN '1' THEN '上'
@@ -30,28 +30,19 @@
                 WHEN 'Wednesday' THEN '星期三'
                 WHEN 'Thursday' THEN '星期四'
                 WHEN 'Friday' THEN '星期五'
-            END AS courseOfWeek,
+            END AS weeks,
             a.course_start, 
             a.course_end,
-            a.course_locate as courseLocate,
+            a.course_locate,
             a.teacher_id,
-            b.user_name as teacherName,
-            a.course_content as courseContent
+            b.user_name as teacher_name,
+            a.course_content
         FROM course a
         LEFT JOIN user_info b ON a.teacher_id = b.user_id
         LEFT JOIN department c ON a.course_dep = c.department_id
         <where>
-            <if test="depId != null">
-                a.course_dep = #{depId} AND
-            </if>
-            <if test="courseId != null">
-                a.course_id = #{courseId} AND
-            </if>
-            <if test="courseYear != null">
-                a.course_year = #{courseYear} AND
-            </if>
-            <if test="courseSemester != null">
-                a.course_semester = #{courseSemester}
+            <if test="courseIndex != null">
+                a.course_index = #{courseIndex}
             </if>
         </where>
         ) a
@@ -62,57 +53,56 @@
             course_dep, course_id, course_name, course_required, course_year, course_semester, course_of_week, 
             course_start, course_end, course_locate, teacher_id)
         VALUES(
-            #{depId}, #{courseId}, #{courseName}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
+            #{courseDep}, #{courseId}, #{courseName}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
             #{courseStart}, #{courseEnd}, #{courseLocate}, #{teacherId});
     </insert>
 
     <select id="findDepartment">
         SELECT 
-            department_id as departmentId,
-            department_name as departmentName
+            department_id,
+            department_name
         FROM department
         WHERE department_id != 'TE'
     </select>
 
     <select id="findTeacher" parameterType="java.lang.String">
         SELECT 
-            user_id as userId,
-            user_password as userPassword,
-            permission_id as permissionId,
-            user_name as userName,
-            birth_date as birthDate,
+            user_id,
+            user_password,
+            permission_id,
+            user_name,
+            birth_date,
             sex,
             email,
             phone,
-            department_id as departmendId,
-            class_id as classId,
-            admission_date as admissionDate,
+            department_id,
+            class_id,
+            admission_date,
             sticker
         FROM user_info
-        WHERE department_id = #{depId} AND permission_id = 2
+        WHERE department_id = #{courseDep} AND permission_id = 2
     </select>
 
     <delete id="deleteCourse">
         DELETE FROM course
         WHERE 
-        course_id = #{courseId} AND course_dep = #{courseDep}
-        AND course_year = #{courseYear} AND course_semester = #{courseSemester}
+        course_index = #{courseIndex}
     </delete>
 
     <update id="updateCourse">
         UPDATE course 
         SET 
-        course_dep = #{depId} AND
-        course_id = #{courseId} AND
-        course_name = #{courseName} AND
-        course_required = #{courseRequired} AND
-        teacher_id = #{teacherId} AND
-        course_year = #{courseYear} AND
-        course_semester = #{courseSemester} AND
-        course_of_week = #{courseOfWeek} AND
-        course_start = #{courseStart} AND
-        course_end = #{courseEnd} AND
-        course_locate = #{courseLocate}
+            course_dep = #{courseDep},
+            course_id = #{courseId},
+            course_name = #{courseName},
+            course_required = #{courseRequired},
+            teacher_id = #{teacherId},
+            course_year = #{courseYear},
+            course_semester = #{courseSemester},
+            course_of_week = #{courseOfWeek},
+            course_start = #{courseStart},
+            course_end = #{courseEnd},
+            course_locate = #{courseLocate}
         WHERE course_index = #{courseIndex}
     </update>
 </mapper>
