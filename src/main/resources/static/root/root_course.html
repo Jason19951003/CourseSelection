@@ -113,7 +113,7 @@
 <script>
     loadDepartment();
     searchCourse();
-    $('#courseForm').off('submit').on('submit', (e) => {
+    $('#courseForm').on('submit', (e) => {
         e.preventDefault();
         saveCourse();
     });

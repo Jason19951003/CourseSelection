@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course.selection.dao.StudentMapper">
+	
+	<select id="findStudents">
+		SELECT 
+			a.user_id, 
+			a.user_password, 
+			a.permission_id, 
+			a.user_name, 
+			a.birth_date,
+			CASE a.sex 
+				WHEN '1' THEN '男'
+				WHEN '2' THEN '女'
+			END AS sex, 
+			a.email, 
+			a.phone, 
+			a.department_id, 
+			a.class_id, 
+			a.admission_date, 
+			a.sticker,
+			b.department_name, 
+			c.class_name
+		FROM user_info a
+		LEFT JOIN department b ON a.department_id = b.department_id
+		LEFT JOIN class_info c ON a.class_id = c.class_id
+		<where>
+			a.permission_id = '3'
+			<if test="userId != null">
+				AND a.userId = #{userId}
+			</if>
+		</where>
+	</select>
+
+	<select id="findClassInfo">
+		SELECT 
+			grade, 
+			class_name 
+		FROM class_info 
+		WHERE department_id = #{courseDep}
+	</select>
+
+	<insert id="insertStudent">
+		INSERT INTO user_info (
+			user_id,
+			user_password,
+			permission_id,
+			user_name,
+			birth_date,
+			sex,
+			email,
+			phone,
+			department_id,
+			class_id,
+			admission_date
+		) VALUES (
+			#{userId},
+			#{userId},
+			3,
+			#{userName},
+			#{birthDate},
+			#{sex},
+			#{email},
+			#{phone},
+			#{courseDep},
+			1,
+			#{admissionDate}
+		)
+	</insert>
+</mapper>

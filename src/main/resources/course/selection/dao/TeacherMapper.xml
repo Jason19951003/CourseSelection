@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course.selection.dao.TeacherMapper">
+	
+	<select id="findTeachers">
+		SELECT 
+			a.user_id, a.user_password, a.permission_id, a.user_name, a.birth_date,
+			a.sex, a.email, a.phone, a.department_id, a.class_id, a.admission_date, a.sticker,
+			b,department_name, c.class_name
+		FROM user_info a
+		LEFT JOIN department b ON a.department_id = b.department_id
+		LEFT JOIN class_info c ON a.class_id = c.class_id
+		WHERE a.permission_id = '2'
+	</select>
+</mapper>
