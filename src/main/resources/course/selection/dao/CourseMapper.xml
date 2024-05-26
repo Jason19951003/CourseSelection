@@ -42,7 +42,7 @@
         LEFT JOIN department c ON a.course_dep = c.department_id
         <where>
             <if test="courseIndex != null">
-                a.course_index = #{courseIndex}
+                AND a.course_index = #{courseIndex}
             </if>
         </where>
         ) a

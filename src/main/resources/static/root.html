@@ -282,14 +282,9 @@
 			}
 			var queryString = new URLSearchParams(formData).toString();
 
-			const response = await fetch(`http://localhost:8080/findCourse?${queryString}`, {
-				method : "GET",
-				headers : {
-					'Content-Type': 'application/json'
-				}
-			});
+			const response = await fetch(`http://localhost:8080/findCourse?${queryString}`);
 			const {state, message, data} = await response.json();
-			await $('#courseDep').val(data[0].courseDep).change();
+			$('#courseDep').val(data[0].courseDep).change();
 			$('#courseIndex').val(data[0].courseIndex);
 			$('#courseId').val(data[0].courseId);
 			$('#courseName').val(data[0].courseName);
