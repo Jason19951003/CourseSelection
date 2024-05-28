@@ -37,9 +37,9 @@ public class StudentController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/findClassInfo/{courseDep}")
-    public ResponseEntity<ApiResponse<?>> findClassInfo(@PathVariable("courseDep") String courseDep) {
-        List<Map<String, Object>> result = studentService.findClassInfo(courseDep);
+    @GetMapping("/findClassInfo")
+    public ResponseEntity<ApiResponse<?>> findClassInfo(@RequestParam Map<String,Object> param) {
+        List<Map<String, Object>> result = studentService.findClassInfo(param);
         ApiResponse<List<Map<String, Object>>> apiResponse = new ApiResponse<>(true, "查詢成功", result);
         return ResponseEntity.ok(apiResponse);
     }

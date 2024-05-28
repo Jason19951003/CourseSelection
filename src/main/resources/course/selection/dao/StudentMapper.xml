@@ -34,11 +34,15 @@
 	</select>
 
 	<select id="findClassInfo">
-		SELECT 
-			grade, 
-			class_name 
-		FROM class_info 
-		WHERE department_id = #{courseDep}
+		SELECT
+			class_id,
+			grade,
+			class_name
+		FROM class_info
+		WHERE 
+		department_id = #{courseDep} AND 
+		grade = #{classGrade} AND 
+		class_name = #{className}
 	</select>
 
 	<insert id="insertStudent">

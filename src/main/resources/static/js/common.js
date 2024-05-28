@@ -10,22 +10,38 @@ const loadDepartment = async() => {
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
         const courseDep = $('#courseDep').val();
-        const teacherRes = await fetch(`http://localhost:8080/course/findTeacher/${courseDep}`);
-        var {state, message, data} = await teacherRes.json();
+        const res = await fetch(`http://localhost:8080/course/findTeacher/${courseDep}`);
+        var {state, message, data} = await res.json();
         data.forEach(obj => {
             $('#teacherId').append(`<option value="${obj.userId}">${obj.userName}</option>`)
         });
-
-        const classRes = await fetch(`http://localhost:8080/student/findClassInfo/${courseDep}`);
-        var {state, message, data} = await classRes.json();
-        $('#classGrade').html('');
-        $('#className').html('');
-        data.forEach(obj => {
-            $('#classGrade').append(`<option value=${obj.grade}>${obj.grade}</option>`);
-            $('#className').append(`<option value=${obj.className}>${obj.className}</option>`);
-        });
+        
+        $('#classGrade').change();
     });
+    // 同時給多個element 註冊同一個事件
+    $('#classGrade, #className').on('change', async(e)=> {
+        // 獲取參數值
+        const courseDep = $('#courseDep').val();
+        const classGrade = $('#classGrade').val();
+        const className = $('#className').val();
 
+        // 構建查詢字符串
+        const queryString = new URLSearchParams({
+            courseDep: courseDep,
+            classGrade: classGrade,
+            className: className
+        }).toString();
+
+        const res = await fetch(`http://localhost:8080/student/findClassInfo?${queryString}`, {
+            method : 'GET',
+            headers : {
+                'Content-type' : 'application/json'
+            }
+        });
+        var {state, message, data} = await res.json();
+        console.log(data[0].classId);
+        $('#classId').val(data[0].classId);
+    });
     $('#courseDep').change();
 }
 

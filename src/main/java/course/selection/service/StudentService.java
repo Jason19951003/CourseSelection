@@ -26,8 +26,8 @@ public class StudentService {
         return CamelCaseUtil.underlineToCamel(studentMapper.findStudents(param));
     }
 
-    public List<Map<String, Object>> findClassInfo(String courseDep) {
-        return CamelCaseUtil.underlineToCamel(studentMapper.findClassInfo(courseDep));
+    public List<Map<String, Object>> findClassInfo(Map<String, Object> param) {
+        return CamelCaseUtil.underlineToCamel(studentMapper.findClassInfo(param));
     }
 
     public Integer insertStudent(Map<String, Object> param) {
