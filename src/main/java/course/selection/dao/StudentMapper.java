@@ -9,4 +9,8 @@ public interface StudentMapper {
     public List<Map<String, Object>> findClassInfo(Map<String,Object> courseDep);
 
     public Integer insertStudent(Map<String,Object> param);
+
+    public Integer updateStudent(Map<String,Object> param);
+
+    public Integer deleteStudent(String userId);
 }

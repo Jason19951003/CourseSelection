@@ -33,4 +33,12 @@ public class StudentService {
     public Integer insertStudent(Map<String, Object> param) {
         return studentMapper.insertStudent(param);
     }
+
+    public Integer updateStudent(Map<String, Object> param) {
+        return studentMapper.updateStudent(param);
+    }
+
+    public Integer deleteStudent(String userId) {
+        return studentMapper.deleteStudent(userId);
+    }
 }

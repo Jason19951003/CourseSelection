@@ -18,6 +18,7 @@
                 <th>生日</th>
                 <th>Email</th>
                 <th>手機</th>
+                <th>年級</th>
                 <th>班級</th>
                 <th>操作</th>
             </tr>
@@ -48,7 +49,7 @@
                 <input type="hidden" name="classId" id="classId">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="courseDep">學&#12288;&#12288;號:</label>
+                        <label for="userId">學&#12288;&#12288;號:</label>
                         <input type="text" id="userId" name="userId" class="form-control" placeholder="請輸入學號" required>
                         </select>
                     </div>
@@ -85,7 +86,7 @@
                         <input type="text" id="phone" name="phone" class="form-control" placeholder="請輸入手機" required>
                     </div>
                     <div class="form-group">
-                        <label>班&#12288;&#12288;級</label>
+                        <label>班&#12288;&#12288;級:</label>
                         <select id="classGrade" name="classGrade" class="form-select">
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -101,6 +102,10 @@
                     <div class="form-group">
                         <label for="birthDate">入學日期:</label>
                         <input type="date" id="admissionDate" name="admissionDate" class="form-control" placeholder="請輸入入學日期" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">大頭貼:&#12288;</label>
+                        <input type="file" id="sticker" name="sticker" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">

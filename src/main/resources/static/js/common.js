@@ -39,7 +39,6 @@ const loadDepartment = async() => {
             }
         });
         var {state, message, data} = await res.json();
-        console.log(data[0].classId);
         $('#classId').val(data[0].classId);
     });
     $('#courseDep').change();

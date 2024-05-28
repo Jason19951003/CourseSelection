@@ -10,10 +10,11 @@
 			a.permission_id, 
 			a.user_name, 
 			a.birth_date,
+			a.sex,
 			CASE a.sex 
 				WHEN '1' THEN '男'
 				WHEN '2' THEN '女'
-			END AS sex, 
+			END AS gender, 
 			a.email, 
 			a.phone, 
 			a.department_id, 
@@ -21,14 +22,15 @@
 			a.admission_date, 
 			a.sticker,
 			b.department_name, 
-			c.class_name
+			c.class_name,
+			c.grade
 		FROM user_info a
 		LEFT JOIN department b ON a.department_id = b.department_id
 		LEFT JOIN class_info c ON a.class_id = c.class_id
 		<where>
 			a.permission_id = '3'
 			<if test="userId != null">
-				AND a.userId = #{userId}
+				AND a.user_id = #{userId}
 			</if>
 		</where>
 	</select>
@@ -68,8 +70,25 @@
 			#{email},
 			#{phone},
 			#{courseDep},
-			1,
+			#{classId},
 			#{admissionDate}
 		)
 	</insert>
+
+	<update id="updateStudent">
+		UPDATE user_info
+		SET
+			user_name = #{userName},
+			birth_date = #{birthDate},
+			sex = #{sex},
+			phone = #{phone},
+			department_id = #{courseDep},
+			class_id = #{classId}
+		WHERE 
+			user_id = #{userId}
+	</update>
+
+	<delete id="deleteStudent">
+		DELETE FROM user_info WHERE user_id = #{userId}
+	</delete>
 </mapper>
