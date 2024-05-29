@@ -59,7 +59,8 @@
 			phone,
 			department_id,
 			class_id,
-			admission_date
+			admission_date,
+			sticker
 		) VALUES (
 			#{userId},
 			#{userId},
@@ -71,7 +72,8 @@
 			#{phone},
 			#{courseDep},
 			#{classId},
-			#{admissionDate}
+			#{admissionDate},
+			#{sticker}
 		)
 	</insert>
 
@@ -83,7 +85,8 @@
 			sex = #{sex},
 			phone = #{phone},
 			department_id = #{courseDep},
-			class_id = #{classId}
+			class_id = #{classId},
+			sticker = #{sticker}
 		WHERE 
 			user_id = #{userId}
 	</update>

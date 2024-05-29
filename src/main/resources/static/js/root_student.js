@@ -25,11 +25,13 @@ const updateStudent = async(e) => {
 }
 
 const saveStudent = async()=> {
-    const formDataArray = $('#studentForm').serializeArray();
+
+    var formData = new FormData($('#studentForm')[0]);
+    /*const formDataArray = $('#studentForm').serializeArray();
     const formData = {};
     formDataArray.forEach(item => {
         formData[item.name] = item.value;
-    });
+    });*/
     var saveFunction = $('#saveFunction').val();
     var flag = saveFunction == 'insert';
     var method = flag ? 'POST' : 'PUT';
@@ -37,13 +39,9 @@ const saveStudent = async()=> {
     var url = flag ? 'http://localhost:8080/student/insertStudent' : `http://localhost:8080/student/updateStudent/${userId}`;
 
     const response = await fetch(url, {
-        method : method,
-        headers : {
-            'Content-Type' : 'application/json'
-        },
-        body : JSON.stringify(formData)
+        method : method,        
+        body : formData
     });
-
     const {state, message, data} = await response.json();
     if (state) {
         // 關閉modal
