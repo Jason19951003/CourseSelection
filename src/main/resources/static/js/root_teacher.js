@@ -1,14 +1,14 @@
-const insertStudent = async() => {
+const insertTeacher = async() => {
     $('#saveFunction').val('insert');
-    $('#studentForm')[0].reset();
+    $('#teacherForm')[0].reset();
     $('#userId').prop('readonly', false);
 }
 
-const updateStudent = async(e) => {
+const updateTeacher = async(e) => {
     $('#saveFunction').val('update');
     $('#stickerPreview').css('display', 'none');
     var userId = e.getAttribute('user-id');    
-    const res = await fetch(`http://localhost:8080/student/findStudent/${userId}`);
+    const res = await fetch(`http://localhost:8080/teacher/findTeacher/${userId}`);
     const {state, message, data} = await res.json();
 
     $('#userId').val(data[0].userId);
@@ -34,15 +34,15 @@ const updateStudent = async(e) => {
     }
 }
 
-const saveStudent = async()=> {
+const saveTeacher = async()=> {
 
-    var formData = new FormData($('#studentForm')[0]);
+    var formData = new FormData($('#teacherForm')[0]);
 
     var saveFunction = $('#saveFunction').val();
     var flag = saveFunction == 'insert';
     var method = flag ? 'POST' : 'PUT';
     var userId = $('#userId').val();
-    var url = flag ? 'http://localhost:8080/student/insertStudent' : `http://localhost:8080/student/updateStudent/${userId}`;
+    var url = flag ? 'http://localhost:8080/teacher/insertTeacher' : `http://localhost:8080/teacher/updateTeacher/${userId}`;
 
     const response = await fetch(url, {
         method : method,
@@ -52,50 +52,50 @@ const saveStudent = async()=> {
     const {state, message, data} = await response.json();
     if (state) {
         // 關閉modal
-        var modalElement = document.getElementById('studentModal');
+        var modalElement = document.getElementById('teacherModal');
         var modalInstance = bootstrap.Modal.getInstance(modalElement);
         modalInstance.hide();
-        $('#studentForm')[0].reset();
-        searchStudent();
+        $('#teacherForm')[0].reset();
+        searchTeacher();
     }
     alert(message);
 }
 
-const deleteStudent = async(e) => {
+const deleteTeacher = async(e) => {
     if (confirm('是否要刪除')) {
         var userId = e.getAttribute('user-id');
 
-        const response = await fetch(`http://localhost:8080/student/deleteStudent/${userId}`, {
+        const response = await fetch(`http://localhost:8080/teacher/deleteTeacher/${userId}`, {
             method : "DELETE"
         });
         const { state, message, data } = await response.json();
         alert(message);
         if (state) {
-            searchStudent();
+            searchTeacher();
         }
     }
 }
 
-const searchStudent = async() => {
-    $('#studentBody').html('');
-    const response = await fetch('http://localhost:8080/student/findStudents')
+const searchTeacher = async() => {
+    $('#teacherBody').html('');
+    const response = await fetch('http://localhost:8080/teacher/findTeachers')
     const {state, message, data} = await response.json();
     if (state) {
-        data.forEach(student => {
-            $('#studentBody').append(`
+        data.forEach(teacher => {
+            $('#teacherBody').append(`
                 <tr>
-                    <td>${student.userId}</td>
-                    <td>${student.userName}</td>
-                    <td>${student.departmentName}</td>
-                    <td>${student.gender}</td>
-                    <td>${student.birthDate}</td>
-                    <td>${student.email}</td>
-                    <td>${student.phone}</td>
-                    <td>${student.grade}</td>
-                    <td>${student.className}</td>
+                    <td>${teacher.userId}</td>
+                    <td>${teacher.userName}</td>
+                    <td>${teacher.departmentName}</td>
+                    <td>${teacher.gender}</td>
+                    <td>${teacher.birthDate}</td>
+                    <td>${teacher.email}</td>
+                    <td>${teacher.phone}</td>
+                    <td>${teacher.grade}</td>
+                    <td>${teacher.className}</td>
                     <td>
-                        <button id="updateCourse" onclick="updateStudent(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal" user-id="${student.userId}">編輯</button>
-                        <button id="deleteCourse" onclick="deleteStudent(this)" class="btn btn-danger btn-sm" user-id="${student.userId}">刪除</button>
+                        <button id="updateCourse" onclick="updateTeacher(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#teacherModal" user-id="${teacher.userId}">編輯</button>
+                        <button id="deleteCourse" onclick="deleteTeacher(this)" class="btn btn-danger btn-sm" user-id="${teacher.userId}">刪除</button>
                     </td>
                 </tr>
             `)

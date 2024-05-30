@@ -16,59 +16,59 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import course.selection.model.ApiResponse;
-import course.selection.service.StudentService;
+import course.selection.service.TeacherService;
 
 
 @RestController
-@RequestMapping("/student")
-public class StudentController {
+@RequestMapping("/teacher")
+public class TeacherController {
     @Autowired
-    private StudentService studentService;
+    private TeacherService teacheService;
 
-    @GetMapping("/findStudents")
-    public ResponseEntity<ApiResponse<?>> findStudents(@RequestParam Map<String, Object> param) {
-        List<Map<String, Object>> result = studentService.findStudents(param);
+    @GetMapping("/findTeachers")
+    public ResponseEntity<ApiResponse<?>> findTeachers(@RequestParam Map<String, Object> param) {
+        List<Map<String, Object>> result = teacheService.findTeachers(param);
         ApiResponse<List<Map<String, Object>>> apiResponse = new ApiResponse<>(true, "查詢成功", result);
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/findStudent/{userId}")
-    public ResponseEntity<ApiResponse<?>> findStudent(@PathVariable("userId") String userId) {
-        List<Map<String, Object>> result = studentService.findStudents(userId);
+    @GetMapping("/findTeacher/{userId}")
+    public ResponseEntity<ApiResponse<?>> findTeacher(@PathVariable("userId") String userId) {
+        List<Map<String, Object>> result = teacheService.findTeachers(userId);
         ApiResponse<List<Map<String, Object>>> apiResponse = new ApiResponse<>(true, "查詢成功", result);
         return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("/findClassInfo")
     public ResponseEntity<ApiResponse<?>> findClassInfo(@RequestParam Map<String,Object> param) {
-        List<Map<String, Object>> result = studentService.findClassInfo(param);
+        List<Map<String, Object>> result = teacheService.findClassInfo(param);
         ApiResponse<List<Map<String, Object>>> apiResponse = new ApiResponse<>(true, "查詢成功", result);
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PostMapping("/insertStudent")
-    public ResponseEntity<ApiResponse<?>> insertStudent(@RequestParam Map<String, Object> param,
+    @PostMapping("/insertTeacher")
+    public ResponseEntity<ApiResponse<?>> insertTeacher(@RequestParam Map<String, Object> param,
                                                         @RequestParam("sticker") MultipartFile sticker) {
-        Integer rowCount = studentService.insertStudent(param, sticker);
+        Integer rowCount = teacheService.insertTeacher(param, sticker);
         Boolean state = rowCount > 0;
         String message = state ? "新增成功" : "新增失敗";
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "新增");
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PutMapping("/updateStudent/{userId}")
-    public ResponseEntity<ApiResponse<?>> updateStudent(@RequestParam Map<String, Object> param,
+    @PutMapping("/updateTeacher/{userId}")
+    public ResponseEntity<ApiResponse<?>> updateTeacher(@RequestParam Map<String, Object> param,
                                                         @RequestParam("sticker") MultipartFile sticker) {
-        Integer rowCount = studentService.updateStudent(param, sticker);
+        Integer rowCount = teacheService.updateTeacher(param, sticker);
         Boolean state = rowCount > 0;
         String message = state ? "修改成功" : "修改失敗";
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "修改");
         return ResponseEntity.ok(apiResponse);
     }
 
-    @DeleteMapping("/deleteStudent/{userId}")
-    public ResponseEntity<ApiResponse<?>> deleteStudent(@PathVariable("userId") String userId) {
-        Integer rowCount = studentService.deleteStudent(userId);
+    @DeleteMapping("/deleteTeacher/{userId}")
+    public ResponseEntity<ApiResponse<?>> deleteTeacher(@PathVariable("userId") String userId) {
+        Integer rowCount = teacheService.deleteTeacher(userId);
         Boolean state = rowCount > 0;
         String message = state ? "刪除成功" : "刪除失敗";
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "刪除");

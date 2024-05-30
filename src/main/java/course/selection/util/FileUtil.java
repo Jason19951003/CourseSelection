@@ -16,7 +16,6 @@ public class FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
     }
 
     public static String getFileExtension(String fileName) {

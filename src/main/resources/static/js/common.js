@@ -5,8 +5,8 @@ const loadDepartment = async() => {
     data.forEach(obj => {
         $('#courseDep').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
     });
-
-    $('#courseDep').on('change', async() => {
+    
+    $('#courseDep').on('change', async function() {        
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
         const courseDep = $('#courseDep').val();
@@ -39,9 +39,13 @@ const loadDepartment = async() => {
             }
         });
         var {state, message, data} = await res.json();
-        $('#classId').val(data[0].classId);
+        if (data[0]) {
+            $('#classId').val(data[0].classId);
+        }
+        
     });
-    $('#courseDep').val('IM').change();
+    
+    $('#courseDep').change();
 }
 
 const renderHtml = async(id, url) => {    

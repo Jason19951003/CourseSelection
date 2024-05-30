@@ -37,7 +37,7 @@
 	
 	<select id="findClassInfo">
 		SELECT
-			class_id,
+			IFNULL(class_id, '') as class_id,
 			grade,
 			class_name
 		FROM class_info
