@@ -6,7 +6,7 @@ const loadDepartment = async() => {
         $('#courseDep').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
     });
     
-    $('#courseDep').on('change', async function() {        
+    $('#courseDep').on('change', async function() {
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
         const courseDep = $('#courseDep').val();
@@ -42,7 +42,6 @@ const loadDepartment = async() => {
         if (data[0]) {
             $('#classId').val(data[0].classId);
         }
-        
     });
     
     $('#courseDep').change();
