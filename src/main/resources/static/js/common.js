@@ -3,7 +3,11 @@ const loadDepartment = async() => {
     const {state, message, data} = await response.json();
     
     data.forEach(obj => {
-        $('#courseDep').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
+        if (obj.departmentId == 'IM') {
+            $('#courseDep').append(`<option value="${obj.departmentId}" selected>${obj.departmentName}</>`);
+        } else {
+            $('#courseDep').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
+        }
     });
     
     $('#courseDep').on('change', async function() {
