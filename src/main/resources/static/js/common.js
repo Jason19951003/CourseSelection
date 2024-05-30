@@ -41,7 +41,7 @@ const loadDepartment = async() => {
         var {state, message, data} = await res.json();
         $('#classId').val(data[0].classId);
     });
-    $('#courseDep').change();
+    $('#courseDep').val('IM').change();
 }
 
 const renderHtml = async(id, url) => {    

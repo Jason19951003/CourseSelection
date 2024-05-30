@@ -1,6 +1,7 @@
 package course.selection.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -8,17 +9,22 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUtil {
     public static final String UPLOAD_DIR = "src/main/resources/static/img";
 
-    public static void uploadFile(MultipartFile sticker, String userId) throws IOException {
+    public static void uploadFile(MultipartFile sticker, String userId) {
         String fileName = getStikcerOriginalName(sticker, userId);
         File dest = new File(UPLOAD_DIR, fileName);
-        sticker.transferTo(dest);
+        try (FileOutputStream os = new FileOutputStream(dest)) {
+            os.write(sticker.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     public static String getFileExtension(String fileName) {
         if (fileName == null || fileName.lastIndexOf(".") == -1) {
             return "";
         } else {
-            return fileName.substring(fileName.lastIndexOf(fileName)+1);
+            return fileName.substring(fileName.lastIndexOf(".")+1);
         }
     }
 

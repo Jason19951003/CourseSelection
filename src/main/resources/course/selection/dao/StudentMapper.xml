@@ -84,6 +84,7 @@
 			birth_date = #{birthDate},
 			sex = #{sex},
 			phone = #{phone},
+			email = #{email},
 			department_id = #{courseDep},
 			class_id = #{classId},
 			sticker = #{sticker}

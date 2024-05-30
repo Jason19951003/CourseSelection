@@ -22,16 +22,18 @@ const updateStudent = async(e) => {
     $('#classGrade').val(data[0].grade);
     $('#className').val(data[0].className);
     $('#userId').prop('readonly', true);
+    console.log(data[0]);
+    if (data[0].sticker) {
+        alert('aaa');
+        $('#stickerPreview').attr("src", `IM/${data[0].sticker}.jpg`);
+        $('#stickerPreview').css('display', 'inline');
+    }
 }
 
 const saveStudent = async()=> {
 
     var formData = new FormData($('#studentForm')[0]);
-    /*const formDataArray = $('#studentForm').serializeArray();
-    const formData = {};
-    formDataArray.forEach(item => {
-        formData[item.name] = item.value;
-    });*/
+
     var saveFunction = $('#saveFunction').val();
     var flag = saveFunction == 'insert';
     var method = flag ? 'POST' : 'PUT';

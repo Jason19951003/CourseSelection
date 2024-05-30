@@ -1,6 +1,5 @@
 package course.selection.service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,14 +34,9 @@ public class StudentService {
 
     public Integer insertStudent(Map<String, Object> param, MultipartFile sticker) {
         String userId = String.valueOf(param.get("userId"));
-        try {
-            if (!"".equals(sticker.getOriginalFilename().trim())) {
-                param.put("sticker", FileUtil.getStickerName(sticker, userId));
-                FileUtil.uploadFile(sticker, userId);
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
-            return 0;
+        if (!"".equals(sticker.getOriginalFilename().trim())) {
+            param.put("sticker", FileUtil.getStickerName(sticker, userId));
+            FileUtil.uploadFile(sticker, userId);
         }
         
         return studentMapper.insertStudent(param);
@@ -50,14 +44,9 @@ public class StudentService {
 
     public Integer updateStudent(Map<String, Object> param, MultipartFile sticker) {
         String userId = String.valueOf(param.get("userId"));
-        try {
-            if (!"".equals(sticker.getOriginalFilename().trim())) {
-                param.put("sticker", FileUtil.getStickerName(sticker, userId));
-                FileUtil.uploadFile(sticker, userId);
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
-            return 0;
+        if (!"".equals(sticker.getOriginalFilename().trim())) {
+            param.put("sticker", FileUtil.getStickerName(sticker, userId));
+            FileUtil.uploadFile(sticker, userId);
         }
         
         return studentMapper.updateStudent(param);
