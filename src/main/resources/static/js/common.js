@@ -51,7 +51,7 @@ const loadDepartment = async() => {
     $('#courseDep').change();
 }
 
-const renderHtml = async(id, url) => {    
+const renderHtml = async(id, url) => {
     const response = await fetch(`http://localhost:8080/${url}`);
     const html = await response.text();
     $(`#${id}`).html(html);
