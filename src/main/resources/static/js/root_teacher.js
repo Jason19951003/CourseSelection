@@ -7,7 +7,7 @@ const insertTeacher = async() => {
 const updateTeacher = async(e) => {
     $('#saveFunction').val('update');
     $('#stickerPreview').css('display', 'none');
-    var userId = e.getAttribute('user-id');    
+    var userId = e.getAttribute('user-id');
     const res = await fetch(`http://localhost:8080/teacher/findTeacher/${userId}`);
     const {state, message, data} = await res.json();
 
@@ -78,7 +78,7 @@ const deleteTeacher = async(e) => {
 
 const searchTeacher = async() => {
     $('#teacherBody').html('');
-    const response = await fetch('http://localhost:8080/teacher/findTeachers')
+    const response = await fetch('http://localhost:8080/teacher/findTeachers');
     const {state, message, data} = await response.json();
     if (state) {
         data.forEach(teacher => {

@@ -78,7 +78,7 @@ const deleteStudent = async(e) => {
 
 const searchStudent = async() => {
     $('#studentBody').html('');
-    const response = await fetch('http://localhost:8080/student/findStudents')
+    const response = await fetch('http://localhost:8080/student/findStudents');
     const {state, message, data} = await response.json();
     if (state) {
         data.forEach(student => {
