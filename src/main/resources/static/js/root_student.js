@@ -6,6 +6,7 @@ const insertStudent = async() => {
 
 const updateStudent = async(e) => {
     $('#saveFunction').val('update');
+    $('#stickerPreview').css('display', 'none');
     var userId = e.getAttribute('user-id');    
     const res = await fetch(`http://localhost:8080/student/findStudents/${userId}`);
     const {state, message, data} = await res.json();
@@ -22,10 +23,13 @@ const updateStudent = async(e) => {
     $('#classGrade').val(data[0].grade);
     $('#className').val(data[0].className);
     $('#userId').prop('readonly', true);
-    console.log(data[0]);
+    
     if (data[0].sticker) {
-        alert('aaa');
-        $('#stickerPreview').attr("src", `IM/${data[0].sticker}.jpg`);
+        // 使用正則表達式提取文件名
+        var parts = data[0].sticker.split('/');
+        const fileName = parts[parts.length-1];
+
+        $('#stickerPreview').attr("src", `img/${fileName}`);
         $('#stickerPreview').css('display', 'inline');
     }
 }
@@ -41,9 +45,21 @@ const saveStudent = async()=> {
     var url = flag ? 'http://localhost:8080/student/insertStudent' : `http://localhost:8080/student/updateStudent/${userId}`;
 
     const response = await fetch(url, {
-        method : method,        
+        method : method,
         body : formData
     });
+
+    // 檢查響應狀態
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    // 檢查響應內容類型
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Response is not JSON');
+    }
+    
     const {state, message, data} = await response.json();
     if (state) {
         // 關閉modal

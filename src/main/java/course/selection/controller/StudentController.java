@@ -49,7 +49,7 @@ public class StudentController {
 
     @PostMapping("/insertStudent")
     public ResponseEntity<ApiResponse<?>> insertStudent(@RequestParam Map<String, Object> param,
-                                                        @RequestParam("sticker") MultipartFile sticker) throws IOException {
+                                                        @RequestParam("sticker") MultipartFile sticker) {
         Integer rowCount = studentService.insertStudent(param, sticker);
         Boolean state = rowCount > 0;
         String message = state ? "新增成功" : "新增失敗";

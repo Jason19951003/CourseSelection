@@ -34,7 +34,7 @@
 			</if>
 		</where>
 	</select>
-
+	
 	<select id="findClassInfo">
 		SELECT
 			class_id,
@@ -76,18 +76,35 @@
 			#{sticker}
 		)
 	</insert>
-
+	
 	<update id="updateStudent">
 		UPDATE user_info
-		SET
-			user_name = #{userName},
-			birth_date = #{birthDate},
-			sex = #{sex},
-			phone = #{phone},
-			email = #{email},
-			department_id = #{courseDep},
-			class_id = #{classId},
-			sticker = #{sticker}
+		<set>
+			<if test="userName != null and userName != ''">
+				user_name = #{userName},
+			</if>
+			<if test="birthDate != null and birthDate != ''">
+				birth_date = #{birthDate},
+			</if>
+			<if test="sex != null and sex != ''">
+				sex = #{sex},
+			</if>
+			<if test="phone != null and phone != ''">
+				phone = #{phone},
+			</if>
+			<if test="email != null and email != ''">
+				email = #{email},
+			</if>
+			<if test="courseDep != null and courseDep != ''">
+				department_id = #{courseDep},
+			</if>
+			<if test="classId != null and classId != ''">
+				class_id = #{classId},
+			</if>
+			<if test="sticker != null and sticker != ''">
+				sticker = #{sticker}
+			</if>
+		</set>
 		WHERE 
 			user_id = #{userId}
 	</update>
