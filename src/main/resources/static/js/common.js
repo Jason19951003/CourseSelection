@@ -13,7 +13,7 @@ const loadDepartment = async() => {
         const res = await fetch(`http://localhost:8080/course/findTeacher/${courseDep}`);
         var {state, message, data} = await res.json();
         data.forEach(obj => {
-            $('#teacherId').append(`<option value="${obj.userId}">${obj.userName}</option>`)
+            $('#teacherId').append(`<option value="${obj.userId}">${obj.userName}</option>`);
         });
         
         $('#classGrade').change();
