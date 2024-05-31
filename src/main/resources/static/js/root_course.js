@@ -66,7 +66,7 @@ const updateCourse = async (e) => {
     const response = await fetch(`http://localhost:8080/course/findCourse?${queryString}`);
     const { state, message, data } = await response.json();
     
-    $('#depId').val(data[0].courseDep);
+    $('#depId').val(data[0].courseDep).change();
     $('#courseIndex').val(data[0].courseIndex);
     $('#courseId').val(data[0].courseId);
     $('#courseName').val(data[0].courseName);
