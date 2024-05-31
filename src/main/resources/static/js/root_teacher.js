@@ -34,7 +34,7 @@ const updateTeacher = async(e) => {
     }
 }
 
-const saveTeacher = async()=> {
+const saveTeacher = async() => {
 
     var formData = new FormData($('#teacherForm')[0]);
 

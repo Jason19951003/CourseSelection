@@ -18,6 +18,6 @@ public class LoginService {
 	 * @return
 	 */
 	public Map<String, Object> login(Map<String, Object> param) {
-		return userMapper.findUser(param);
+		return userMapper.findUsers(param).get(0);
 	}
 }

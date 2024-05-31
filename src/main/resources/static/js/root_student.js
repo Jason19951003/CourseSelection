@@ -34,7 +34,7 @@ const updateStudent = async(e) => {
     }
 }
 
-const saveStudent = async()=> {
+const saveStudent = async() => {
 
     var formData = new FormData($('#studentForm')[0]);
 
@@ -78,7 +78,8 @@ const deleteStudent = async(e) => {
 
 const searchStudent = async() => {
     $('#studentBody').html('');
-    const response = await fetch('http://localhost:8080/student/findStudents');
+    const queryString = new URLSearchParams({permissionId : 3}).toString();
+    const response = await fetch(`http://localhost:8080/user/findUsers?${queryString}`);
     const {state, message, data} = await response.json();
     if (state) {
         data.forEach(student => {
