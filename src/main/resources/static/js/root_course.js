@@ -1,7 +1,7 @@
 const saveCourse = async () => {
     var formData = {
         courseIndex: $('#courseIndex').val(),
-        courseDep: $('#courseDep').val(),
+        depId: $('#depId').val(),
         courseId: $('#courseId').val(),
         courseName: $('#courseName').val(),
         courseRequired: $('#courseRequired').val(),
@@ -65,7 +65,8 @@ const updateCourse = async (e) => {
 
     const response = await fetch(`http://localhost:8080/course/findCourse?${queryString}`);
     const { state, message, data } = await response.json();
-    $('#courseDep').val(data[0].courseDep).change();
+    
+    $('#depId').val(data[0].courseDep);
     $('#courseIndex').val(data[0].courseIndex);
     $('#courseId').val(data[0].courseId);
     $('#courseName').val(data[0].courseName);

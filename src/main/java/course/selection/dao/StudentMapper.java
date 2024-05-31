@@ -6,7 +6,7 @@ import java.util.Map;
 public interface StudentMapper {
     public List<Map<String, Object>> findStudents(Map<String,Object> param);
 
-    public List<Map<String, Object>> findClassInfo(Map<String,Object> courseDep);
+    public List<Map<String, Object>> findClassInfo(Map<String,Object> depId);
 
     public Integer insertStudent(Map<String,Object> param);
 

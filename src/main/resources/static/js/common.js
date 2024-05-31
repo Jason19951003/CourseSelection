@@ -4,17 +4,17 @@ const loadDepartment = async() => {
     
     data.forEach(obj => {
         if (obj.departmentId == 'IM') {
-            $('#courseDep').append(`<option value="${obj.departmentId}" selected>${obj.departmentName}</>`);
+            $('#depId').append(`<option value="${obj.departmentId}" selected>${obj.departmentName}</>`);
         } else {
-            $('#courseDep').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
+            $('#depId').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
         }
     });
     
-    $('#courseDep').on('change', async function() {
+    $('#depId').on('change', async function() {
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
-        const courseDep = $('#courseDep').val();
-        const res = await fetch(`http://localhost:8080/course/findTeacher/${courseDep}`);
+        const depId = $('#depId').val();
+        const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`);
         var {state, message, data} = await res.json();
         data.forEach(obj => {
             $('#teacherId').append(`<option value="${obj.userId}">${obj.userName}</option>`);
@@ -25,13 +25,13 @@ const loadDepartment = async() => {
     // 同時給多個element 註冊同一個事件
     $('#classGrade, #className').on('change', async(e)=> {
         // 獲取參數值
-        const courseDep = $('#courseDep').val();
+        const depId = $('#depId').val();
         const classGrade = $('#classGrade').val();
         const className = $('#className').val();
 
         // 構建查詢字符串
         const queryString = new URLSearchParams({
-            courseDep: courseDep,
+            depId: depId,
             classGrade: classGrade,
             className: className
         }).toString();
@@ -48,7 +48,7 @@ const loadDepartment = async() => {
         }
     });
     
-    $('#courseDep').change();
+    $('#depId').change();
 }
 
 const renderHtml = async(id, url) => {

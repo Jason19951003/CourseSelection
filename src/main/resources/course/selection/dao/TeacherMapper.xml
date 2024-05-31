@@ -42,7 +42,7 @@
 			class_name
 		FROM class_info
 		WHERE 
-		department_id = #{courseDep} AND 
+		department_id = #{depId} AND 
 		grade = #{classGrade} AND 
 		class_name = #{className}
 	</select>
@@ -73,7 +73,7 @@
 			#{sex},
 			#{email},
 			#{phone},
-			#{courseDep},
+			#{depId},
 			<if test="classId != null and classId != ''">
 				#{classId},
 			</if>
@@ -100,8 +100,8 @@
 			<if test="email != null and email != ''">
 				email = #{email},
 			</if>
-			<if test="courseDep != null and courseDep != ''">
-				department_id = #{courseDep},
+			<if test="depId != null and depId != ''">
+				department_id = #{depId},
 			</if>
 			<if test="classId != null and classId != ''">
 				class_id = #{classId},

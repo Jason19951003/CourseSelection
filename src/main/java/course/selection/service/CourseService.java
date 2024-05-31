@@ -26,8 +26,8 @@ public class CourseService {
         return CamelCaseUtil.underlineToCamel(courseMapper.findDepartment());
     }
 
-    public List<Map<String, Object>> findTeacher(String courseDep) {
-        return CamelCaseUtil.underlineToCamel(courseMapper.findTeacher(courseDep));
+    public List<Map<String, Object>> findTeacher(String depId) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.findTeacher(depId));
     }
 
     public Integer deleteCourse(Integer courseIndex) {

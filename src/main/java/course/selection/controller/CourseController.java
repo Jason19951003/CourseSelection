@@ -40,9 +40,9 @@ public class CourseController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/findTeacher/{courseDep}")
-	public ResponseEntity<ApiResponse<?>> findTeacher(@PathVariable("courseDep") String courseDep) {
-		List<Map<String, Object>> result = courseService.findTeacher(courseDep);
+	@GetMapping("/findTeacher/{depId}")
+	public ResponseEntity<ApiResponse<?>> findTeacher(@PathVariable("depId") String depId) {
+		List<Map<String, Object>> result = courseService.findTeacher(depId);
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
 	}

@@ -6,7 +6,7 @@ import java.util.Map;
 public interface TeacherMapper {
     public List<Map<String, Object>> findTeachers(Map<String, Object> param);
 
-    public List<Map<String, Object>> findClassInfo(Map<String,Object> courseDep);
+    public List<Map<String, Object>> findClassInfo(Map<String,Object> depId);
 
     public Integer insertTeacher(Map<String,Object> param);
 

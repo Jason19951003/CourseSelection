@@ -14,7 +14,7 @@ const updateStudent = async(e) => {
     $('#userId').val(data[0].userId);
     $('#classId').val(data[0].classId);
     $('#userName').val(data[0].userName);
-    $('#courseDep').val(data[0].departmentId);
+    $('#depId').val(data[0].departmentId);
     $('input[name="sex"][value="' + data[0].sex + '"]').prop('checked', true);
     $('#birthDate').val(data[0].birthDate);
     $('#email').val(data[0].email);

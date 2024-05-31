@@ -10,7 +10,7 @@ public interface CourseMapper {
 
     public List<Map<String, Object>> findDepartment();
 
-    public List<Map<String, Object>> findTeacher(String courseDep);
+    public List<Map<String, Object>> findTeacher(String depId);
 
     public Integer deleteCourse(Integer courseIndex);
 

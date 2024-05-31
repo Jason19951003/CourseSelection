@@ -53,7 +53,7 @@
             course_dep, course_id, course_name, course_required, course_year, course_semester, course_of_week, 
             course_start, course_end, course_locate, teacher_id)
         VALUES(
-            #{courseDep}, #{courseId}, #{courseName}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
+            #{depId}, #{courseId}, #{courseName}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
             #{courseStart}, #{courseEnd}, #{courseLocate}, #{teacherId});
     </insert>
 
@@ -80,7 +80,7 @@
             admission_date,
             sticker
         FROM user_info
-        WHERE department_id = #{courseDep} AND permission_id = 2
+        WHERE department_id = #{depId} AND permission_id = 2
     </select>
 
     <delete id="deleteCourse">
@@ -92,7 +92,7 @@
     <update id="updateCourse">
         UPDATE course 
         SET 
-            course_dep = #{courseDep},
+            course_dep = #{depId},
             course_id = #{courseId},
             course_name = #{courseName},
             course_required = #{courseRequired},
