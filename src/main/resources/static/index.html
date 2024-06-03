@@ -80,32 +80,36 @@
                 passwordIcon.removeClass('bi-eye-slash').addClass('bi-eye');
             }
         });
+        
         $('#login').submit(async(e) => {
             e.preventDefault();
+            $('#errorMessage').addClass("d-none");
             var username = $("#username").val();
             var password = $("#password").val();
-
-            $.post('/login', { username: username, password: password }, function (data) {
-                // 成功接收到響應，處理數據
-                if (!data) {
-                    $("#errorMessage").removeClass("d-none");
-                } else {
-                    $("#errorMessage").addClass("d-none");
-                    // 提交表單
-                    if (data.permission_id == 1) {
-                        window.location.href = "root.html";
-                    } else if (data.permission_id == 2) {
-                        window.location.href = "teacher.html";
-                    } else {
-                        window.location.href = "student.html";
-                    }
-                }
-
-            }).fail(function (xhr, status, error) {
-                // 請求出錯
-                console.error('Request failed:', error);
-            });
-
+            try {
+                var response = await fetch('http://localhost:8080/user/login', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                if (response.ok) {
+                	const {state, message, data} = await response.json();
+                    localStorage.setItem("token", data);
+                    window.location.href = './student/student.html';
+				} else {
+					 $('#errorMessage').removeClass('d-none');
+				}
+            } catch (error) {
+                console.error('Network error or other issue:', error);
+                $('#errorMessage').removeClass('d-none');
+                // Handle network error or other issues (e.g., show an alert)
+            }
         });
     </script>
 </body>
