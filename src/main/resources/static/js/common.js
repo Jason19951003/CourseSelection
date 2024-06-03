@@ -1,5 +1,12 @@
+const token = localStorage.getItem('jwtToken'); // 從 localStorage 獲取 token
 const loadDepartment = async() => {
-    const response = await fetch('http://localhost:8080/course/findDepartment');
+    const response = await fetch('http://localhost:8080/course/findDepartment',{
+        headers : {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    });
     const {state, message, data} = await response.json();
     
     data.forEach(obj => {
@@ -14,7 +21,13 @@ const loadDepartment = async() => {
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
         const depId = $('#depId').val();
-        const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`);
+        const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`, {
+            headers : {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        });
         var {state, message, data} = await res.json();
         data.forEach(obj => {
             $('#teacherId').append(`<option value="${obj.userId}">${obj.userName}</option>`);
@@ -39,7 +52,8 @@ const loadDepartment = async() => {
         const res = await fetch(`http://localhost:8080/student/findClassInfo?${queryString}`, {
             method : 'GET',
             headers : {
-                'Content-type' : 'application/json'
+                'Content-type' : 'application/json',
+                "Authorization": `Bearer ${token}`
             }
         });
         var {state, message, data} = await res.json();
@@ -52,7 +66,11 @@ const loadDepartment = async() => {
 }
 
 const renderHtml = async(id, url) => {
-    const response = await fetch(`http://localhost:8080/${url}`);
+    const response = await fetch(`http://localhost:8080/${url}`, {
+        headers : {
+            "Authorization": `Bearer ${token}`
+        }
+    });
     const html = await response.text();
     $(`#${id}`).html(html);
 }

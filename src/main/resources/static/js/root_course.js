@@ -17,11 +17,12 @@ const saveCourse = async () => {
     var saveFunction = $('#saveFunction').val();
     var uri = saveFunction == 'insert' ? 'insertCourse' : `updateCourse/${formData.courseIndex}`;
     var method = saveFunction == 'insert' ? 'POST' : 'PUT';
-
+    
     const response = await fetch(`http://localhost:8080/course/${uri}`, {
         method: `${method}`,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(formData)
     });
@@ -47,7 +48,10 @@ const deleteCourse = async (e) => {
     if (confirm("是否要刪除?")) {
         var courseIndex = e.getAttribute('course-index');
         const response = await fetch(`http://localhost:8080/course/deleteCourse/${courseIndex}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers : {
+                "Authorization": `Bearer ${token}`
+            }
         });
         const { state, message, data } = await response.json();
         alert(message);
@@ -63,7 +67,11 @@ const updateCourse = async (e) => {
     }
     var queryString = new URLSearchParams(formData).toString();
 
-    const response = await fetch(`http://localhost:8080/course/findCourse?${queryString}`);
+    const response = await fetch(`http://localhost:8080/course/findCourse?${queryString}`, {
+        headers : {
+            "Authorization": `Bearer ${token}`
+        }
+    });
     const { state, message, data } = await response.json();
     
     $('#depId').val(data[0].courseDep).change();
@@ -83,7 +91,11 @@ const updateCourse = async (e) => {
 
 const searchCourse = async () => {
     $('#courseBody').html('');
-    const response = await fetch('http://localhost:8080/course/findCourse');
+    const response = await fetch('http://localhost:8080/course/findCourse', {
+        headers : {
+            "Authorization": `Bearer ${token}`
+        }
+    });
     const { state, message, data } = await response.json();
     if (state) {
         data.forEach(obj => {

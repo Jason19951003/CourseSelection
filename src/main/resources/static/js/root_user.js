@@ -15,7 +15,11 @@ const updateUser = async(e, permissionId) => {
             userId : userId,
             permissionId : permissionId
         }).toString();
-    const res = await fetch(`http://localhost:8080/user/findUser?${queryString}`);
+    const res = await fetch(`http://localhost:8080/user/findUser?${queryString}`, {
+        headers : {
+            "Authorization": `Bearer ${token}`
+        }
+    });
     const {state, message, data} = await res.json();
 
     $('#userId').val(data[0].userId);
@@ -53,6 +57,9 @@ const saveUser = async(form, body, modal) => {
 
     const response = await fetch(url, {
         method : method,
+        headers : {
+            "Authorization": `Bearer ${token}`
+        },
         body : formData
     });
     
@@ -73,7 +80,10 @@ const deleteUser = async(e, body, modal, permissionId) => {
         var userId = e.getAttribute('user-id');
 
         const response = await fetch(`http://localhost:8080/user/deleteUser/${userId}`, {
-            method : "DELETE"
+            method : "DELETE",
+            headers : {
+                "Authorization": `Bearer ${token}`
+            }
         });
         const { state, message, data } = await response.json();
         alert(message);
@@ -86,7 +96,12 @@ const deleteUser = async(e, body, modal, permissionId) => {
 const searchUser = async(body, modal, permissionId) => {
     $(`#${body}`).html('');
     const queryString = new URLSearchParams({permissionId : permissionId}).toString();
-    const response = await fetch(`http://localhost:8080/user/findUsers?${queryString}`);
+    const response = await fetch(`http://localhost:8080/user/findUsers?${queryString}`, {
+            headers : {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
     const {state, message, data} = await response.json();
     if (state) {
         data.forEach(user => {
