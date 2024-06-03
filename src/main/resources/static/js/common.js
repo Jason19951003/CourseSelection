@@ -45,17 +45,19 @@ const loadDepartment = async() => {
             className: className
         }).toString();
 
-        const res = await fetch(`http://localhost:8080/student/findClassInfo?${queryString}`, {
+        const res = await fetch(`http://localhost:8080/user/findClassInfo?${queryString}`, {
             method : 'GET',
             headers : {
                 'Content-type' : 'application/json',
                 "Authorization": `Bearer ${token}`
             }
         });
+        
         var {state, message, data} = await res.json();
         if (data[0]) {
             $('#classId').val(data[0].classId);
         }
+        
     });
     
     $('#depId').change();
