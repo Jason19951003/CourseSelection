@@ -99,11 +99,11 @@
                 });
                 
                 if (response.ok) {
-                	const {state, message, data} = await response.json();
+                    const {state, message, data} = await response.json();
                     localStorage.setItem("token", data);
                     window.location.href = './root.html';
 				} else {
-					 $('#errorMessage').removeClass('d-none');
+					$('#errorMessage').removeClass('d-none');
 				}
             } catch (error) {
                 console.error('Network error or other issue:', error);

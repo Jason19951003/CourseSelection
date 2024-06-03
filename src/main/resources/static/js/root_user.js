@@ -97,11 +97,10 @@ const searchUser = async(body, modal, permissionId) => {
     $(`#${body}`).html('');
     const queryString = new URLSearchParams({permissionId : permissionId}).toString();
     const response = await fetch(`http://localhost:8080/user/findUsers?${queryString}`, {
-            headers : {
-                "Authorization": `Bearer ${token}`
-            }
+        headers : {
+            "Authorization": `Bearer ${token}`
         }
-    );
+    });
     const {state, message, data} = await response.json();
     if (state) {
         data.forEach(user => {

@@ -1,6 +1,5 @@
 const token = localStorage.getItem('token'); // 從 localStorage 獲取 token
 const loadDepartment = async() => {
-	console.log(token);
     const response = await fetch('http://localhost:8080/course/findDepartment',{
         headers: {
             "Authorization": `Bearer ${token}`
