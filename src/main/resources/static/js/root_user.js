@@ -14,7 +14,7 @@ const updateUser = async(e, permissionId) => {
     const queryString = new URLSearchParams({
             userId : userId,
             permissionId : permissionId
-        }).toString();
+    }).toString();
     const res = await fetch(`http://localhost:8080/user/findUser?${queryString}`, {
         headers : {
             "Authorization": `Bearer ${token}`
@@ -46,49 +46,59 @@ const updateUser = async(e, permissionId) => {
 }
 
 const saveUser = async(form, body, modal) => {
+    try {
+        var formData = new FormData($(`#${form}`)[0]);
 
-    var formData = new FormData($(`#${form}`)[0]);
-
-    var saveFunction = $('#saveFunction').val();
-    var flag = saveFunction == 'insert';
-    var method = flag ? 'POST' : 'PUT';
-    var userId = $('#userId').val();
-    var url = flag ? 'http://localhost:8080/user/insertUser' : `http://localhost:8080/user/updateUser/${userId}`;
-
-    const response = await fetch(url, {
-        method : method,
-        headers : {
-            "Authorization": `Bearer ${token}`
-        },
-        body : formData
-    });
+        var saveFunction = $('#saveFunction').val();
+        var flag = saveFunction == 'insert';
+        var method = flag ? 'POST' : 'PUT';
+        var userId = $('#userId').val();
+        var url = flag ? 'http://localhost:8080/user/insertUser' : `http://localhost:8080/user/updateUser/${userId}`;
     
-    const {state, message, data} = await response.json();
-    if (state) {
-        // 關閉modal
-        var modalElement = document.getElementById(`${modal}`);
-        var modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-        $(`#${form}`)[0].reset();
-        searchUser(body, modal, $('#permissionId').val());
+        const response = await fetch(url, {
+            method : method,
+            headers : {
+                "Authorization": `Bearer ${token}`
+            },
+            body : formData
+        });
+        
+        const {state, message, data} = await response.json();
+        if (state) {
+            // 關閉modal
+            var modalElement = document.getElementById(`${modal}`);
+            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+            $(`#${form}`)[0].reset();
+            searchUser(body, modal, $('#permissionId').val());
+        }
+        alert(message);
+    } catch (error) {
+        console.log(error);
     }
-    alert(message);
 }
 
 const deleteUser = async(e, body, modal, permissionId) => {
     if (confirm('是否要刪除')) {
-        var userId = e.getAttribute('user-id');
+        try {
+            var userId = e.getAttribute('user-id');
 
-        const response = await fetch(`http://localhost:8080/user/deleteUser/${userId}`, {
-            method : "DELETE",
-            headers : {
-                "Authorization": `Bearer ${token}`
+            const response = await fetch(`http://localhost:8080/user/deleteUser/${userId}`, {
+                method : "DELETE",
+                headers : {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                console.log(response);
             }
-        });
-        const { state, message, data } = await response.json();
-        alert(message);
-        if (state) {
-            searchUser(body, modal, permissionId);
+            const { state, message, data } = await response.json();
+            alert(message);
+            if (state) {
+                searchUser(body, modal, permissionId);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 }
@@ -117,7 +127,7 @@ const searchUser = async(body, modal, permissionId) => {
                     <td>${user.className}</td>
                     <td>
                         <button id="updateUser" onclick="updateUser(this, ${permissionId})" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#${modal}" user-id="${user.userId}">編輯</button>
-                        <button id="deleteUser" onclick="deleteUser(this, ${body}, ${modal}, ${permissionId})" class="btn btn-danger btn-sm" user-id="${user.userId}">刪除</button>
+                        <button id="deleteUser" onclick="deleteUser(this, '${body}', '${modal}', ${permissionId})" class="btn btn-danger btn-sm" user-id="${user.userId}">刪除</button>
                     </td>
                 </tr>
             `)
