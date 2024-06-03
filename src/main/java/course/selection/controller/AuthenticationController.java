@@ -38,7 +38,7 @@ public class AuthenticationController {
 			loginUser = (SchoolUserDetails) userDetailsService.loadUserByUsername(userName);
 			if (loginUser != null) {
 				ApiResponse<String> response = new ApiResponse<>(true, "成功", jwtUtil.generateToken(loginUser));
-				return ResponseEntity.ok(response);
+				return ResponseEntity.status(200).body(response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

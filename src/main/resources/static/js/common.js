@@ -1,10 +1,9 @@
-const token = localStorage.getItem('jwtToken'); // 從 localStorage 獲取 token
+const token = localStorage.getItem('token'); // 從 localStorage 獲取 token
 const loadDepartment = async() => {
+	console.log(token);
     const response = await fetch('http://localhost:8080/course/findDepartment',{
-        headers : {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+        headers: {
+            "Authorization": `Bearer ${token}`
         }
     });
     const {state, message, data} = await response.json();
@@ -22,10 +21,8 @@ const loadDepartment = async() => {
         $('#teacherId').html('');
         const depId = $('#depId').val();
         const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`, {
-            headers : {
-                headers: {
+            headers: {
                     "Authorization": `Bearer ${token}`
-                }
             }
         });
         var {state, message, data} = await res.json();

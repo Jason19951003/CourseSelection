@@ -101,7 +101,7 @@
                 if (response.ok) {
                 	const {state, message, data} = await response.json();
                     localStorage.setItem("token", data);
-                    window.location.href = './student/student.html';
+                    window.location.href = './root.html';
 				} else {
 					 $('#errorMessage').removeClass('d-none');
 				}
