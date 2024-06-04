@@ -72,3 +72,8 @@ const renderHtml = async(id, url) => {
     const html = await response.text();
     $(`#${id}`).html(html);
 }
+
+const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = "/index.html"
+}
