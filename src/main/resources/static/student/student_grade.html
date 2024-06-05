@@ -1,0 +1,130 @@
+<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
+    成績查詢
+    <input type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
+    <div class="ms-2">
+        <button class="btn btn-success">查詢</button>
+        <button class="btn btn-primary">重置</button>
+    </div>
+</div>
+
+<div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
+    <table class="table table-striped table-hover">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#studentModal" onclick="insertUser('studentForm', 3)">新增</button>
+        <thead>
+            <tr>
+                <th>學號</th>
+                <th>姓名</th>
+                <th>科系</th>
+                <th>性別</th>
+                <th>生日</th>
+                <th>Email</th>
+                <th>手機</th>
+                <th>年級</th>
+                <th>班級</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="studentBody">
+        </tbody>
+    </table>
+</div>
+
+<div aria-label="Page navigation example" class="border border-opacity-100 bg-white rounded">
+    <div class="pagination p-3">
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <!-- 更多分頁按鈕 -->
+    </div>
+</div>
+
+<div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentModalLabel">學生訊息</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="studentForm" action="">
+                <input type="hidden" name="saveFunction" id="saveFunction" value="insert">
+                <input type="hidden" name="classId" id="classId">
+                <input type="hidden" name="permissionId" id="permissionId" value="3">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="userId">學&#12288;&#12288;號:</label>
+                        <input type="text" id="userId" name="userId" class="form-control" placeholder="請輸入學號" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseId">姓&#12288;&#12288;名:</label>
+                        <input type="text" id="userName" name="userName" class="form-control" placeholder="請輸入姓名" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="depId">科&#12288;&#12288;系:</label>
+                        <select id="depId" name="depId" class="form-select">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>性&#12288;&#12288;別:</label>
+                        <div>
+                            <input class="form-check-input" type="radio" name="sex" id="male" value="1" checked>
+                            <label class="form-check-label" for="male">男</label>
+                        </div>
+                        <div>
+                            <input class="form-check-input" type="radio" name="sex" id="female" value="2">
+                            <label class="form-check-label" for="female">女</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">生&#12288;&#12288;日:</label>
+                        <input type="date" id="birthDate" name="birthDate" class="form-control" placeholder="請輸入生日" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">電子信箱:</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="請輸入Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">手&#12288;&#12288;機:</label>
+                        <input type="text" id="phone" name="phone" class="form-control" placeholder="請輸入手機" required>
+                    </div>
+                    <div class="form-group">
+                        <label>班&#12288;&#12288;級:</label>
+                        <select id="classGrade" name="classGrade" class="form-select">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>年
+                        <select id="className" name="className" class="form-select">
+                            <option value="甲">甲</option>
+                            <option value="乙">乙</option>
+                            <option value="丙">丙</option>
+                        </select>班
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">入學日期:</label>
+                        <input type="date" id="admissionDate" name="admissionDate" class="form-control" placeholder="請輸入入學日期" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">大頭貼:&#12288;</label>
+                        <input type="file" id="sticker" name="sticker" class="form-control" accept=".jpg, .png">
+                        <img id="stickerPreview" src="" alt="預覽圖片" style="max-width: 200px; max-height: 200px; margin-top: 10px; display: none;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    //searchUser('studentBody', 'studentModal', 3);
+    loadDepartment();
+    $('#studentForm').on('submit', (e) => {
+        e.preventDefault();
+        saveUser('studentForm', 'studentBody', 'studentModal');
+    });
+</script>

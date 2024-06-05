@@ -7,6 +7,19 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 	<link href="./css/common.css" rel="stylesheet">
+	<style>
+		.nav-link {
+			display: flex;
+			align-items: center;
+			font-size: 16px; 
+		}
+
+		.nav-link i {
+			font-size: 20px; 
+			margin-right: 8px; 
+		}
+	</style>
+	
 </head>
 <body>
 		<!-- header -->
@@ -27,14 +40,15 @@
 							<li class="nav-item">
 								<a class="nav-link active" href="#" link-page="student_front_page"><i class="fas fa-home"></i> 系統首頁</a>
 							</li>
+							
 							<li class="nav-item">
-								<a class="nav-link" href="#" link-page="root_course"><i class="fas fa-calendar-alt"></i> 課表查詢</a>
+								<a class="nav-link" href="#" link-page="student_grade"><i class="fas fa-graduation-cap"></i> 成績查詢</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#" link-page="root_course"><i class="fas fa-graduation-cap"></i> 成績查詢</a>
+								<a class="nav-link" href="#" link-page="student_schedule"><i class="fas fa-calendar-alt" style="font-size: 22px;"></i> &nbsp;課表查詢</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#" link-page="root_course"><i class="fas fa-chalkboard-teacher"></i> 選課系統</a>
+								<a class="nav-link" href="#" link-page="course_select"><i class="fas fa-chalkboard-teacher"></i> 選課系統</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出系統</a>
