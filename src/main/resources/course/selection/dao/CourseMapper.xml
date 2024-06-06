@@ -50,6 +50,9 @@
             <if test="studentId != null">
                 AND a.student_id = #{studentId}
             </if>
+            <if test="courseYear != null">
+                AND a.course_year = #{courseYear}
+            </if>
         </where>
         ) a
     </select>
@@ -97,18 +100,45 @@
 
     <update id="updateCourse">
         UPDATE course 
-        SET 
-            course_dep = #{depId},
-            course_id = #{courseId},
-            course_name = #{courseName},
-            course_required = #{courseRequired},
-            teacher_id = #{teacherId},
-            course_year = #{courseYear},
-            course_semester = #{courseSemester},
-            course_of_week = #{courseOfWeek},
-            course_start = #{courseStart},
-            course_end = #{courseEnd},
-            course_locate = #{courseLocate}
+        <set>
+            <if test="depId != null and depId != ''">
+                course_dep = #{depId},
+            </if>
+            <if test="courseId != null and courseId != ''">
+                course_id = #{courseId},
+            </if>
+            <if test="courseName != null and courseName != ''">
+                course_name = #{courseName},
+            </if>
+            <if test="courseRequired != null and courseRequired != ''">
+                course_required = #{courseRequired},
+            </if>
+            <if test="teacherId != null and teacherId != ''">
+                teacher_id = #{teacherId},
+            </if>
+            <if test="courseYear != null and courseYear != ''">
+                course_year = #{courseYear},
+            </if>
+            <if test="courseSemester != null and courseSemester != ''">
+                course_semester = #{courseSemester},
+            </if>
+            <if test="courseOfWeek != null and courseOfWeek != ''">
+                course_of_week = #{courseOfWeek},
+            </if>
+            <if test="courseStart != null and courseStart != ''">
+                course_start = #{courseStart},
+            </if>
+            <if test="courseEnd != null and courseEnd != ''">
+                course_end = #{courseEnd},
+            </if>
+            <if test="courseLocate != null and courseLocate != ''">
+                course_locate = #{courseLocate},
+            </if>
+            <if test="courseContent != null and courseContent != ''">
+                course_content = #{courseContent},
+            </if>
+        </set>
         WHERE course_index = #{courseIndex}
     </update>
+    
 </mapper>
