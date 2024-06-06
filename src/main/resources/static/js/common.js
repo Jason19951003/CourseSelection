@@ -1,4 +1,7 @@
-const token = localStorage.getItem('token'); // 從 localStorage 獲取 token
+const token = localStorage.getItem('token');
+const userName = localStorage.getItem('userName');
+const userId = localStorage.getItem('userId');
+
 const loadDepartment = async() => {
     const response = await fetch('http://localhost:8080/course/findDepartment',{
         headers: {
@@ -21,7 +24,7 @@ const loadDepartment = async() => {
         const depId = $('#depId').val();
         const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`, {
             headers: {
-                    "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`
             }
         });
         var {state, message, data} = await res.json();
@@ -75,5 +78,7 @@ const renderHtml = async(id, url) => {
 
 const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     window.location.href = "/index.html"
 }

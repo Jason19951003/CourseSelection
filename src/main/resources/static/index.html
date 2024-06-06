@@ -100,8 +100,10 @@
                 
                 if (response.ok) {
                     const {state, message, data} = await response.json();
-                    localStorage.setItem("token", data);
-                    window.location.href = './root.html';
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("userName", data.userName);
+                    localStorage.setItem("userId", data.userId);
+                    window.location.href = data.page;
 				} else {
 					$('#errorMessage').removeClass('d-none');
 				}

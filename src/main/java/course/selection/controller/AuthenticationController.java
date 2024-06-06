@@ -1,5 +1,6 @@
 package course.selection.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,25 @@ public class AuthenticationController {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
 			loginUser = (SchoolUserDetails) userDetailsService.loadUserByUsername(userName);
 			if (loginUser != null) {
-				ApiResponse<String> response = new ApiResponse<>(true, "成功", jwtUtil.generateToken(loginUser));
+				Map<String, Object> result = new HashMap<>();
+				result.put("userId", loginUser.getUser().getUserId());
+				result.put("userName", loginUser.getUser().getUserName());
+				result.put("token", jwtUtil.generateToken(loginUser));
+				result.put("user", loginUser.getUser());
+				switch (loginUser.getPermission()) {
+					case ADMIN:
+						result.put("page", "./root.html");
+						break;
+					case STUDENT:
+						result.put("page", "./student.html");
+						break;
+					case TEACHER:
+						result.put("page", "./teacher.html");
+						break;
+					default:
+						break;
+				}
+				ApiResponse<Map<String, Object>> response = new ApiResponse<>(true, "成功", result);
 				return ResponseEntity.status(200).body(response);
 			}
 		} catch (Exception e) {

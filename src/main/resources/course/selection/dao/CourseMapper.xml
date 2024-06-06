@@ -44,6 +44,12 @@
             <if test="courseIndex != null">
                 AND a.course_index = #{courseIndex}
             </if>
+            <if test="teacherId != null">
+                AND a.teacher_id = #{teacherId}
+            </if>
+            <if test="studentId != null">
+                AND a.student_id = #{studentId}
+            </if>
         </where>
         ) a
     </select>
