@@ -34,10 +34,21 @@ create table if not exists class_info(
     foreign key (department_id) references department(department_id)
 );
 
-insert into class_info (department_id, grade, class_name) values ('IM', 1, '甲');
-insert into class_info (department_id, grade, class_name) values ('IM', 2, '甲');
-insert into class_info (department_id, grade, class_name) values ('IM', 3, '甲');
-insert into class_info (department_id, grade, class_name) values ('IM', 4, '甲');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 1, '甲');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 1, '乙');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 1, '丙');
+
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 2, '甲');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 2, '乙');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 2, '丙');
+
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 3, '甲');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 3, '乙');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 3, '丙');
+
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 4, '甲');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 4, '乙');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 4, '丙');
 
 create table if not exists user_info(
     user_id varchar(255) primary key,
@@ -57,12 +68,7 @@ create table if not exists user_info(
     foreign key (class_id) references class_info(class_id)
 );
 
-insert into user_info (user_id, user_password, permission_id, user_name) values ('root', 'root', 1, '管理員');
-insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('IM103001', 'IM103001', 3, '王小明', '1995-10-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
-insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('IM103002', 'IM103002', 3, '黃小華', '1995-10-04', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2014-09-01');
-insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('TE100001', 'TE100001', 2, '方仁威', '1964-08-03', '1', 'abc123@gmai.com', '0912345678', 'IM', 1, '2008-09-01');
-insert into user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) values ('TE100002', 'TE100002', 2, '林國滑', '1978-05-23', '1', 'abc123@gmai.com', '0912345678', 'GE', 1, '2018-09-01');
-
+insert into user_info (user_id, user_password, permission_id, user_name) values ('root', '$2a$10$opaMvYKj/O1TJ7.dZ5hvduNq.oo78VC35RTZAqJ6MZ/BpK96xulxi', 1, '管理員');
 
 create table if not exists course (
     course_index int auto_increment primary key,
@@ -83,8 +89,6 @@ create table if not exists course (
     CONSTRAINT unique_dep_id_year_semester UNIQUE(course_dep, course_id, course_year, course_semester)
 );
 
-insert into course (course_dep, course_id, course_name, course_required, course_year, course_semester, course_of_week, course_start, course_end, course_locate, teacher_id, course_content) values ('IM', '001', '程式設計', '1', 107, '1', 'Monday', 1, 4, '101教室' ,'TE100001', 'Java物件導向程式設計');
-
 create table if not exists course_grade (
 	course_dep char(2) not null,
 	course_id char(3) not null,
@@ -97,5 +101,23 @@ create table if not exists course_grade (
 	foreign key (teacher_id) references user_info(user_id)
 );
 
-insert into course_grade (course_dep, course_id, course_year, course_semester, student_id, teacher_id, grade) values ('IM', '001', 107, '1', 'IM103001', 'TE100001', 80);
-insert into course_grade (course_dep, course_id, course_year, course_semester, student_id, teacher_id, grade) values ('IM', '001', 107, '1', 'IM103002', 'TE100001', 80);
+INSERT INTO course (course_dep, course_id, course_name, course_required, course_year, course_semester, course_of_week, course_start, course_end, course_locate, teacher_id, course_content) VALUES 
+('IM', '101', '程式設計導論', '1', 1, '1', 'Monday', 5, 8, '101教室', 'TE113001', '基礎程式設計概念'),
+('IM', '102', '計算機概論', '1', 1, '1', 'Tuesday', 1, 4, '102教室', 'TE113002', '計算機基礎概念'),
+('IM', '103', '微積分', '1', 1, '1', 'Wednesday', 5, 8, '103教室', 'TE113003', '微積分基礎'),
+('IM', '104', '英文', '1', 1, '1', 'Thursday', 5, 7, '104教室', 'TE113004', '英文閱讀與寫作'),
+
+('IM', '201', '資料結構', '1', 2, '1', 'Monday', 7, 8, '201教室', 'TE113005', '資料結構的基本概念'),
+('IM', '202', '演算法', '1', 2, '1', 'Tuesday', 3, 4, '202教室', 'TE113006', '基礎演算法'),
+('IM', '203', '作業系統', '1', 2, '1', 'Wednesday', 1, 4, '203教室', 'TE113007', '作業系統原理'),
+('IM', '204', '數位邏輯設計', '1', 2, '1', 'Thursday', 3, 4, '204教室', 'TE113008', '數位邏輯設計'),
+
+('IM', '301', '資料庫系統', '1', 3, '1', 'Monday', 1, 4, '301教室', 'TE113009', '資料庫基礎'),
+('IM', '302', '軟體工程', '1', 3, '1', 'Tuesday', 5, 8, '302教室', 'TE113010', '軟體開發方法'),
+('IM', '303', '計算機網路', '1', 3, '1', 'Wednesday', 5, 8, '303教室', 'TE113011', '網路基本原理'),
+('IM', '304', '人工智慧', '1', 3, '1', 'Thursday', 7, 8, '304教室', 'TE113012', '人工智慧基礎'),
+
+('IM', '401', '專題製作', '1', 4, '1', 'Monday', 1, 2, '401教室', 'TE113001', '專題製作'),
+('IM', '402', '專題討論', '1', 4, '1', 'Tuesday', 3, 4, '402教室', 'TE113002', '專題討論'),
+('IM', '403', '資訊安全', '1', 4, '1', 'Wednesday', 5, 8, '403教室', 'TE113003', '資訊安全基礎'),
+('IM', '404', '數據分析', '1', 4, '1', 'Thursday', 7, 8, '404教室', 'TE113004', '數據分析方法');

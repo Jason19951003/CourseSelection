@@ -1,8 +1,8 @@
 <div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
-    <input type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
+    <input id="searchInput" type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
     <div class="ms-2">
-        <button class="btn btn-success">查詢</button>
-        <button class="btn btn-primary">重置</button>
+        <button class="btn btn-success" onclick="search()">查詢</button>
+        <button class="btn btn-primary" onclick="reset()">重置</button>
     </div>
 </div>
 
@@ -126,4 +126,37 @@
         e.preventDefault();
         saveUser('teacherForm', 'teacherBody', 'teacherModal');
     });
+    function search() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.querySelector("#teacherBody");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "none";  // 先隱藏所有行
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";  // 顯示符合條件的行
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    function reset() {
+        document.getElementById("searchInput").value = "";
+        var table, tr;
+        table = document.querySelector("#teacherBody");
+        tr = table.getElementsByTagName("tr");
+
+        for (var i = 0; i < tr.length; i++) {
+            tr[i].style.display = "";  // 顯示所有行
+        }
+    }
+
 </script>
