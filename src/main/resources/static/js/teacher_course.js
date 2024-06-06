@@ -40,7 +40,7 @@ const updateCourse = (e) => {
 }
 
 
-const saveCourse = async () => {
+const saveCourse = async() => {
     var formData = {
         courseIndex: $('#courseIndex').val(),
         courseContent: $('#courseContent').val()
