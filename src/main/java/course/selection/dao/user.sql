@@ -150,17 +150,16 @@ INSERT INTO user_info (user_id, user_password, permission_id, user_name, birth_d
 ('IM113149', '$2b$12$UDsI/NRzBeSft7cBy7PR9eImPvQg8yBJV8BzP/klPqzugDL51.tp.', 3, '孫志豪', '2006-08-28', 1, 'im113149@gmail.com', '0973494459', 'IM', 3, '2024-09-01'),
 ('IM113150', '$2b$12$lRvUfTWMpiQPh7Ijof77VOELYcr3rNG5HyCdlPBgKXlMqrqVGhSZ6', 3, '陳建宏', '2005-06-08', 1, 'im113150@gmail.com', '0981412655', 'IM', 3, '2024-09-01');
 -- 插入老師資料
--- 插入老師資料
-INSERT INTO user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) VALUES 
-('TE113001', '$2b$12$vPQ.2mRw.qZPQbPXlPRXJOnRP0WHTsJZjA/H276T8ZfjiCdU97njm', 2, '張三', '1980-01-01', '1', 'teacher001@gmail.com', '0912345678', 'IM', 1, '2005-09-01'),
-('TE113002', '$2b$12$cvm7pcesg/cIOLQ0zYnJYe8dLYSCO6L7H1GszAlVkDMw8GfZuc4FC', 2, '李四', '1980-01-01', '2', 'teacher002@gmail.com', '0912345678', 'IM', 2, '2005-09-01'),
-('TE113003', '$2b$12$.6X/dV6yU9C34bwtpLbKoe/tFsysMy0TUX5NquK7iyp4El5lq.vUa', 2, '王五', '1980-01-01', '1', 'teacher003@gmail.com', '0912345678', 'IM', 3, '2005-09-01'),
-('TE113004', '$2b$12$5OQCzu04Z0ltR3CvmRrTN.qy2bG1X4SbaZlTsUv6HQKCem7jr1Dha', 2, '趙六', '1980-01-01', '2', 'teacher004@gmail.com', '0912345678', 'IM', 4, '2005-09-01'),
-('TE113005', '$2b$12$6gX9kEuk6htsanwKU.5ebegZxoI9brf5kNTmSXlSQtOZgX6umOHmy', 2, '周七', '1980-01-01', '1', 'teacher005@gmail.com', '0912345678', 'IM', 5, '2005-09-01'),
-('TE113006', '$2b$12$yBtGfqVnV96yDDOpbzR78uSZen7NaCzSt7NRT6nv6ie/dIQm3ng96', 2, '吳八', '1980-01-01', '2', 'teacher006@gmail.com', '0912345678', 'IM', 6, '2005-09-01'),
-('TE113007', '$2b$12$EN9RYzscJ3XhWfTEAa.5N.iNCROjg3vK1rsqWni2PeYLcbvttxccu', 2, '鄭九', '1980-01-01', '1', 'teacher007@gmail.com', '0912345678', 'IM', 7, '2005-09-01'),
-('TE113008', '$2b$12$6.70ggrReQrBmNC084DCCeuA6SgD8uGBTCcNTuZmVG3vQCTuzirOm', 2, '何十', '1980-01-01', '2', 'teacher008@gmail.com', '0912345678', 'IM', 8, '2005-09-01'),
-('TE113009', '$2b$12$D/H324ymhRy5s8JoAJzmoOy4YOyjoTXnruen3vt4wiiv4yCyvGB9u', 2, '陳十一', '1980-01-01', '1', 'teacher009@gmail.com', '0912345678', 'IM', 9, '2005-09-01'),
-('TE113010', '$2b$12$gVJM28y/VdWJWwZGbSg14.jrWjbCtzxluHwj7GZGjaSdliL.jX97u', 2, '楊十二', '1980-01-01', '2', 'teacher010@gmail.com', '0912345678', 'IM', 10, '2005-09-01'),
-('TE113011', '$2b$12$85WgtkYgCVSrR9kGmeB3eegI9L21u0QCdI/Mw3ksNPS0VbBz0ORSK', 2, '謝十三', '1980-01-01', '1', 'teacher011@gmail.com', '0912345678', 'IM', 11, '2005-09-01'),
-('TE113012', '$2b$12$24N1UirHHcQEcLcTGFLzc.I3icKV/ESJxkRK3OG3whBNDrspylbGa', 2, '蔡十四', '1980-01-01', '2', 'teacher012@gmail.com', '0912345678', 'IM', 12, '2005-09-01');
+INSERT INTO user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) VALUES
+('TE113001', '$2b$12$GZeinw9nqjuTiU77u4yHsOD85TH/9vd6cuEfFJHkq8MEUWHfmetBm', 2, '周俊賢', '1979-07-15', 2, 'te113001@gmail.com', '0965625499', 'IM', 1, '2020-09-01'),
+('TE113002', '$2b$12$jaYQaPna/26aSq12MnITgu2b4Rptl0wDc42g3uuVZV1yQLFLaxYLG', 2, '符慧君', '1965-04-13', 2, 'te113002@gmail.com', '0921014090', 'IM', 2, '2020-09-01'),
+('TE113003', '$2b$12$gC83j2aroVfYHlTe7GKjgetzDjaAKNeldiXvTlUIrx9R8kc292JZG', 2, '王信宏', '1992-03-12', 2, 'te113003@gmail.com', '0957394047', 'IM', 3, '2020-09-01'),
+('TE113004', '$2b$12$l8l0okdVobMkgnNt/dvvRObra4ykcjCv3gxF/sMwXt62LRpA9.1J6', 2, '王鈺婷', '1991-11-25', 1, 'te113004@gmail.com', '0924498231', 'IM', 4, '2020-09-01'),
+('TE113005', '$2b$12$0EMQFtEdGwStX4wrpWrDeO8Kjyzdw.l6ZZjG/VqXbaXtGHkVkAOUW', 2, '高怡君', '1998-11-10', 1, 'te113005@gmail.com', '0976726473', 'IM', 5, '2020-09-01'),
+('TE113006', '$2b$12$eyhwiBs2sFiKA3ST4FzKjOwyUFoihFkjWeD37RlBkp34zwWDizEZG', 2, '杜怡伶', '1993-08-07', 1, 'te113006@gmail.com', '0976212193', 'IM', 6, '2020-09-01'),
+('TE113007', '$2b$12$5swccjVMthLs7.h9t396yOwGAEPnvFrTRLcKI6JiFJRabRNTZUpF2', 2, '何傑克', '1964-10-27', 1, 'te113007@gmail.com', '0955758723', 'IM', 7, '2020-09-01'),
+('TE113008', '$2b$12$fdNHLZskLH.zBiEm3DSOmu4RPefUlDfY30UuYkq4zdP.eLRDxUA8a', 2, '吳靜怡', '1990-12-06', 1, 'te113008@gmail.com', '0930524524', 'IM', 8, '2020-09-01'),
+('TE113009', '$2b$12$rqzo9TZbUaNDXYyy0Wuw8usgt2p3VFf2XxzjeeN1.o.WmEO8LWb5m', 2, '吳柏翰', '1996-01-17', 1, 'te113009@gmail.com', '0952763943', 'IM', 9, '2020-09-01'),
+('TE113010', '$2b$12$bHqj9pcapRe0oLSrYNp0O.J.ChaeFKHMs8St9ZQPF7YBApJRsVB3m', 2, '譚詩婷', '1969-09-15', 2, 'te113010@gmail.com', '0964235641', 'IM', 10, '2020-09-01'),
+('TE113011', '$2b$12$D/W6wLVnxkaeopGBu6nHz.hxxTj.gXqp2/tpnvK99DGAN9BMz70c2', 2, '齊佳慧', '1983-05-18', 2, 'te113011@gmail.com', '0918474972', 'IM', 11, '2020-09-01'),
+('TE113012', '$2b$12$Gor2i.7QM4owjJVQP.FzCeWcBTvulqQKx3sK8EP5lKAhNvYUJxBqW', 2, '金淑慧', '1986-12-11', 2, 'te113012@gmail.com', '0931374734', 'IM', 12, '2020-09-01');
