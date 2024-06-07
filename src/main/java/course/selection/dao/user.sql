@@ -150,16 +150,17 @@ INSERT INTO user_info (user_id, user_password, permission_id, user_name, birth_d
 ('IM113149', '$2b$12$UDsI/NRzBeSft7cBy7PR9eImPvQg8yBJV8BzP/klPqzugDL51.tp.', 3, '孫志豪', '2006-08-28', 1, 'im113149@gmail.com', '0973494459', 'IM', 3, '2024-09-01'),
 ('IM113150', '$2b$12$lRvUfTWMpiQPh7Ijof77VOELYcr3rNG5HyCdlPBgKXlMqrqVGhSZ6', 3, '陳建宏', '2005-06-08', 1, 'im113150@gmail.com', '0981412655', 'IM', 3, '2024-09-01');
 -- 插入老師資料
+-- 插入老師資料
 INSERT INTO user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id, class_id, admission_date) VALUES 
-('TE113001', '$2a$10$E6Z/P/f4r6GRZrFNj1EjceWeeDPCiWZsDaz4jQcnA3qiyAeTqM9XS', 2, '張三', '1980-01-01', '1', 'teacher001@gmail.com', '0912345678', 'IM', 1, '2005-09-01'),
-('TE113002', '$2a$10$TskKQ6Zmcyo./bZfA7xlOeD9q6/AWby6axXhF3r6OZn7P1hlbbTP6', 2, '李四', '1980-01-01', '2', 'teacher002@gmail.com', '0912345678', 'IM', 2, '2005-09-01'),
-('TE113003', '$2a$10$F1wz7/7Sz8bfg3O7Q5Zn2eUtJ6jzGFBjB1kH1ZjQmeI0MeFMRscQS', 2, '王五', '1980-01-01', '1', 'teacher003@gmail.com', '0912345678', 'IM', 3, '2005-09-01'),
-('TE113004', '$2a$10$B4Tf6bD4E/6z1FghxDZ7s.Q4nFEjD8JPO8PJDd.PdZTcRz.nBhF5u', 2, '趙六', '1980-01-01', '2', 'teacher004@gmail.com', '0912345678', 'IM', 4, '2005-09-01'),
-('TE113005', '$2a$10$PqJ4K3Fksdj4hDfi/7hXZ.BF23s8JhbTxJ6z6.Y29I0V59rLF3BRu', 2, '周七', '1980-01-01', '1', 'teacher005@gmail.com', '0912345678', 'IM', 5, '2005-09-01'),
-('TE113006', '$2a$10$X2Hk8qjP9U9/C7cS9JfMpe/1YfPqVzJmzkU8FMRaD0hF2cV.ZOWRm', 2, '吳八', '1980-01-01', '2', 'teacher006@gmail.com', '0912345678', 'IM', 6, '2005-09-01'),
-('TE113007', '$2a$10$GqK7nUdf12hfDfi/KFJ28QwF4fBR9.L4D9d9.tLx8Y2KjEzZZPzX.', 2, '鄭九', '1980-01-01', '1', 'teacher007@gmail.com', '0912345678', 'IM', 7, '2005-09-01'),
-('TE113008', '$2a$10$Gfh64hsj3F8djHFd83Gj6d8sF8G9H8skd3F8FJKJ9HkDkYtY5RkLK', 2, '何十', '1980-01-01', '2', 'teacher008@gmail.com', '0912345678', 'IM', 8, '2005-09-01'),
-('TE113009', '$2a$10$A7GFhsj72f8dj8sJF7d38asDfjkD2d93kjf9DJ3H8Dk8FHjF8HJK', 2, '陳十一', '1980-01-01', '1', 'teacher009@gmail.com', '0912345678', 'IM', 9, '2005-09-01'),
-('TE113010', '$2a$10$F7sDfh83F8sdJK3J9sDHJ7d8FH2fhF8H7f9hD9JHJK3H9D2JKD8F9', 2, '楊十二', '1980-01-01', '2', 'teacher010@gmail.com', '0912345678', 'IM', 10, '2005-09-01'),
-('TE113011', '$2a$10$KJsF8dsfKJ8JsdhF8s9DF8sdjF9fH8sF9fJ9sdFJ8sdFJ8s9DF8JK', 2, '謝十三', '1980-01-01', '1', 'teacher011@gmail.com', '0912345678', 'IM', 11, '2005-09-01'),
-('TE113012', '$2a$10$F9dKJ3sd9FH8jF8sd9F8sdfJK3JKD9s8Fjsd8FJ3J8Fjsd9F8sd8', 2, '蔡十四', '1980-01-01', '2', 'teacher012@gmail.com', '0912345678', 'IM', 12, '2005-09-01');
+('TE113001', '$2b$12$vPQ.2mRw.qZPQbPXlPRXJOnRP0WHTsJZjA/H276T8ZfjiCdU97njm', 2, '張三', '1980-01-01', '1', 'teacher001@gmail.com', '0912345678', 'IM', 1, '2005-09-01'),
+('TE113002', '$2b$12$cvm7pcesg/cIOLQ0zYnJYe8dLYSCO6L7H1GszAlVkDMw8GfZuc4FC', 2, '李四', '1980-01-01', '2', 'teacher002@gmail.com', '0912345678', 'IM', 2, '2005-09-01'),
+('TE113003', '$2b$12$.6X/dV6yU9C34bwtpLbKoe/tFsysMy0TUX5NquK7iyp4El5lq.vUa', 2, '王五', '1980-01-01', '1', 'teacher003@gmail.com', '0912345678', 'IM', 3, '2005-09-01'),
+('TE113004', '$2b$12$5OQCzu04Z0ltR3CvmRrTN.qy2bG1X4SbaZlTsUv6HQKCem7jr1Dha', 2, '趙六', '1980-01-01', '2', 'teacher004@gmail.com', '0912345678', 'IM', 4, '2005-09-01'),
+('TE113005', '$2b$12$6gX9kEuk6htsanwKU.5ebegZxoI9brf5kNTmSXlSQtOZgX6umOHmy', 2, '周七', '1980-01-01', '1', 'teacher005@gmail.com', '0912345678', 'IM', 5, '2005-09-01'),
+('TE113006', '$2b$12$yBtGfqVnV96yDDOpbzR78uSZen7NaCzSt7NRT6nv6ie/dIQm3ng96', 2, '吳八', '1980-01-01', '2', 'teacher006@gmail.com', '0912345678', 'IM', 6, '2005-09-01'),
+('TE113007', '$2b$12$EN9RYzscJ3XhWfTEAa.5N.iNCROjg3vK1rsqWni2PeYLcbvttxccu', 2, '鄭九', '1980-01-01', '1', 'teacher007@gmail.com', '0912345678', 'IM', 7, '2005-09-01'),
+('TE113008', '$2b$12$6.70ggrReQrBmNC084DCCeuA6SgD8uGBTCcNTuZmVG3vQCTuzirOm', 2, '何十', '1980-01-01', '2', 'teacher008@gmail.com', '0912345678', 'IM', 8, '2005-09-01'),
+('TE113009', '$2b$12$D/H324ymhRy5s8JoAJzmoOy4YOyjoTXnruen3vt4wiiv4yCyvGB9u', 2, '陳十一', '1980-01-01', '1', 'teacher009@gmail.com', '0912345678', 'IM', 9, '2005-09-01'),
+('TE113010', '$2b$12$gVJM28y/VdWJWwZGbSg14.jrWjbCtzxluHwj7GZGjaSdliL.jX97u', 2, '楊十二', '1980-01-01', '2', 'teacher010@gmail.com', '0912345678', 'IM', 10, '2005-09-01'),
+('TE113011', '$2b$12$85WgtkYgCVSrR9kGmeB3eegI9L21u0QCdI/Mw3ksNPS0VbBz0ORSK', 2, '謝十三', '1980-01-01', '1', 'teacher011@gmail.com', '0912345678', 'IM', 11, '2005-09-01'),
+('TE113012', '$2b$12$24N1UirHHcQEcLcTGFLzc.I3icKV/ESJxkRK3OG3whBNDrspylbGa', 2, '蔡十四', '1980-01-01', '2', 'teacher012@gmail.com', '0912345678', 'IM', 12, '2005-09-01');
