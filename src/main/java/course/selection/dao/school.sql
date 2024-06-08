@@ -96,6 +96,7 @@ create table if not exists course_grade (
 	course_id char(3) not null,
 	course_year smallint not null,
     course_semester ENUM('1','2') not null,
+    course_class_id int not null,
     student_id VARCHAR(255) not null,
     teacher_id VARCHAR(255) not null,
     grade tinyint,
