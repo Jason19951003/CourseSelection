@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import course.selection.dao.CourseMapper;
 import course.selection.util.CamelCaseUtil;
@@ -38,11 +39,20 @@ public class CourseService {
         return courseMapper.updateCourse(param);
     }
 
-    public List<Map<String, Object>> findGrade(Map<String, Object> param) {
-        return CamelCaseUtil.underlineToCamel(courseMapper.findGrade(param));
+    public List<Map<String, Object>> findScore(Map<String, Object> param) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.findScore(param));
     }
 
     public List<Map<String, Object>> findTeacherCourseById(String userId) {
         return CamelCaseUtil.underlineToCamel(courseMapper.findTeacherCourseById(userId));
+    }
+    
+    public Integer updateScore(List<Map<String, Object>> listMap) {
+        int status = 0;
+        for (Map<String, Object> map : listMap) {
+            status = courseMapper.updateScore(map);
+            if (!(status > 0)) throw new RuntimeException("修改成績失敗");
+        }
+        return 1;
     }
 }

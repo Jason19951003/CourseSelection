@@ -1,7 +1,7 @@
 create database if not exists school;
 -- use school;
 
-drop table if exists course_grade;
+drop table if exists course_score;
 drop table if exists course;
 drop table if exists user_info;
 drop table if exists class_info;
@@ -91,7 +91,7 @@ create table if not exists course (
     CONSTRAINT unique_dep_id_year_semester UNIQUE(course_year, course_semester, course_of_week, course_start, course_end, course_locate)
 );
 
-create table if not exists course_grade (
+create table if not exists course_score (
 	course_dep char(2) not null,
 	course_id char(3) not null,
 	course_year smallint not null,
@@ -99,7 +99,7 @@ create table if not exists course_grade (
     course_class_id int not null,
     student_id VARCHAR(255) not null,
     teacher_id VARCHAR(255) not null,
-    grade tinyint,
+    score tinyint,
 	foreign key (student_id) references user_info(user_id),
 	foreign key (teacher_id) references user_info(user_id)
 );

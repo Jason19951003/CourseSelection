@@ -85,9 +85,9 @@ public class CourseController {
 		return ResponseEntity.ok(result);
 	}
 
-	@GetMapping("/findGrade")
-	public ResponseEntity<ApiResponse<?>> findGrade(@RequestParam() Map<String, Object> param) {
-		List<Map<String, Object>> result = courseService.findGrade(param);
+	@GetMapping("/findScore")
+	public ResponseEntity<ApiResponse<?>> findScore(@RequestParam() Map<String, Object> param) {
+		List<Map<String, Object>> result = courseService.findScore(param);
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
 	}
@@ -97,6 +97,16 @@ public class CourseController {
 		List<Map<String, Object>> result = courseService.findTeacherCourseById(userId);
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
+	}
+
+	@PutMapping("/updateScore")
+	public ResponseEntity<ApiResponse<?>> updateScore(@RequestBody Map<String, Object> param) {
+		List<Map<String, Object>> listMap = (List<Map<String, Object>>)param.get("score");
+		Integer rowCount = courseService.updateScore(listMap);
+		boolean state = rowCount > 0;
+		String message = state ? "修改成功" : "修改失敗";
+		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
+		return ResponseEntity.ok(result);
 	}
 
 }

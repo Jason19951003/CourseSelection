@@ -17,6 +17,16 @@
         </select>
     </div>
     <div class="form-group">
+        <select id="courseYear" name="courseYear" class="form-select">
+            <option value="112" data-semester="1">112-1</option>
+            <option value="112" data-semester="2">112-2</option>
+            <option value="111" data-semester="1">111-1</option>
+            <option value="111" data-semester="2">111-2</option>
+            <option value="110" data-semester="1">110-1</option>
+            <option value="110" data-semester="2">110-2</option>
+        </select>
+    </div>
+    <div class="form-group">
         <select id="classGrade" name="classGrade" class="form-select">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -49,9 +59,12 @@
                 <th>分數</th>
             </tr>
         </thead>
-        <tbody id="gradeBody">
+        <tbody id="scoreBody">
         </tbody>
     </table>
+    <div class="text-end">
+        <button class="btn btn-primary" onclick="saveCourseGrade()">儲存</button>
+    </div>
 </div>
 
 <div aria-label="Page navigation example" class="border border-opacity-100 bg-white rounded">
@@ -64,15 +77,32 @@
 </div>
 
 <script>
-    //searchUser('studentBody', 'studentModal', 3);
     loadDepartment();
     loadTeacherCourse();
-    $('#studentForm').on('submit', (e) => {
-        e.preventDefault();
-        saveUser('studentForm', 'studentBody', 'studentModal');
+
+    $('#courseId, #courseYear').on('change', async(e) => {
+        loadCourseScore();
     });
-    
-    $('#courseId').on('change', async(e) => {
-        loadCourseGrade();
-    });
+
+    const saveCourseGrade = async() => {
+        if (confirm('是否儲存?')) {
+            var jsonArr = [];
+            $('input[name="score"]').each(function(index, element) {
+                jsonArr.push(JSON.parse($(element).attr('data-score')));
+            });
+            const response = await fetch('http://localhost:8080/course/updateScore', {
+                method : 'PUT',
+                headers : {
+                    'Content-Type' : 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body : JSON.stringify({'score' : jsonArr})
+            });
+            const {state, message, data} = await response.json();
+            if (state) {
+                alert('儲存成功');
+                loadCourseScore();
+            }
+        }
+    }
 </script>

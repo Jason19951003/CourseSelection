@@ -21,8 +21,8 @@ const saveCourse = async () => {
     const response = await fetch(`http://localhost:8080/course/${uri}`, {
         method: `${method}`,
         headers: {
-            'Content-Type': 'application/json',
-            "Authorization": `Bearer ${token}`
+            'Content-Type'  : 'application/json',
+            "Authorization" : `Bearer ${token}`
         },
         body: JSON.stringify(formData)
     });

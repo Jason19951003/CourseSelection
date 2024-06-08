@@ -147,13 +147,20 @@
         WHERE course_index = #{courseIndex}
     </update>
     
-    <select id="findGrade">
+    <select id="findScore">
         SELECT
-            a.*,
+            a.course_dep,
+            a.course_id,
+            a.course_year,
+            a.course_semester,
+            a.course_class_id,
+            a.student_id,
+            a.teacher_id,
+            IFNULL(a.score, '0') as score,
             b.user_name,
             c.course_name 
         FROM
-            course_grade a
+            course_score a
             LEFT JOIN user_info b ON a.student_id = b.user_id
             LEFT JOIN course c ON a.course_dep = c.course_dep 
             AND a.course_id = c.course_id 
@@ -173,6 +180,12 @@
             <if test="classId != null and classId != ''">
                 AND a.course_class_id = #{classId}
             </if>
+            <if test="courseYear != null and courseYear != ''">
+                AND a.course_year = #{courseYear}
+            </if>
+            <if test="courseSemester != null and courseSemester != ''">
+                AND a.course_semester = #{courseSemester}
+            </if>
         </where>
         ORDER BY
             a.student_id
@@ -190,4 +203,18 @@
             course_id,
             course_name
     </select>
+
+    <update id="updateScore">
+        UPDATE course_score
+        SET score = #{score}
+        <where>
+            course_dep = #{courseDep} AND
+            course_id = #{courseId} AND
+            course_year = #{courseYear} AND
+            course_semester = #{courseSemester} AND
+            course_class_id = #{courseClassId} AND
+            student_id = #{studentId} AND
+            teacher_id = #{teacherId}
+        </where>
+    </update>
 </mapper>

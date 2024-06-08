@@ -59,22 +59,24 @@ const loadDepartment = async() => {
         if (data[0]) {
             $('#classId').val(data[0].classId);
         }
-        loadCourseGrade();
+        loadCourseScore();
     });
     
     $('#depId').change();
 }
 
-const loadCourseGrade = async() => {
+const loadCourseScore = async() => {
     const params = {
         'teacherId': `${userId}`,
         'courseId' : $('#courseId').val(),
         'depId' : $('#depId').val(),
-        'classId' : $("#classId").val()
+        'classId' : $('#classId').val(),
+        'courseYear' : $('#courseYear').val(),
+        'courseSemester' : $('#courseYear').find('option:selected').data('semester')
     };
     var queryString = new URLSearchParams(params);
-    $('#gradeBody').html('');
-    const response = await fetch(`http://localhost:8080/course/findGrade?${queryString}`, {
+    $('#scoreBody').html('');
+    const response = await fetch(`http://localhost:8080/course/findScore?${queryString}`, {
         headers : {
             'Authorization': `Bearer ${token}`,
         }
@@ -82,14 +84,15 @@ const loadCourseGrade = async() => {
     const {state, message, data} = await response.json();
     
     data.forEach(obj => {
-        $('#gradeBody').append(`
+        var objStr = JSON.stringify(obj);
+        $('#scoreBody').append(`
             <tr>
                 <td>${obj.courseYear}</td>
                 <td>${obj.courseSemester}</td>
                 <td>${obj.courseDep}</td>
                 <td>${obj.courseName}</td>
                 <td>${obj.userName}</td>
-                <td>${obj.grade}</td>
+                <td><input id='score' name='score' type="number" value="${obj.score}" min="0" max="100" class="form-control" style="width: 150px" data-score='${objStr}'></td>
             </tr>
         `);
     });
@@ -111,7 +114,7 @@ const loadTeacherCourse = async() => {
 const renderHtml = async(id, url) => {
     const response = await fetch(`http://localhost:8080/${url}`, {
         headers : {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     const html = await response.text();

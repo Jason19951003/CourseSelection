@@ -1,4 +1,4 @@
-INSERT INTO course_grade (course_dep, course_id, course_year, course_semester, course_class_id, student_id, teacher_id)
+INSERT INTO course_score (course_dep, course_id, course_year, course_semester, course_class_id, student_id, teacher_id)
 SELECT
 	b.course_dep,
 	b.course_id,
