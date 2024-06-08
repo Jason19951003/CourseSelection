@@ -88,7 +88,7 @@
         if (confirm('是否儲存?')) {
             var jsonArr = [];
             $('input[name="score"]').each(function(index, element) {
-                jsonArr.push(JSON.parse($(element).attr('data-score')));              
+                jsonArr.push(JSON.parse($(element).attr('data-score')));
             });
             const response = await fetch('http://localhost:8080/course/updateScore', {
                 method : 'PUT',

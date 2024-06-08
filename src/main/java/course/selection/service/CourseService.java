@@ -3,8 +3,6 @@ package course.selection.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +14,6 @@ import course.selection.util.CamelCaseUtil;
 public class CourseService {
     @Autowired
     private CourseMapper courseMapper;
-    @Autowired
-    private SqlSessionFactory sqlSessionFactory;
 
     public List<Map<String, Object>> findCourse(Map<String, Object> param) {
         return CamelCaseUtil.underlineToCamel(courseMapper.findCourse(param));
@@ -51,15 +47,8 @@ public class CourseService {
         return CamelCaseUtil.underlineToCamel(courseMapper.findTeacherCourseById(userId));
     }
     
+    @Transactional
     public Integer updateScore(List<Map<String, Object>> listMap) {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            for (Map<String, Object> map : listMap) {
-                sqlSession.update("course.selection.dao.CourseMapper.updateScoreMap", map);
-                sqlSession.commit();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 1;
+        return courseMapper.updateScore(listMap);
     }
 }
