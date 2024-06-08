@@ -96,6 +96,11 @@ const loadCourseScore = async() => {
             </tr>
         `);
     });
+    $('input[name="score"]').on('change', function() {
+        var scoreObj = JSON.parse($(this).attr('data-score'));
+        scoreObj.score = $(this).val();
+        $(this).attr('data-score', JSON.stringify(scoreObj));
+    });
 }
 
 const loadTeacherCourse = async() => {

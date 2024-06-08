@@ -82,13 +82,13 @@
 
     $('#courseId, #courseYear').on('change', async(e) => {
         loadCourseScore();
-    });
+    });   
 
     const saveCourseGrade = async() => {
         if (confirm('是否儲存?')) {
             var jsonArr = [];
             $('input[name="score"]').each(function(index, element) {
-                jsonArr.push(JSON.parse($(element).attr('data-score')));
+                jsonArr.push(JSON.parse($(element).attr('data-score')));              
             });
             const response = await fetch('http://localhost:8080/course/updateScore', {
                 method : 'PUT',
@@ -96,11 +96,14 @@
                     'Content-Type' : 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body : JSON.stringify({'score' : jsonArr})
+                body : JSON.stringify(jsonArr)
             });
+            
             const {state, message, data} = await response.json();
             if (state) {
                 alert('儲存成功');
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
                 loadCourseScore();
             }
         }

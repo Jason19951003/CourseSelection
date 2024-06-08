@@ -20,5 +20,7 @@ public interface CourseMapper {
 
     public List<Map<String, Object>> findTeacherCourseById(String userId);
 
-    public Integer updateScore(Map<String, Object> param);
+    public Integer updateScore(List<Map<String, Object>> listMap);
+
+    public Integer updateScoreMap(Map<String, Object> listMap);
 }

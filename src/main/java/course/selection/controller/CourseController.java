@@ -100,8 +100,7 @@ public class CourseController {
 	}
 
 	@PutMapping("/updateScore")
-	public ResponseEntity<ApiResponse<?>> updateScore(@RequestBody Map<String, Object> param) {
-		List<Map<String, Object>> listMap = (List<Map<String, Object>>)param.get("score");
+	public ResponseEntity<ApiResponse<?>> updateScore(@RequestBody List<Map<String, Object>> listMap) {
 		Integer rowCount = courseService.updateScore(listMap);
 		boolean state = rowCount > 0;
 		String message = state ? "修改成功" : "修改失敗";

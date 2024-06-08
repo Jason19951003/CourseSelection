@@ -48,7 +48,6 @@
 	</select>
 
 	<insert id="insertTeacher">
-		
 		INSERT INTO user_info (
 			user_id,
 			user_password,

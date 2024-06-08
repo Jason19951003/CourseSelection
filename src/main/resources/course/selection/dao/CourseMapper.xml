@@ -204,17 +204,31 @@
             course_name
     </select>
 
-    <update id="updateScore">
+    <update id="updateScoreMap">
         UPDATE course_score
         SET score = #{score}
-        <where>
-            course_dep = #{courseDep} AND
-            course_id = #{courseId} AND
-            course_year = #{courseYear} AND
-            course_semester = #{courseSemester} AND
-            course_class_id = #{courseClassId} AND
-            student_id = #{studentId} AND
-            teacher_id = #{teacherId}
-        </where>
+        WHERE
+        course_dep = #{courseDep}
+        AND course_id = #{courseId}
+        AND course_year = #{courseYear}
+        AND course_semester = #{courseSemester}
+        AND course_class_id = #{courseClassId}
+        AND student_id = #{studentId}
+        AND teacher_id = #{teacherId}
+    </update>
+
+    <update id="updateScore" parameterType="java.util.List">
+        <foreach collection="listMap" item="item" separator=";">
+            UPDATE course_score
+            SET score = #{item.score}
+            WHERE
+            course_dep = #{item.courseDep}
+            AND course_id = #{item.courseId}
+            AND course_year = #{item.courseYear}
+            AND course_semester = #{item.courseSemester}
+            AND course_class_id = #{item.courseClassId}
+            AND student_id = #{item.studentId}
+            AND teacher_id = #{item.teacherId}
+        </foreach>
     </update>
 </mapper>
