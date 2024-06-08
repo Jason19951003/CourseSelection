@@ -4,7 +4,10 @@
 <mapper namespace="course.selection.dao.CourseMapper">
 	
 	<select id="findCourse">
-        SELECT a.*, CONCAT(a.weeks, ' ', a.course_start, '-', a.course_end, '節課') AS course_time
+        SELECT 
+            a.*, 
+            CONCAT(a.weeks, ' ', a.course_start, '-', a.course_end, '節課') AS course_time,
+            CONCAT(a.grade, '年', a.class_name, '班') AS full_class_name
         FROM (
         SELECT
             a.course_index,
@@ -36,10 +39,13 @@
             a.course_locate,
             a.teacher_id,
             b.user_name as teacher_name,
-            a.course_content
+            a.course_content,
+            d.grade,
+            d.class_name    
         FROM course a
         LEFT JOIN user_info b ON a.teacher_id = b.user_id
         LEFT JOIN department c ON a.course_dep = c.department_id
+        LEFT JOIN class_info d ON a.course_class_id = d.class_id
         <where>
             <if test="courseIndex != null">
                 AND a.course_index = #{courseIndex}
@@ -141,4 +147,47 @@
         WHERE course_index = #{courseIndex}
     </update>
     
+    <select id="findGrade">
+        SELECT
+            a.*,
+            b.user_name,
+            c.course_name 
+        FROM
+            course_grade a
+            LEFT JOIN user_info b ON a.student_id = b.user_id
+            LEFT JOIN course c ON a.course_dep = c.course_dep 
+            AND a.course_id = c.course_id 
+            AND a.course_year = c.course_year 
+            AND a.course_semester = c.course_semester 
+            AND a.course_class_id = c.course_class_id 
+        <where>
+            <if test="depId != null and depId != ''">
+                AND a.course_dep = #{depId}
+            </if>
+            <if test="teacherId != null and teacherId != ''">
+                AND a.teacher_id = #{teacherId}
+            </if>
+            <if test="courseId != null and courseId != ''">
+                AND a.course_id = #{courseId}
+            </if>
+            <if test="classId != null and classId != ''">
+                AND a.course_class_id = #{classId}
+            </if>
+        </where>
+        ORDER BY
+            a.student_id
+    </select>
+
+    <select id="findTeacherCourseById">
+        SELECT
+            a.course_id,
+            a.course_name 
+        FROM
+            course a 
+        WHERE
+            a.teacher_id = #{userId}
+        GROUP BY
+            course_id,
+            course_name
+    </select>
 </mapper>

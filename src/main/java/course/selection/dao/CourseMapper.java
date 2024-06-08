@@ -15,4 +15,8 @@ public interface CourseMapper {
     public Integer deleteCourse(Integer courseIndex);
 
     public Integer updateCourse(Map<String, Object> param);
+
+    public List<Map<String, Object>> findGrade(Map<String, Object> param);
+
+    public List<Map<String, Object>> findTeacherCourseById(String userId);
 }

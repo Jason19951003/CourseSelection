@@ -37,4 +37,12 @@ public class CourseService {
     public Integer updateCourse(Map<String, Object> param) {
         return courseMapper.updateCourse(param);
     }
+
+    public List<Map<String, Object>> findGrade(Map<String, Object> param) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.findGrade(param));
+    }
+
+    public List<Map<String, Object>> findTeacherCourseById(String userId) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.findTeacherCourseById(userId));
+    }
 }

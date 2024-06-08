@@ -3,7 +3,7 @@ const userName = localStorage.getItem('userName');
 const userId = localStorage.getItem('userId');
 
 const loadDepartment = async() => {
-    const response = await fetch('http://localhost:8080/course/findDepartment',{
+    const response = await fetch('http://localhost:8080/course/findDepartment', {
         headers: {
             "Authorization": `Bearer ${token}`
         }
@@ -51,7 +51,6 @@ const loadDepartment = async() => {
         const res = await fetch(`http://localhost:8080/user/findClassInfo?${queryString}`, {
             method : 'GET',
             headers : {
-                'Content-type' : 'application/json',
                 "Authorization": `Bearer ${token}`
             }
         });
@@ -60,10 +59,53 @@ const loadDepartment = async() => {
         if (data[0]) {
             $('#classId').val(data[0].classId);
         }
-        
+        loadCourseGrade();
     });
     
     $('#depId').change();
+}
+
+const loadCourseGrade = async() => {
+    const params = {
+        'teacherId': `${userId}`,
+        'courseId' : $('#courseId').val(),
+        'depId' : $('#depId').val(),
+        'classId' : $("#classId").val()
+    };
+    var queryString = new URLSearchParams(params);
+    $('#gradeBody').html('');
+    const response = await fetch(`http://localhost:8080/course/findGrade?${queryString}`, {
+        headers : {
+            'Authorization': `Bearer ${token}`,
+        }
+    });
+    const {state, message, data} = await response.json();
+    
+    data.forEach(obj => {
+        $('#gradeBody').append(`
+            <tr>
+                <td>${obj.courseYear}</td>
+                <td>${obj.courseSemester}</td>
+                <td>${obj.courseDep}</td>
+                <td>${obj.courseName}</td>
+                <td>${obj.userName}</td>
+                <td>${obj.grade}</td>
+            </tr>
+        `);
+    });
+}
+
+const loadTeacherCourse = async() => {
+    $('#courseId').html('');
+    const response = await fetch(`http://localhost:8080/course/findTeacherCourseById/${userId}`, {
+        headers : {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    const {state, message, data} = await response.json();
+    data.forEach(obj => {
+        $('#courseId').append(`<option value="${obj.courseId}">${obj.courseName}</option>`);
+    });
 }
 
 const renderHtml = async(id, url) => {

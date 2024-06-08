@@ -19,10 +19,11 @@ const findCourseByTeacherId = async() => {
                 <td>${obj.courseYear}</td>
                 <td>${obj.semester}</td>
                 <td>${obj.departmentName}</td>
+                <td>${obj.fullClassName}</td>
                 <td>${obj.courseName}</td>
                 <td>${obj.courseContent}</td>
                 <td>
-                    <button id="updateCourse" onclick="updateCourse(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#courseModal" course-index="${obj.courseIndex}" course-dep="${obj.courseDep}" course-name="${obj.courseName}" course-content=${obj.courseContent} course-year="${obj.courseYear}" course-semester="${obj.courseSemester}">編輯</button>
+                    <button id="updateCourse" onclick="updateCourse(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#courseModal" course-index="${obj.courseIndex}" course-dep="${obj.courseDep}" course-name="${obj.courseName}" course-content="${obj.courseContent}" course-year="${obj.courseYear}" course-semester="${obj.courseSemester}">編輯</button>
                 </td>
             </tr>
             `);
