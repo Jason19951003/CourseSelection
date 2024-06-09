@@ -62,7 +62,7 @@ create table if not exists user_info(
     department_id char(2) COMMENT '科系',
     class_id int COMMENT '班級',
     admission_date Date COMMENT '入學日期',
-    sticker varchar(255) COMMENT '大頭貼',
+    avatar varchar(255) COMMENT '大頭貼',
     foreign key (permission_id) references account_permissions(permission_id),
     foreign key (department_id) references department(department_id),
     foreign key (class_id) references class_info(class_id)

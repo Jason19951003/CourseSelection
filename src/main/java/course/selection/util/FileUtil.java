@@ -8,11 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUtil {
     public static final String UPLOAD_DIR = "src/main/resources/static/img";
 
-    public static void uploadFile(MultipartFile sticker, String userId) {
-        String fileName = getStikcerOriginalName(sticker, userId);
+    public static void uploadFile(MultipartFile avatar, String userId) {
+        String fileName = getStikcerOriginalName(avatar, userId);
         File dest = new File(UPLOAD_DIR, fileName);
         try (FileOutputStream os = new FileOutputStream(dest)) {
-            os.write(sticker.getBytes());
+            os.write(avatar.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,15 +26,15 @@ public class FileUtil {
         }
     }
 
-    public static String getFileExtension(MultipartFile sticker) {
-        return getFileExtension(sticker.getOriginalFilename());
+    public static String getFileExtension(MultipartFile avatar) {
+        return getFileExtension(avatar.getOriginalFilename());
     }
 
-    public static String getStikcerOriginalName(MultipartFile sticker, String userId) {
-        return userId + "." + getFileExtension(sticker);
+    public static String getStikcerOriginalName(MultipartFile avatar, String userId) {
+        return userId + "." + getFileExtension(avatar);
     }
 
-    public static String getStickerName(MultipartFile sticker, String userId) {
-        return UPLOAD_DIR + "/" + getStikcerOriginalName(sticker, userId);
+    public static String getAvatarName(MultipartFile avatar, String userId) {
+        return UPLOAD_DIR + "/" + getStikcerOriginalName(avatar, userId);
     }
 }

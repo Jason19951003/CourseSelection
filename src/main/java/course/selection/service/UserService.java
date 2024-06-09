@@ -32,21 +32,21 @@ public class UserService {
         return CamelCaseUtil.underlineToCamel(userMapper.findClassInfo(param));
     }
 
-    public Integer insertUser(Map<String, Object> param, MultipartFile sticker) {
+    public Integer insertUser(Map<String, Object> param, MultipartFile avatar) {
         String userId = String.valueOf(param.get("userId"));
-        if (!"".equals(sticker.getOriginalFilename().trim())) {
-            param.put("sticker", FileUtil.getStickerName(sticker, userId));
-            FileUtil.uploadFile(sticker, userId);
+        if (!"".equals(avatar.getOriginalFilename().trim())) {
+            param.put("avatar", FileUtil.getAvatarName(avatar, userId));
+            FileUtil.uploadFile(avatar, userId);
         }
         
         return userMapper.insertUser(param);
     }
 
-    public Integer updateUser(Map<String, Object> param, MultipartFile sticker) {
+    public Integer updateUser(Map<String, Object> param, MultipartFile avatar) {
         String userId = String.valueOf(param.get("userId"));
-        if (!"".equals(sticker.getOriginalFilename().trim())) {
-            param.put("sticker", FileUtil.getStickerName(sticker, userId));
-            FileUtil.uploadFile(sticker, userId);
+        if (!"".equals(avatar.getOriginalFilename().trim())) {
+            param.put("avatar", FileUtil.getAvatarName(avatar, userId));
+            FileUtil.uploadFile(avatar, userId);
         }
         
         return userMapper.updateUser(param);

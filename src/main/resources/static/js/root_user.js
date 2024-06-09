@@ -3,13 +3,13 @@ const insertUser = async(form, permissionId) => {
     $('#saveFunction').val('insert');
     $(`#${form}`)[0].reset();
     $('#userId').prop('readonly', false);
-    $('#stickerPreview').css('display', 'none');
+    $('#avatarPreview').css('display', 'none');
 }
 
 const updateUser = async(e, permissionId) => {
     $('#permissionId').val(permissionId);
     $('#saveFunction').val('update');
-    $('#stickerPreview').css('display', 'none');
+    $('#avatarPreview').css('display', 'none');
     var userId = e.getAttribute('user-id');
     const queryString = new URLSearchParams({
             userId : userId,
@@ -35,13 +35,13 @@ const updateUser = async(e, permissionId) => {
     $('#className').val(data[0].className);
     $('#userId').prop('readonly', true);
     
-    if (data[0].sticker) {
-        // 使用正則表達式提取文件名
-        var parts = data[0].sticker.split('/');
+    if (data[0].avatar) {
+        // 取得檔名
+        var parts = data[0].avatar.split('/');
         const fileName = parts[parts.length-1];
 
-        $('#stickerPreview').attr("src", `img/${fileName}`);
-        $('#stickerPreview').css('display', 'inline');
+        $('#avatarPreview').attr("src", `img/${fileName}`);
+        $('#avatarPreview').css('display', 'inline');
     }
 }
 

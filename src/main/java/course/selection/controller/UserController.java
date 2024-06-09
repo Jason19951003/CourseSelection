@@ -47,8 +47,8 @@ public class UserController {
     }
 
     @PostMapping("/insertUser")
-    public ResponseEntity<ApiResponse<?>> insertUser(@RequestParam Map<String, Object> param, @RequestParam("sticker") MultipartFile sticker) {
-        Integer rowCount = userService.insertUser(param, sticker);
+    public ResponseEntity<ApiResponse<?>> insertUser(@RequestParam Map<String, Object> param, @RequestParam("avatar") MultipartFile avatar) {
+        Integer rowCount = userService.insertUser(param, avatar);
         Boolean state = rowCount > 0;
         String message = state ? "新增成功" : "新增失敗";
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "新增");
@@ -56,8 +56,8 @@ public class UserController {
     }
 
     @PutMapping("/updateUser/{userId}")
-    public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Map<String, Object> param, @RequestParam("sticker") MultipartFile sticker) {
-        Integer rowCount = userService.updateUser(param, sticker);
+    public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Map<String, Object> param, @RequestParam("avatar") MultipartFile avatar) {
+        Integer rowCount = userService.updateUser(param, avatar);
         Boolean state = rowCount > 0;
         String message = state ? "修改成功" : "修改失敗";
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "修改");

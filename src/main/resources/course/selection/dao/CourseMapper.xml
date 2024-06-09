@@ -93,7 +93,7 @@
             department_id,
             class_id,
             admission_date,
-            sticker
+            avatar
         FROM user_info
         WHERE department_id = #{depId} AND permission_id = 2
     </select>

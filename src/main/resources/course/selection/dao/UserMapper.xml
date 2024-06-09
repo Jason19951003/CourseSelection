@@ -20,7 +20,7 @@
 			a.department_id, 
 			a.class_id, 
 			a.admission_date, 
-			a.sticker,
+			a.avatar,
 			b.department_name, 
 			IFNULL(c.class_name, '') as class_name,
 			IFNULL(c.grade, '') as grade
@@ -62,7 +62,7 @@
 				class_id,
 			</if>			
 			admission_date,
-			sticker
+			avatar
 		) VALUES (
 			#{userId},
 			#{userId},
@@ -77,7 +77,7 @@
 				#{classId},
 			</if>
 			#{admissionDate},
-			#{sticker}
+			#{avatar}
 		)
 	</insert>
 
@@ -108,8 +108,8 @@
 			<if test="admissionDate != null and admissionDate != ''">
 				admission_date = #{admissionDate},
 			</if>
-			<if test="sticker != null and sticker != ''">
-				sticker = #{sticker}
+			<if test="avatar != null and avatar != ''">
+				avatar = #{avatar}
 			</if>
 		</set>
 		WHERE 
