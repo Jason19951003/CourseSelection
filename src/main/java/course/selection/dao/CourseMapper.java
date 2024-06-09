@@ -23,4 +23,6 @@ public interface CourseMapper {
     public Integer updateScore(List<Map<String, Object>> listMap);
 
     public Integer updateScoreMap(Map<String, Object> listMap);
+
+    public List<Map<String, Object>> findSchedule(Map<String, Object> param);
 }

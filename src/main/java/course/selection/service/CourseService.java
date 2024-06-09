@@ -51,4 +51,8 @@ public class CourseService {
     public Integer updateScore(List<Map<String, Object>> listMap) {
         return courseMapper.updateScore(listMap);
     }
+
+    public List<Map<String, Object>> findSchedule(Map<String, Object> param) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.findSchedule(param));
+    }
 }

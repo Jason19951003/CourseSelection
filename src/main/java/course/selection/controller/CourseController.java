@@ -108,4 +108,11 @@ public class CourseController {
 		return ResponseEntity.ok(result);
 	}
 
+	@GetMapping("/findSchedule")
+	public ResponseEntity<ApiResponse<?>> findSchedule(@RequestParam Map<String, Object> param) {
+		List<Map<String, Object>> result = courseService.findSchedule(param);
+		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
+		return ResponseEntity.ok(response);
+	}
+
 }

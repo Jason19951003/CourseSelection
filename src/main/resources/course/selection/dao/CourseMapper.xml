@@ -231,4 +231,29 @@
             AND teacher_id = #{item.teacherId}
         </foreach>
     </update>
+
+    <select id="findSchedule">
+        SELECT
+            course_index,
+            course_dep,
+            course_id,
+            course_name,
+            course_required,
+            course_year,
+            course_semester,
+            course_class_id,
+            course_of_week,
+            course_start,
+            course_end,
+            course_locate,
+            course_content,
+            teacher_id
+        FROM
+            course 
+        WHERE
+            teacher_id IN ( SELECT teacher_id FROM course_score WHERE student_id = #{userId})
+            AND course_class_id = (SELECT class_id FROM	user_info WHERE user_id = #{userId})
+            AND course_year = #{courseYear}
+            AND course_semester = #{courseSemester}
+    </select>
 </mapper>
