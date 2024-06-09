@@ -1,3 +1,20 @@
+INSERT INTO `course_info` VALUES (1, 'IM', '001', 1, '程式設計導論', '1', 3, 'TE113001', '程式設計導論');
+INSERT INTO `course_info` VALUES (2, 'IM', '002', 1, '計算機概論', '1', 3, 'TE113002', '計算機概論');
+INSERT INTO `course_info` VALUES (3, 'IM', '003', 1, '微積分', '1', 3, 'TE113003', '微積分');
+INSERT INTO `course_info` VALUES (4, 'IM', '004', 1, '英文', '1', 3, 'TE113004', '英文');
+INSERT INTO `course_info` VALUES (5, 'IM', '005', 1, '資料結構', '1', 3, 'TE113005', '資料結構');
+INSERT INTO `course_info` VALUES (6, 'IM', '006', 1, '演算法', '1', 3, 'TE113006', '演算法');
+INSERT INTO `course_info` VALUES (7, 'IM', '007', 1, '作業系統', '1', 3, 'TE113007', '作業系統');
+INSERT INTO `course_info` VALUES (8, 'IM', '008', 1, '數位邏輯設計', '1', 3, 'TE113008', '數位邏輯設計');
+INSERT INTO `course_info` VALUES (9, 'IM', '009', 2, '資料庫系統', '1', 3, 'TE113009', '資料庫系統');
+INSERT INTO `course_info` VALUES (10, 'IM', '010', 2, '軟體工程', '1', 3, 'TE113010', '軟體工程');
+INSERT INTO `course_info` VALUES (11, 'IM', '011', 2, '計算機網路', '1', 3, 'TE113011', '計算機網路');
+INSERT INTO `course_info` VALUES (12, 'IM', '012', 2, '人工智慧', '1', 3, 'TE113012', '人工智慧');
+INSERT INTO `course_info` VALUES (13, 'IM', '013', 2, '資訊安全', '1', 3, 'TE113001', '資訊安全');
+INSERT INTO `course_info` VALUES (14, 'IM', '014', 2, '數據分析', '1', 3, 'TE113002', '數據分析');
+INSERT INTO `course_info` VALUES (15, 'IM', '015', 3, '專題製作', '1', 3, 'TE113013', '專題製作');
+INSERT INTO `course_info` VALUES (16, 'IM', '016', 3, '專題討論', '1', 3, 'TE113014', '專題討論');
+
 -- 清除現有課程表
 TRUNCATE TABLE course;
 

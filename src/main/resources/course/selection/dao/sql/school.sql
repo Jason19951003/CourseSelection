@@ -70,25 +70,33 @@ create table if not exists user_info(
 
 insert into user_info (user_id, user_password, permission_id, user_name) values ('root', '$2a$10$opaMvYKj/O1TJ7.dZ5hvduNq.oo78VC35RTZAqJ6MZ/BpK96xulxi', 1, '管理員');
 
-create table if not exists course (
+create table if not exists course_info (
     course_index int auto_increment primary key COMMENT '索引',
-	course_dep char(2) not null COMMENT '科系',
-	course_id char(3) not null COMMENT '課程代號',
+    course_dep char(2) not null COMMENT '科系',
+    course_id char(3) not null COMMENT '課程代號',
+    course_grade int not null COMMENT '課程年級',
     course_name varchar(255) not null COMMENT '課程名稱',
     course_required ENUM('1','2') not null COMMENT '選/必修',
-    course_year smallint not null COMMENT '年分',
-    course_semester ENUM('1','2') not null COMMENT '學期',
-    course_class_id int COMMENT '課程班級',
-    course_of_week ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday') NOT NULL COMMENT '星期',
-    course_start tinyint not null,
-    course_end tinyint not null,
-    course_locate varchar(255) not null COMMENT '上課地點',
+    course_credit int not null COMMENT '學分',
     teacher_id varchar(255) not null COMMENT '老師',
     course_content varchar(255) COMMENT '課程介紹',
     foreign key (course_dep) references department(department_id),
-    foreign key (teacher_id) references user_info(user_id),
-    foreign key (course_class_id) references class_info(class_id),
-    CONSTRAINT unique_dep_id_year_semester UNIQUE(course_year, course_semester, course_of_week, course_start, course_end, course_locate)
+    foreign key (teacher_id) references user_info(user_id)
+);
+
+create table if not exists course_offerings (
+	course_index int COMMENT '索引',
+	course_year int not null COMMENT '年分',
+	course_semester ENUM('1','2') not null COMMENT '學期',
+	course_class_id int COMMENT '課程班級',
+	course_of_week ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday') NOT NULL COMMENT '星期',
+	course_start tinyint not null,
+	course_end tinyint not null,
+	course_locate varchar(255) not null COMMENT '上課地點',
+	teacher_id varchar(255) not null COMMENT '老師',
+	foreign key (course_index) references course_info(course_index),
+	foreign key (teacher_id) references user_info(user_id),
+	foreign key (course_class_id) references class_info(class_id)
 );
 
 create table if not exists course_score (

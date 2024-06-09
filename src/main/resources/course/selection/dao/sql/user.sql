@@ -163,3 +163,6 @@ INSERT INTO user_info (user_id, user_password, permission_id, user_name, birth_d
 ('TE113010', '$2b$12$bHqj9pcapRe0oLSrYNp0O.J.ChaeFKHMs8St9ZQPF7YBApJRsVB3m', 2, '譚詩婷', '1969-09-15', 2, 'te113010@gmail.com', '0964235641', 'IM', 10, '2020-09-01'),
 ('TE113011', '$2b$12$D/W6wLVnxkaeopGBu6nHz.hxxTj.gXqp2/tpnvK99DGAN9BMz70c2', 2, '齊佳慧', '1983-05-18', 2, 'te113011@gmail.com', '0918474972', 'IM', 11, '2020-09-01'),
 ('TE113012', '$2b$12$Gor2i.7QM4owjJVQP.FzCeWcBTvulqQKx3sK8EP5lKAhNvYUJxBqW', 2, '金淑慧', '1986-12-11', 2, 'te113012@gmail.com', '0931374734', 'IM', 12, '2020-09-01');
+INSERT INTO user_info (user_id, user_password, permission_id, user_name, birth_date, sex, email, phone, department_id,admission_date) VALUES
+('TE113013', '$2b$2a$10$YQhgWMrzx8QrV3zhs9i.OezF2DsMKbmd/H44TtmovlXZDB.kbrlyq',	'2', '方仁威', '1983-07-23', 2, 'te113013@gmail.com', '0933374734',	'IM', '2020-09-01'),
+('TE113014', '$2b$2a$2a$10$2yTXZb8RdWKZ6YrUcZYjgeUjC8g.qSm6HD6adS1CQmTq2QSU.b2Ae', '2', '林莉慧', '1985-03-15',	2, 'te113014@gmail.com', '0937374734', 'IM', '2020-09-01');
