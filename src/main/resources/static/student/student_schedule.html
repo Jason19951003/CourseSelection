@@ -18,7 +18,7 @@
 
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
     <h2 class="text-center mb-4">課表</h2>
-    <table class="table table-bordered schedule-table">
+    <table class="table table-bordered table-striped schedule-table">
         <thead>
             <tr>
                 <th></th>
@@ -143,11 +143,8 @@
             }
 
             for (var i = obj.courseStart; i <= obj.courseEnd; i++) {
-                if (obj.courseStart < 5) {
-                    $('#scheduleBody').find('tr').eq(i-1).find('td').eq(column).html(obj.courseName);
-                } else {
-                    $('#scheduleBody').find('tr').eq(i).find('td').eq(column).html(obj.courseName);
-                }
+                var rowIndex = obj.courseStart < 5 ? i-1 : i;
+                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(obj.courseName);
             }
         });
     });
