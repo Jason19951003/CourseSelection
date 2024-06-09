@@ -115,4 +115,11 @@ public class CourseController {
 		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/findCourseYear/{userId}")
+	public ResponseEntity<ApiResponse<?>> findCourseYear(@PathVariable("userId") String userId) {
+		List<Map<String, Object>> result = courseService.findCourseYear(userId);
+		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
+		return ResponseEntity.ok(response);
+	}
+
 }

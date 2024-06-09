@@ -256,4 +256,17 @@
             AND course_year = #{courseYear}
             AND course_semester = #{courseSemester}
     </select>
+
+    <select id="findCourseYear">
+        SELECT
+            course_year,
+            course_semester 
+        FROM
+            course_score 
+        WHERE
+            student_id = #{userId}
+        GROUP BY
+            course_year,
+            course_semester
+    </select>
 </mapper>

@@ -7,12 +7,6 @@
 
 <div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded">
     <select id="courseYear" name="courseYear" class="form-select" style="width: 150px;">
-        <option value="112" data-semester="1">112-1</option>
-        <option value="112" data-semester="2">112-2</option>
-        <option value="111" data-semester="1">111-1</option>
-        <option value="111" data-semester="2">111-2</option>
-        <option value="110" data-semester="1">110-1</option>
-        <option value="110" data-semester="2">110-2</option>
     </select>
 </div>
 
@@ -102,9 +96,11 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(async function() {
+        await loadCourseYear();
         $('#courseYear').change();
     });
+
     $('#courseYear').on('change', async(e) => {
         $('#scheduleBody').find('td').html('');
         var param = {

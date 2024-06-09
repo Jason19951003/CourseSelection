@@ -116,6 +116,19 @@ const loadTeacherCourse = async() => {
     });
 }
 
+const loadCourseYear = async() => {
+    $('#courseYear').html('');
+    const response = await fetch(`http://localhost:8080/course/findCourseYear/${userId}`, {
+        headers : {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    const {state, message, data} = await response.json();
+    data.forEach(obj => {
+        $('#courseYear').append(`<option value="${obj.courseYear}" data-semester="${obj.courseSemester}">${obj.courseYear}-${obj.courseSemester}</option>`);
+    });
+}
+
 const renderHtml = async(id, url) => {
     const response = await fetch(`http://localhost:8080/${url}`, {
         headers : {
