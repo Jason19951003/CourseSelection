@@ -85,6 +85,9 @@
             <if test="courseYear != null">
                 AND b.course_year = #{courseYear}
             </if>
+            <if test="courseYear != null">
+                AND b.course_semester = #{courseSemester}
+            </if>
         </where>
     </select>
     
@@ -279,9 +282,24 @@
             course_year,
             course_semester 
         FROM
-            course_score 
-        WHERE
-            student_id = #{userId}
+        <choose>
+            <when test="userId.startsWith('TE')">
+                course_offerings
+            </when>
+            <otherwise>
+                course_score 
+            </otherwise>
+        </choose>
+        <where>
+            <choose>
+                <when test="userId.startsWith('TE')">
+                    teacher_id = #{userId}
+                </when>
+                <otherwise>
+                    student_id = #{userId}
+                </otherwise>
+            </choose>
+        </where>
         GROUP BY
             course_year,
             course_semester

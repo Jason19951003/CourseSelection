@@ -1,10 +1,6 @@
 <div class="d-flex align-items-center mb-3 p-3 border border-opacity-100 bg-white rounded">
     <label for="year">年份:</label>
     <select class="form-select w-25" name="year" id="year">
-        <option value="113" selected>113</option>
-        <option value="112">112</option>
-        <option value="111">111</option>
-        <option value="110">110</option>
     </select>
 </div>
 
@@ -77,8 +73,12 @@
 </div>
 
 <script>
-    findCourseByTeacherId();
-    loadDepartment();
+    $(document).ready(async function() {
+        await loadCourseYear('year');
+        findCourseByTeacherId();
+        loadDepartment();
+    });
+
     $('#year').on('change', (e) => {
         findCourseByTeacherId();
     });

@@ -2,7 +2,8 @@ const findCourseByTeacherId = async() => {
     $('#courseBody').html('');
     var formData = {
         teacherId: localStorage.getItem('userId'),
-        courseYear : $('#year').val()
+        courseYear : $('#year').val(),
+        courseSemester : $('#year').find('option:selected').data('semester')
     }
     var queryString = new URLSearchParams(formData).toString();
 
