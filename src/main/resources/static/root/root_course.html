@@ -8,17 +8,16 @@
 
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
     <table class="table table-striped table-hover">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#courseModal" onclick="insertCourse()">新增</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#courseModal" onclick="insertCourseInfo()">新增</button>
         <thead>
             <tr>
                 <th>科系</th>
+                <th>年級</th>
+                <th>課程代號</th>
                 <th>課程名稱</th>
                 <th>選/必修</th>
+                <th>學分</th>
                 <th>老師</th>
-                <th>年份</th>
-                <th>學期</th>
-                <th>上課時間</th>
-                <th>上課地點</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -54,6 +53,10 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="courseGrade">年&#12288;&#12288;級:</label>
+                        <input type="number" id="courseGrade" name="courseGrade" class="form-control" placeholder="請輸入年級" min="1" max="4" required>
+                    </div>
+                    <div class="form-group">
                         <label for="courseId">課程代號:</label>
                         <input type="text" id="courseId" name="courseId" class="form-control" placeholder="請輸入課程代號" required>
                     </div>
@@ -69,36 +72,17 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="courseName">學&#12288;&#12288;分:</label>
+                        <input type="number" id="courseCredit" name="courseCredit" class="form-control" placeholder="請輸入學分" min="1" max="3" required>
+                    </div>
+                    <div class="form-group">
                         <label for="teacherId">授課老師:</label>
                         <select id="teacherId" name="teacherId" class="form-select">
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="courseYear">課程年份:</label>
-                        <input type="number" id="courseYear" name="courseYear" class="form-control" required>
-                        <select id="courseSemester" name="courseSemester" class="form-select">
-                            <option selected value="1">上</option>
-                            <option value="2">下</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseOfWeek">上課時間:</label>
-                        <select id="courseOfWeek" name="courseOfWeek" class="form-select">
-                            <option selected value="Monday">星期一</option>
-                            <option value="Tuesday">星期二</option>
-                            <option value="Wednesday">星期三</option>
-                            <option value="Thursday">星期四</option>
-                            <option value="Friday">星期五</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>&#12288;&#12288;&#12288;&#12288;&nbsp;</label>
-                        第<input type="number" min="1" max="8" id="courseStart" name="courseStart" class="form-control" required>節到
-                        <input type="number" min="1" max="8" id="courseEnd" name="courseEnd" class="form-control" required>節
-                    </div>
-                    <div class="form-group">
-                        <label for="courseLocate">上課地點:</label>
-                        <input type="text" id="courseLocate" name="courseLocate" class="form-control" placeholder="請輸入上課地點" required>
+                        <label for="teacherId">課程內容:</label>
+                        <textarea id="courseContent" name="courseContent" rows="5" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

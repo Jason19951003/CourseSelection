@@ -26,6 +26,13 @@ public class CourseController {
 	@Autowired
 	private CourseService courseService;
 
+	@GetMapping("/findCourseInfo")
+	public ResponseEntity<ApiResponse<?>> findCourseInfo(@RequestParam() Map<String, Object> param) {
+		List<Map<String, Object>> result = courseService.findCourseInfo(param);
+		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
+		return ResponseEntity.ok(response);
+	}
+
 	@GetMapping("/findCourse")
 	public ResponseEntity<ApiResponse<?>> findCourse(@RequestParam() Map<String, Object> param) {
 		List<Map<String, Object>> result = courseService.findCourse(param);
@@ -47,10 +54,10 @@ public class CourseController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/insertCourse")
-	public ResponseEntity<ApiResponse<?>> insertCourse(@RequestBody Map<String, Object> param) {
+	@PostMapping("/insertCourseInfo")
+	public ResponseEntity<ApiResponse<?>> insertCourseInfo(@RequestBody Map<String, Object> param) {
 		try {
-			Integer rowCount = courseService.insertCourse(param);
+			Integer rowCount = courseService.insertCourseInfo(param);
 			boolean state = rowCount > 0;
 			String message = state ? "新增成功" : "新增失敗";
 			ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
@@ -67,18 +74,18 @@ public class CourseController {
 		}
 	}
 
-	@PutMapping("/updateCourse/{courseIndex}")
-	public ResponseEntity<ApiResponse<?>> updateCourse(@RequestBody Map<String, Object> param) {
-		Integer rowCount = courseService.updateCourse(param);
+	@PutMapping("/updateCourseInfo/{courseIndex}")
+	public ResponseEntity<ApiResponse<?>> updateCourseInfo(@RequestBody Map<String, Object> param) {
+		Integer rowCount = courseService.updateCourseInfo(param);
 		boolean state = rowCount > 0;
 		String message = state ? "修改成功" : "修改失敗";
 		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
 		return ResponseEntity.ok(result);
 	}
 
-	@DeleteMapping("/deleteCourse/{courseIndex}")
-	public ResponseEntity<ApiResponse<?>> deleteCourse(@PathVariable("courseIndex") Integer courseIndex) {
-		Integer rowCount = courseService.deleteCourse(courseIndex);
+	@DeleteMapping("/deleteCourseInfo/{courseIndex}")
+	public ResponseEntity<ApiResponse<?>> deleteCourseInfo(@PathVariable("courseIndex") Integer courseIndex) {
+		Integer rowCount = courseService.deleteCourseInfo(courseIndex);
 		boolean state = rowCount > 0;
 		String message = state ? "刪除成功" : "刪除失敗";
 		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");

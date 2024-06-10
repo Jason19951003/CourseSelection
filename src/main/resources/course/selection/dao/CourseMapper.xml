@@ -3,49 +3,70 @@
 
 <mapper namespace="course.selection.dao.CourseMapper">
 	
-	<select id="findCourse">
-        SELECT 
-            a.*, 
-            CONCAT(a.weeks, ' ', a.course_start, '-', a.course_end, '節課') AS course_time,
-            CONCAT(a.grade, '年', a.class_name, '班') AS full_class_name
-        FROM (
+    <select id="findCourseInfo">
         SELECT
             a.course_index,
             a.course_dep,
             c.department_name,
             a.course_id,
+            a.course_grade,
             a.course_name,
             a.course_required,
             CASE a.course_required
                 WHEN '1' THEN '必修'
-                WHEN '2' THEN '選修' 
+                WHEN '2' THEN '選修'
             END AS required,
-            a.course_year,
-            a.course_semester,
-            CASE a.course_semester
+            a.course_credit,
+            a.teacher_id,
+            b.user_name,
+            a.course_content
+        FROM course_info a
+        LEFT JOIN user_info b ON a.teacher_id = b.user_id
+        LEFT JOIN department c ON a.course_dep = c.department_id
+    </select>
+
+	<select id="findCourse">
+        SELECT
+            a.course_index,
+            a.course_dep,
+            e.department_name,
+            a.course_id,
+            a.course_name,
+            a.course_required,
+            CASE a.course_required
+                WHEN '1' THEN '必修'
+                WHEN '2' THEN '選修'
+            END AS required,
+            a.course_credit,
+            a.course_content,
+            a.teacher_id,
+            c.user_name,
+            b.course_year,
+            b.course_semester,
+            CASE b.course_semester
                 WHEN '1' THEN '上'
-                WHEN '2' THEN '下' 
+                WHEN '2' THEN '下'
             END AS semester,
-            a.course_of_week,
-            CASE a.course_of_week
+            b.course_of_week,
+            CASE b.course_of_week
                 WHEN 'Monday' THEN '星期一'
                 WHEN 'Tuesday' THEN '星期二'
                 WHEN 'Wednesday' THEN '星期三'
                 WHEN 'Thursday' THEN '星期四'
                 WHEN 'Friday' THEN '星期五'
             END AS weeks,
-            a.course_start, 
-            a.course_end,
-            a.course_locate,
-            a.teacher_id,
-            b.user_name as teacher_name,
-            a.course_content,
-            d.grade,
-            d.class_name    
-        FROM course a
-        LEFT JOIN user_info b ON a.teacher_id = b.user_id
-        LEFT JOIN department c ON a.course_dep = c.department_id
-        LEFT JOIN class_info d ON a.course_class_id = d.class_id
+            b.course_start,
+            b.course_end,
+            b.course_locate,
+            a.course_grade,
+            d.class_name,
+            CONCAT(a.course_grade, '年', d.class_name, '班') AS full_class_name
+        FROM
+            course_info a
+        LEFT JOIN course_offerings b ON a.course_index = b.course_index
+        LEFT JOIN user_info c ON a.teacher_id = c.user_id
+        LEFT JOIN class_info d ON b.course_class_id = d.class_id
+        LEFT JOIN department e ON a.course_dep = e.department_id
         <where>
             <if test="courseIndex != null">
                 AND a.course_index = #{courseIndex}
@@ -60,16 +81,13 @@
                 AND a.course_year = #{courseYear}
             </if>
         </where>
-        ) a
     </select>
     
-    <insert id="insertCourse">
-        INSERT INTO course(
-            course_dep, course_id, course_name, course_required, course_year, course_semester, course_of_week, 
-            course_start, course_end, course_locate, teacher_id)
+    <insert id="insertCourseInfo">
+        INSERT INTO course_info(
+            course_dep, course_id, course_grade, course_name, course_required, course_credit, teacher_id, course_content)
         VALUES(
-            #{depId}, #{courseId}, #{courseName}, #{courseRequired}, #{courseYear}, #{courseSemester}, #{courseOfWeek},
-            #{courseStart}, #{courseEnd}, #{courseLocate}, #{teacherId});
+            #{depId}, #{courseId}, #{courseGrade}, #{courseName}, #{courseRequired}, #{courseCredit}, #{teacherId}, #{courseContent})
     </insert>
 
     <select id="findDepartment">
@@ -98,17 +116,20 @@
         WHERE department_id = #{depId} AND permission_id = 2
     </select>
 
-    <delete id="deleteCourse">
-        DELETE FROM course
+    <delete id="deleteCourseInfo">
+        DELETE FROM course_info
         WHERE 
         course_index = #{courseIndex}
     </delete>
 
-    <update id="updateCourse">
-        UPDATE course 
+    <update id="updateCourseInfo">
+        UPDATE course_info
         <set>
             <if test="depId != null and depId != ''">
                 course_dep = #{depId},
+            </if>
+            <if test="courseGrade != null and courseGrade != ''">
+                course_grade = #{courseGrade},
             </if>
             <if test="courseId != null and courseId != ''">
                 course_id = #{courseId},
@@ -119,26 +140,11 @@
             <if test="courseRequired != null and courseRequired != ''">
                 course_required = #{courseRequired},
             </if>
+            <if test="courseCredit != null and courseCredit != ''">
+                course_credit = #{courseCredit},
+            </if>
             <if test="teacherId != null and teacherId != ''">
                 teacher_id = #{teacherId},
-            </if>
-            <if test="courseYear != null and courseYear != ''">
-                course_year = #{courseYear},
-            </if>
-            <if test="courseSemester != null and courseSemester != ''">
-                course_semester = #{courseSemester},
-            </if>
-            <if test="courseOfWeek != null and courseOfWeek != ''">
-                course_of_week = #{courseOfWeek},
-            </if>
-            <if test="courseStart != null and courseStart != ''">
-                course_start = #{courseStart},
-            </if>
-            <if test="courseEnd != null and courseEnd != ''">
-                course_end = #{courseEnd},
-            </if>
-            <if test="courseLocate != null and courseLocate != ''">
-                course_locate = #{courseLocate},
             </if>
             <if test="courseContent != null and courseContent != ''">
                 course_content = #{courseContent},
@@ -234,24 +240,25 @@
 
     <select id="findSchedule">
         SELECT
-            course_index,
-            course_dep,
-            course_id,
-            course_name,
-            course_required,
-            course_year,
-            course_semester,
-            course_class_id,
-            course_of_week,
-            course_start,
-            course_end,
-            course_locate,
-            course_content,
-            teacher_id
+            b.course_index,
+            b.course_dep,
+            b.course_id,
+            b.course_name,
+            b.course_required,
+            a.teacher_id,	
+            b.course_content,	
+            a.course_year,
+            a.course_semester,
+            a.course_class_id,
+            a.course_of_week,
+            a.course_start,
+            a.course_end,
+            a.course_locate	
         FROM
-            course 
+            course_offerings a
+        LEFT JOIN course_info b ON a.course_index = b.course_index
         WHERE
-            teacher_id IN ( SELECT teacher_id FROM course_score WHERE student_id = #{userId})
+            a.teacher_id IN (SELECT teacher_id FROM course_score WHERE student_id = #{userId})
             AND course_class_id = (SELECT class_id FROM	user_info WHERE user_id = #{userId})
             AND course_year = #{courseYear}
             AND course_semester = #{courseSemester}

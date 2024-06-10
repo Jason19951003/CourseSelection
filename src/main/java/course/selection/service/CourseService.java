@@ -15,12 +15,16 @@ public class CourseService {
     @Autowired
     private CourseMapper courseMapper;
 
+    public List<Map<String, Object>> findCourseInfo(Map<String, Object> param) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.findCourseInfo(param));
+    }
+
     public List<Map<String, Object>> findCourse(Map<String, Object> param) {
         return CamelCaseUtil.underlineToCamel(courseMapper.findCourse(param));
     }
 
-    public Integer insertCourse(Map<String, Object> param) {
-        return courseMapper.insertCourse(param);
+    public Integer insertCourseInfo(Map<String, Object> param) {
+        return courseMapper.insertCourseInfo(param);
     }
 
     public List<Map<String, Object>> findDepartment() {
@@ -31,12 +35,12 @@ public class CourseService {
         return CamelCaseUtil.underlineToCamel(courseMapper.findTeacher(depId));
     }
 
-    public Integer deleteCourse(Integer courseIndex) {
-        return courseMapper.deleteCourse(courseIndex);
+    public Integer deleteCourseInfo(Integer courseIndex) {
+        return courseMapper.deleteCourseInfo(courseIndex);
     }
 
-    public Integer updateCourse(Map<String, Object> param) {
-        return courseMapper.updateCourse(param);
+    public Integer updateCourseInfo(Map<String, Object> param) {
+        return courseMapper.updateCourseInfo(param);
     }
 
     public List<Map<String, Object>> findScore(Map<String, Object> param) {

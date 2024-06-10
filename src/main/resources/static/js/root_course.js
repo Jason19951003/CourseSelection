@@ -1,21 +1,15 @@
 const saveCourse = async () => {
-    var formData = {
-        courseIndex: $('#courseIndex').val(),
-        depId: $('#depId').val(),
-        courseId: $('#courseId').val(),
-        courseName: $('#courseName').val(),
-        courseRequired: $('#courseRequired').val(),
-        teacherId: $('#teacherId').val(),
-        courseYear: $('#courseYear').val(),
-        courseSemester: $('#courseSemester').val(),
-        courseOfWeek: $('#courseOfWeek').val(),
-        courseStart: $('#courseStart').val(),
-        courseEnd: $('#courseEnd').val(),
-        courseLocate: $('#courseLocate').val()
+    var formData = new FormData($('#courseForm')[0]);
+    var jsonData = {
+        
     }
 
+    formData.forEach((value, key) => {
+        jsonData[key] = value;
+    });
+
     var saveFunction = $('#saveFunction').val();
-    var uri = saveFunction == 'insert' ? 'insertCourse' : `updateCourse/${formData.courseIndex}`;
+    var uri = saveFunction == 'insert' ? 'insertCourseInfo' : `updateCourseInfo/${formData.courseIndex}`;
     var method = saveFunction == 'insert' ? 'POST' : 'PUT';
     
     const response = await fetch(`http://localhost:8080/course/${uri}`, {
@@ -24,7 +18,7 @@ const saveCourse = async () => {
             'Content-Type'  : 'application/json',
             "Authorization" : `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(jsonData)
     });
 
     const { state, message, data } = await response.json();
@@ -39,15 +33,15 @@ const saveCourse = async () => {
     alert(message);
 }
 
-const insertCourse = async () => {
+const insertCourseInfo = async () => {
     $('#courseForm')[0].reset();
     $('#saveFunction').val('insert');
 }
 
-const deleteCourse = async (e) => {
+const deleteCourseInfo = async (e) => {
     if (confirm("是否要刪除?")) {
         var courseIndex = e.getAttribute('course-index');
-        const response = await fetch(`http://localhost:8080/course/deleteCourse/${courseIndex}`, {
+        const response = await fetch(`http://localhost:8080/course/deleteCourseInfo/${courseIndex}`, {
             method: "DELETE",
             headers : {
                 "Authorization": `Bearer ${token}`
@@ -61,57 +55,45 @@ const deleteCourse = async (e) => {
     }
 }
 
-const updateCourse = async (e) => {
-    var formData = {
-        courseIndex: e.getAttribute('course-index'),
-    }
-    var queryString = new URLSearchParams(formData).toString();
-
-    const response = await fetch(`http://localhost:8080/course/findCourse?${queryString}`, {
-        headers : {
-            "Authorization": `Bearer ${token}`
-        }
-    });
-    const { state, message, data } = await response.json();
+const updateCourseInfo = async (e) => {
+    var course = JSON.parse($(e).attr('data-course'));
     
-    $('#depId').val(data[0].courseDep).change();
-    $('#courseIndex').val(data[0].courseIndex);
-    $('#courseId').val(data[0].courseId);
-    $('#courseName').val(data[0].courseName);
-    $('#courseRequired').val(data[0].courseRequired);
-    $('#teacherId').val(data[0].teacherId);
-    $('#courseYear').val(data[0].courseYear);
-    $('#courseSemester').val(data[0].courseSemester);
-    $('#courseOfWeek').val(data[0].courseOfWeek);
-    $('#courseStart').val(data[0].courseStart);
-    $('#courseEnd').val(data[0].courseEnd);
-    $('#courseLocate').val(data[0].courseLocate);
+    $('#depId').val(course.courseDep).change();
+    $('#courseIndex').val(course.courseIndex);
+    $('#courseId').val(course.courseId);
+    $('#courseGrade').val(course.courseGrade);
+    $('#courseName').val(course.courseName);
+    $('#courseRequired').val(course.courseRequired);
+    $('#courseCredit').val(course.courseCredit);
+    $('#teacherId').val(course.teacherId);
+    $('#courseContent').val(course.courseContent);
     $('#saveFunction').val('update');
 }
 
 const searchCourse = async () => {
     $('#courseBody').html('');
-    const response = await fetch('http://localhost:8080/course/findCourse', {
+    const response = await fetch('http://localhost:8080/course/findCourseInfo', {
         headers : {
             "Authorization": `Bearer ${token}`
         }
     });
+    
     const { state, message, data } = await response.json();
     if (state) {
         data.forEach(obj => {
+            var objStr = JSON.stringify(obj);
             $('#courseBody').append(`
             <tr>
                 <td>${obj.departmentName}</td>
+                <td>${obj.courseGrade}</td>
+                <td>${obj.courseId}</td>
                 <td>${obj.courseName}</td>
                 <td>${obj.required}</td>
-                <td>${obj.teacherName}</td>
-                <td>${obj.courseYear}</td>
-                <td>${obj.semester}</td>
-                <td>${obj.courseTime}</td>
-                <td>${obj.courseLocate}</td>
+                <td>${obj.courseCredit}</td>
+                <td>${obj.userName}</td>
                 <td>
-                    <button id="updateCourse" onclick="updateCourse(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#courseModal" course-index="${obj.courseIndex}">編輯</button>
-                    <button id="deleteCourse" onclick="deleteCourse(this)" class="btn btn-danger btn-sm" course-index="${obj.courseIndex}">刪除</button>
+                    <button id="updateCourseInfo" onclick="updateCourseInfo(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#courseModal" data-course='${objStr}'>編輯</button>
+                    <button id="deleteCourseInfo" onclick="deleteCourseInfo(this)" class="btn btn-danger btn-sm" course-index="${obj.courseIndex}">刪除</button>
                 </td>
             </tr>
             `);
