@@ -17,7 +17,7 @@ const updateUser = async(e, permissionId) => {
     }).toString();
     const res = await fetch(`http://localhost:8080/user/findUser?${queryString}`, {
         headers : {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     const {state, message, data} = await res.json();
@@ -58,7 +58,7 @@ const saveUser = async(form, body, modal) => {
         const response = await fetch(url, {
             method : method,
             headers : {
-                "Authorization": `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             body : formData
         });
@@ -86,7 +86,7 @@ const deleteUser = async(e, body, modal, permissionId) => {
             const response = await fetch(`http://localhost:8080/user/deleteUser/${userId}`, {
                 method : "DELETE",
                 headers : {
-                    "Authorization": `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
             if (!response.ok) {
@@ -114,7 +114,7 @@ const searchUser = async(body, modal, permissionId) => {
     const queryString = new URLSearchParams(param).toString();
     const response = await fetch(`http://localhost:8080/user/findUsers?${queryString}`, {
         headers : {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     const {state, message, data} = await response.json();

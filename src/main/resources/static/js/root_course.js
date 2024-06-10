@@ -16,7 +16,7 @@ const saveCourse = async () => {
         method: `${method}`,
         headers: {
             'Content-Type'  : 'application/json',
-            "Authorization" : `Bearer ${token}`
+            'Authorization' : `Bearer ${token}`
         },
         body: JSON.stringify(jsonData)
     });
@@ -44,7 +44,7 @@ const deleteCourseInfo = async (e) => {
         const response = await fetch(`http://localhost:8080/course/deleteCourseInfo/${courseIndex}`, {
             method: "DELETE",
             headers : {
-                "Authorization": `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         });
         const { state, message, data } = await response.json();
@@ -74,7 +74,7 @@ const searchCourse = async () => {
     var param = new URLSearchParams({depId : $('#user-header select[name="depId"').val()}).toString();
     const response = await fetch(`http://localhost:8080/course/findCourseInfo?${param}`, {
         headers : {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     

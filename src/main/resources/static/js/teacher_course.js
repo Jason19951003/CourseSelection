@@ -9,7 +9,7 @@ const findCourseByTeacherId = async() => {
 
     const response = await fetch(`http://localhost:8080/course/findCourse?${queryString}`, {
         headers : {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     const { state, message, data } = await response.json();
@@ -58,7 +58,7 @@ const saveCourse = async() => {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(formData)
     });
