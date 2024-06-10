@@ -57,8 +57,8 @@ public class UserController {
 
     @PutMapping("/updateUser/{userId}")
     public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Map<String, Object> param, @RequestParam("avatar") MultipartFile avatar) {
-        Integer rowCount = userService.updateUser(param, avatar);
-        Boolean state = rowCount > 0;
+    	Integer rowCount = userService.updateUser(param, avatar);
+    	Boolean state = rowCount > 0;
         String message = state ? "修改成功" : "修改失敗";
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "修改");
         return ResponseEntity.ok(apiResponse);
@@ -66,10 +66,15 @@ public class UserController {
 
     @DeleteMapping("/deleteUser/{userId}")
     public ResponseEntity<ApiResponse<?>> deleteUser(@PathVariable("userId") String userId) {
-        Integer rowCount = userService.deleteUser(userId);
-        Boolean state = rowCount > 0;
-        String message = state ? "刪除成功" : "刪除失敗";
-        ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "刪除");
-        return ResponseEntity.ok(apiResponse);
+        try {
+        	Integer rowCount = userService.deleteUser(userId);
+            Boolean state = rowCount > 0;
+            String message = state ? "刪除成功" : "刪除失敗";
+            ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "刪除");
+            return ResponseEntity.ok(apiResponse);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body(new ApiResponse<>(false, "無法刪除該人員!", "刪除失敗"));
+		}
     }
 }
