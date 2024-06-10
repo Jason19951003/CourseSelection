@@ -5,16 +5,16 @@
 
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
     <table class="table table-striped table-hover">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#studentModal" onclick="insertUser('studentForm', 3)">新增</button>
         <thead>
-            <tr>
+            <tr>                
                 <th>年份</th>
+                <th>學期</th>
                 <th>科系</th>
                 <th>課名</th>
                 <th>分數</th>
             </tr>
         </thead>
-        <tbody id="gradeBody">
+        <tbody id="scoreBody">
         </tbody>
     </table>
 </div>
@@ -23,5 +23,34 @@
     $(document).ready(async function() {
         await loadCourseYear('courseYear');
         $('#courseYear').change();
-    });    
+    });
+
+    $('#courseYear').on('change', async function() {
+        $('#scoreBody').html('');
+        var param = {
+            userId : `${userId}`,
+            courseYear : $(this).val(),
+            courseSemester : $(this).find('option:selected').data('semester'),
+            depId : `${userId}`.substring(0, 2)
+        }
+
+        var queryString = new URLSearchParams(param).toString();
+        const response = await fetch(`http://localhost:8080/course/findStudentScore?${queryString}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const {state,message, data} = await response.json();
+        
+        data.forEach(obj => {
+            $('#scoreBody').append(`
+                <tr>
+                    <td>${obj.courseYear}</td>
+                    <td>${obj.courseSemester}</td>
+                    <td>${obj.courseDep}</td>
+                    <td>${obj.courseName}</td>
+                    <td>${obj.score}</td>
+                </tr>`);
+        });
+    });
 </script>

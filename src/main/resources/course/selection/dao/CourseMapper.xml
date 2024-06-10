@@ -251,6 +251,27 @@
         </foreach>
     </update>
 
+    <select id="findStudentScore">
+        SELECT
+        a.course_dep,
+        a.course_id,
+        a.course_year,
+        a.course_semester,
+        a.course_class_id,
+        a.student_id,
+        a.teacher_id,
+        IFNULL(a.score, '0') as score,
+        b.course_name
+        FROM
+            course_score a
+        LEFT JOIN course_info b ON a.course_dep = b.course_dep AND a.course_id = b.course_id
+        WHERE
+            a.student_id = #{userId}
+            AND a.course_dep = #{depId}
+            AND a.course_year = #{courseYear}
+            AND a.course_semester = #{courseSemester}
+    </select>
+
     <select id="findSchedule">
         SELECT
             b.course_index,

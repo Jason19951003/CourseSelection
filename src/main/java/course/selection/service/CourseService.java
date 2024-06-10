@@ -51,6 +51,10 @@ public class CourseService {
         return CamelCaseUtil.underlineToCamel(courseMapper.findScore(param));
     }
 
+    public List<Map<String, Object>> findStudentScore(Map<String, Object> param) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.findStudentScore(param));
+    }
+
     public List<Map<String, Object>> findTeacherCourseById(String userId) {
         return CamelCaseUtil.underlineToCamel(courseMapper.findTeacherCourseById(userId));
     }

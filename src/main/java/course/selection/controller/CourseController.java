@@ -108,6 +108,13 @@ public class CourseController {
 		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/findStudentScore")
+	public ResponseEntity<ApiResponse<?>> findStudentScore(@RequestParam() Map<String, Object> param) {
+		List<Map<String, Object>> result = courseService.findStudentScore(param);
+		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
+		return ResponseEntity.ok(response);
+	}
+
 	@GetMapping("/findTeacherCourseById/{userId}")
 	public ResponseEntity<ApiResponse<?>> findTeacherCourseById(@PathVariable("userId") String userId) {
 		List<Map<String, Object>> result = courseService.findTeacherCourseById(userId);

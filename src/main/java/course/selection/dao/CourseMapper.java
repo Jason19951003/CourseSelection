@@ -23,6 +23,8 @@ public interface CourseMapper {
 
     public List<Map<String, Object>> findScore(Map<String, Object> param);
 
+    public List<Map<String, Object>> findStudentScore(Map<String, Object> param);
+
     public List<Map<String, Object>> findTeacherCourseById(String userId);
 
     public Integer updateScore(List<Map<String, Object>> listMap);

@@ -5,7 +5,7 @@ const userId = localStorage.getItem('userId');
 const loadDepartment = async () => {
     const response = await fetch('http://localhost:8080/course/findDepartment', {
         headers: {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     const {state, message, data} = await response.json();
@@ -24,7 +24,7 @@ const loadDepartment = async () => {
         const depId = $(this).val();
         const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`, {
             headers: {
-                "Authorization": `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         });
         var {state, message, data} = await res.json();
@@ -53,7 +53,7 @@ const loadDepartment = async () => {
         const res = await fetch(`http://localhost:8080/user/findClassInfo?${queryString}`, {
             method : 'GET',
             headers : {
-                "Authorization": `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         });
         
@@ -109,7 +109,7 @@ const loadTeacherCourse = async() => {
     $('#courseId').html('');
     const response = await fetch(`http://localhost:8080/course/findTeacherCourseById/${userId}`, {
         headers : {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     const {state, message, data} = await response.json();
@@ -122,7 +122,7 @@ const loadCourseYear = async(id) => {
     $(`#${id}`).html('');
     const response = await fetch(`http://localhost:8080/course/findCourseYear/${userId}`, {
         headers : {
-            "Authorization": `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     });
     const {state, message, data} = await response.json();
