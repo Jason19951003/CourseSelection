@@ -1,9 +1,6 @@
-<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
-    <input type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
-    <div class="ms-2">
-        <button class="btn btn-success">查詢</button>
-        <button class="btn btn-primary">重置</button>
-    </div>
+<div id="user-header" class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
+    <select name="depId" class="form-select" style="width: 150px;">
+    </select>
 </div>
 
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
@@ -95,10 +92,20 @@
 </div>
 
 <script>
-    loadDepartment();
-    searchCourse();
-    $('#courseForm').on('submit', (e) => {
-        e.preventDefault();
-        saveCourse();
-    });
+    $(document).ready(async function() {
+        $('#courseForm').on('submit', (e) => {
+            e.preventDefault();
+            saveCourse();
+        });
+        // 沒有id的select 才綁定事件
+        $('select[name="depId"]').each(function() {
+                if (!$(this).attr('id')) {
+                    $(this).on('change', function() {
+                        searchCourse();
+                    });
+                }
+        });
+        await loadDepartment();
+        searchCourse();
+    })
 </script>

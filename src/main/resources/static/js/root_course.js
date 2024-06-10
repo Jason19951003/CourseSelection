@@ -72,7 +72,8 @@ const updateCourseInfo = async (e) => {
 
 const searchCourse = async () => {
     $('#courseBody').html('');
-    const response = await fetch('http://localhost:8080/course/findCourseInfo', {
+    var param = new URLSearchParams({depId : $('#user-header select[name="depId"').val()}).toString();
+    const response = await fetch(`http://localhost:8080/course/findCourseInfo?${param}`, {
         headers : {
             "Authorization": `Bearer ${token}`
         }

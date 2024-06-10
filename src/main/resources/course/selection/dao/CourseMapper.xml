@@ -23,6 +23,11 @@
         FROM course_info a
         LEFT JOIN user_info b ON a.teacher_id = b.user_id
         LEFT JOIN department c ON a.course_dep = c.department_id
+        <where>
+            <if test="depId != null and depId != ''">
+                AND a.course_dep = #{depId}
+            </if>
+        </where>
     </select>
 
 	<select id="findCourse">
