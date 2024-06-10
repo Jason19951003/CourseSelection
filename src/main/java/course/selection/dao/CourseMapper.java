@@ -19,6 +19,8 @@ public interface CourseMapper {
 
     public Integer updateCourseInfo(Map<String, Object> param);
 
+    public Integer updateCourseOfferings(Map<String, Object> param);
+
     public List<Map<String, Object>> findScore(Map<String, Object> param);
 
     public List<Map<String, Object>> findTeacherCourseById(String userId);

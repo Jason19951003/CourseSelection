@@ -64,8 +64,8 @@ def generate_course_offerings(year):
                         assigned_slots[(day, start, end, location)] = True
                         assigned = True
 
-                        sql = f"INSERT INTO course_offerings (course_index, course_year, course_semester, course_class_id, course_of_week, course_start, course_end, course_locate, teacher_id) " \
-                              f"VALUES ({course['course_index']}, {year}, '{course['course_semester']}', {class_info['class_id']}, '{day}', {start}, {end}, '{location}', '{course['teacher_id']}');"
+                        sql = f"INSERT INTO course_offerings (course_index, course_year, course_semester, course_class_id, course_of_week, course_start, course_end, course_locate, teacher_id, course_content) " \
+                              f"VALUES ({course['course_index']}, {year}, '{course['course_semester']}', {class_info['class_id']}, '{day}', {start}, {end}, '{location}', '{course['teacher_id']}', '{course['course_content']}');"
                         sql_statements.append(sql)
                         break
 

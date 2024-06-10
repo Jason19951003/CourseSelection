@@ -106,7 +106,6 @@ const deleteUser = async(e, body, modal, permissionId) => {
 const searchUser = async(body, modal, permissionId) => {
     $(`#${body}`).html('');
     var classId = $('#user-header input[name="classId"]').val() ? $('#user-header input[name="classId"]').val() : ''
-    console.log(classId);
     var param = {
         permissionId : permissionId,
         depId : $('#user-header select[name="depId"]').val(),

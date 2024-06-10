@@ -18,8 +18,7 @@
             END AS required,
             a.course_credit,
             a.teacher_id,
-            b.user_name,
-            a.course_content
+            b.user_name            
         FROM course_info a
         LEFT JOIN user_info b ON a.teacher_id = b.user_id
         LEFT JOIN department c ON a.course_dep = c.department_id
@@ -43,7 +42,7 @@
                 WHEN '2' THEN '選修'
             END AS required,
             a.course_credit,
-            a.course_content,
+            b.course_content,
             a.teacher_id,
             c.user_name,
             b.course_year,
@@ -64,6 +63,7 @@
             b.course_end,
             b.course_locate,
             a.course_grade,
+            d.class_id,
             d.class_name,
             CONCAT(a.course_grade, '年', d.class_name, '班') AS full_class_name
         FROM
@@ -83,16 +83,16 @@
                 AND a.student_id = #{studentId}
             </if>
             <if test="courseYear != null">
-                AND a.course_year = #{courseYear}
+                AND b.course_year = #{courseYear}
             </if>
         </where>
     </select>
     
     <insert id="insertCourseInfo">
         INSERT INTO course_info(
-            course_dep, course_id, course_grade, course_name, course_required, course_credit, teacher_id, course_content)
+            course_dep, course_id, course_grade, course_name, course_required, course_credit, teacher_id)
         VALUES(
-            #{depId}, #{courseId}, #{courseGrade}, #{courseName}, #{courseRequired}, #{courseCredit}, #{teacherId}, #{courseContent})
+            #{depId}, #{courseId}, #{courseGrade}, #{courseName}, #{courseRequired}, #{courseCredit}, #{teacherId})
     </insert>
 
     <select id="findDepartment">
@@ -150,14 +150,22 @@
             </if>
             <if test="teacherId != null and teacherId != ''">
                 teacher_id = #{teacherId},
-            </if>
-            <if test="courseContent != null and courseContent != ''">
-                course_content = #{courseContent},
-            </if>
+            </if>            
         </set>
         WHERE course_index = #{courseIndex}
     </update>
     
+    <update id="updateCourseOfferings">
+        UPDATE course_offerings
+        SET
+            course_content = #{courseContent}
+        WHERE course_index = #{courseIndex}
+        AND course_year = #{courseYear}
+        AND course_semester = #{courseSemester}
+        AND course_class_id = #{classId}
+        AND teacher_id = #{teacherId}
+    </update>
+
     <select id="findScore">
         SELECT
             a.course_dep,
@@ -173,11 +181,8 @@
         FROM
             course_score a
             LEFT JOIN user_info b ON a.student_id = b.user_id
-            LEFT JOIN course c ON a.course_dep = c.course_dep 
-            AND a.course_id = c.course_id 
-            AND a.course_year = c.course_year 
-            AND a.course_semester = c.course_semester 
-            AND a.course_class_id = c.course_class_id 
+            LEFT JOIN course_info c ON c.course_dep = a.course_dep
+            AND c.course_id = a.course_id
         <where>
             <if test="depId != null and depId != ''">
                 AND a.course_dep = #{depId}
@@ -207,7 +212,7 @@
             a.course_id,
             a.course_name 
         FROM
-            course a 
+            course_info a 
         WHERE
             a.teacher_id = #{userId}
         GROUP BY
@@ -251,7 +256,7 @@
             b.course_name,
             b.course_required,
             a.teacher_id,	
-            b.course_content,	
+            a.course_content,
             a.course_year,
             a.course_semester,
             a.course_class_id,

@@ -2,7 +2,8 @@ create database if not exists school;
 -- use school;
 
 drop table if exists course_score;
-drop table if exists course;
+drop table if exists course_offerings;
+drop table if exists course_info;
 drop table if exists user_info;
 drop table if exists class_info;
 drop table if exists department;
@@ -79,7 +80,6 @@ create table if not exists course_info (
     course_required ENUM('1','2') not null COMMENT '選/必修',
     course_credit int not null COMMENT '學分',
     teacher_id varchar(255) not null COMMENT '老師',
-    course_content varchar(255) COMMENT '課程介紹',
     foreign key (course_dep) references department(department_id),
     foreign key (teacher_id) references user_info(user_id)
 );
@@ -93,7 +93,8 @@ create table if not exists course_offerings (
 	course_start tinyint not null,
 	course_end tinyint not null,
 	course_locate varchar(255) not null COMMENT '上課地點',
-	teacher_id varchar(255) not null COMMENT '老師',
+    course_content varchar(255) COMMENT '課程介紹',
+	teacher_id varchar(255) not null COMMENT '老師',    
 	foreign key (course_index) references course_info(course_index),
 	foreign key (teacher_id) references user_info(user_id),
 	foreign key (course_class_id) references class_info(class_id)
@@ -109,5 +110,6 @@ create table if not exists course_score (
     teacher_id VARCHAR(255) not null,
     score tinyint,
 	foreign key (student_id) references user_info(user_id),
-	foreign key (teacher_id) references user_info(user_id)
+	foreign key (teacher_id) references user_info(user_id),
+    constraint idx_unique_course_score unique course_score (course_dep, course_id, course_year, course_semester, course_class_id, student_id, teacher_id)
 );

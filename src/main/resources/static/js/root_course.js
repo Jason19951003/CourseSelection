@@ -66,7 +66,6 @@ const updateCourseInfo = async (e) => {
     $('#courseRequired').val(course.courseRequired);
     $('#courseCredit').val(course.courseCredit);
     $('#teacherId').val(course.teacherId);
-    $('#courseContent').val(course.courseContent);
     $('#saveFunction').val('update');
 }
 

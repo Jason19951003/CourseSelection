@@ -83,6 +83,15 @@ public class CourseController {
 		return ResponseEntity.ok(result);
 	}
 
+	@PutMapping("/updateCourseOfferings/{courseIndex}")
+	public ResponseEntity<ApiResponse<?>> updateCourseOfferings(@RequestBody Map<String, Object> param) {
+		Integer rowCount = courseService.updateCourseOfferings(param);
+		boolean state = rowCount > 0;
+		String message = state ? "修改成功" : "修改失敗";
+		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
+		return ResponseEntity.ok(result);
+	}
+
 	@DeleteMapping("/deleteCourseInfo/{courseIndex}")
 	public ResponseEntity<ApiResponse<?>> deleteCourseInfo(@PathVariable("courseIndex") Integer courseIndex) {
 		Integer rowCount = courseService.deleteCourseInfo(courseIndex);
