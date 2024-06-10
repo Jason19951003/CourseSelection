@@ -2,7 +2,7 @@ const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
 const userId = localStorage.getItem('userId');
 
-const loadDepartment = async() => {
+const loadDepartment = async () => {
     const response = await fetch('http://localhost:8080/course/findDepartment', {
         headers: {
             "Authorization": `Bearer ${token}`
@@ -12,16 +12,16 @@ const loadDepartment = async() => {
     
     data.forEach(obj => {
         if (obj.departmentId == 'IM') {
-            $('#depId').append(`<option value="${obj.departmentId}" selected>${obj.departmentName}</>`);
+            $('select[name="depId"]').append(`<option value="${obj.departmentId}" selected>${obj.departmentName}</>`);
         } else {
-            $('#depId').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
+            $('select[name="depId"]').append(`<option value="${obj.departmentId}">${obj.departmentName}</>`);
         }
     });
     
-    $('#depId').on('change', async function() {
+    $('select[name="depId"]').on('change', async function() {
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
-        const depId = $('#depId').val();
+        const depId = $(this).val();
         const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`, {
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -34,8 +34,10 @@ const loadDepartment = async() => {
         
         $('#classGrade').change();
     });
+    
     // 同時給多個element 註冊同一個事件
     $('#classGrade, #className').on('change', async(e)=> {
+        $('#classId').val('');
         // 獲取參數值
         const depId = $('#depId').val();
         const classGrade = $('#classGrade').val();

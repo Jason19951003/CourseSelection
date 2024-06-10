@@ -1,9 +1,6 @@
-<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
-    <input id="searchInput" type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
-    <div class="ms-2">
-        <button class="btn btn-success" onclick="search()">查詢</button>
-        <button class="btn btn-primary" onclick="reset()">重置</button>
-    </div>
+<div id="user-header" class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
+    <select name="depId" class="form-select" style="width: 150px;">
+    </select>
 </div>
 
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
@@ -120,43 +117,21 @@
 </div>
 
 <script>
-    searchUser('teacherBody', 'teacherModal', 2);
-    loadDepartment();
-    $('#teacherForm').on('submit', (e) => {
-        e.preventDefault();
-        saveUser('teacherForm', 'teacherBody', 'teacherModal');
-    });
-    function search() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        table = document.querySelector("#teacherBody");
-        tr = table.getElementsByTagName("tr");
-
-        for (i = 0; i < tr.length; i++) {
-            tr[i].style.display = "none";  // 先隱藏所有行
-            td = tr[i].getElementsByTagName("td");
-            for (j = 0; j < td.length; j++) {
-                if (td[j]) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";  // 顯示符合條件的行
-                        break;
-                    }
-                }
+    $(document).ready(async function() {
+        await loadDepartment();
+        searchUser('teacherBody', 'teacherModal', 2);
+        
+        $('#teacherForm').on('submit', (e) => {
+            e.preventDefault();
+            saveUser('teacherForm', 'teacherBody', 'teacherModal');
+        });
+        // 沒有id的select 才綁定事件
+        $('select[name="depId"]').each(function() {
+            if (!$(this).attr('id')) {
+                $(this).on('change', function() {
+                    searchUser('teacherBody', 'teacherModal', 2);
+                });
             }
-        }
-    }
-
-    function reset() {
-        document.getElementById("searchInput").value = "";
-        var table, tr;
-        table = document.querySelector("#teacherBody");
-        tr = table.getElementsByTagName("tr");
-
-        for (var i = 0; i < tr.length; i++) {
-            tr[i].style.display = "";  // 顯示所有行
-        }
-    }
-
+        });
+    });
 </script>

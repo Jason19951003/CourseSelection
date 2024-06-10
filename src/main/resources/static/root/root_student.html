@@ -1,8 +1,35 @@
-<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
-    <input type="text" class="form-control w-50" placeholder="請輸入關鍵字查詢">
-    <div class="ms-2">
-        <button class="btn btn-success">查詢</button>
-        <button class="btn btn-primary">重置</button>
+<style>
+    #user-header .form-group {
+        margin-bottom: 0px;
+    }
+
+    #user-header .form-group select {
+        flex-grow: 1;
+        min-width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
+<div id="user-header" class="d-flex align-items-center mb-3 p-3 border border-opacity-100 bg-white rounded">
+    <input name="classId" type="hidden">
+    <div class="form-group">
+        <select name="depId" class="form-select">
+        </select>
+    </div>
+    <div class="form-group">
+        <select name="classGrade" class="form-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select name="className" class="form-select">
+            <option value="甲">甲</option>
+            <option value="乙">乙</option>
+            <option value="丙">丙</option>
+        </select>
     </div>
 </div>
 
@@ -120,10 +147,42 @@
 </div>
 
 <script>
-    searchUser('studentBody', 'studentModal', 3);
-    loadDepartment();
-    $('#studentForm').on('submit', (e) => {
-        e.preventDefault();
-        saveUser('studentForm', 'studentBody', 'studentModal');
+    $(document).ready(async function() {
+        $('#studentForm').on('submit', (e) => {
+            e.preventDefault();
+            saveUser('studentForm', 'studentBody', 'studentModal');
+        });
+
+        // 同時給多個element 註冊同一個事件
+        $('#user-header select[name="depId"], #user-header select[name="classGrade"], #user-header select[name="className"]').on('change', async(e)=> {
+            $('#user-header input[name="classId"]').val('');
+            // 獲取參數值
+            const depId = $('#user-header select[name="depId"]').val();
+            const classGrade = $('#user-header select[name="classGrade"]').val();
+            const className = $('#user-header select[name="className"]').val();
+
+            // 構建查詢字符串
+            const queryString = new URLSearchParams({
+                depId: depId,
+                classGrade: classGrade,
+                className: className
+            }).toString();
+
+            const res = await fetch(`http://localhost:8080/user/findClassInfo?${queryString}`, {
+                method : 'GET',
+                headers : {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            
+            var {state, message, data} = await res.json();
+            if (data[0]) {
+                $('#user-header input[name="classId"]').val(data[0].classId);
+            }
+            searchUser('studentBody', 'studentModal', 3);
+        });
+
+        await loadDepartment();
+        await $('#user-header select[name="depId"]').change();
     });
 </script>

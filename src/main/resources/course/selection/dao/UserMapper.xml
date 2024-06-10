@@ -29,8 +29,14 @@
 		LEFT JOIN class_info c ON a.class_id = c.class_id
 		<where>
 			a.permission_id = #{permissionId}
-			<if test="userId != null">
+			<if test="userId != null and userId!= ''">
 				AND a.user_id = #{userId}
+			</if>
+			<if test="depId != null and depId != ''">
+				AND a.department_id = #{depId}
+			</if>
+			<if test="classId != null and classId != ''">
+				AND a.class_id = #{classId}
 			</if>
 		</where>
 	</select>

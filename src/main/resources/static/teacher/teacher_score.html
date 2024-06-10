@@ -84,7 +84,7 @@
         loadCourseScore();
     });
 
-    const saveCourseGrade = async() => {
+    var saveCourseGrade = async() => {
         if (confirm('是否儲存?')) {
             var jsonArr = [];
             $('input[name="score"]').each(function(index, element) {
