@@ -17,7 +17,6 @@ public class FileController {
 
     @GetMapping("/img/{fileName}")
     public void getImage(@PathVariable("fileName") String fileName, HttpServletResponse res) {
-        res.setContentType("image/jpeg");
         File imgFile = new File("src/main/resources/static/img", fileName);
         
         // 根據副檔名來決定Contentype
