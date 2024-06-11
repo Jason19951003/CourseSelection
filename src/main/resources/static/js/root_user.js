@@ -40,7 +40,7 @@ const updateUser = async(e, permissionId) => {
         var parts = data[0].avatar.split('/');
         const fileName = parts[parts.length-1];
 
-        $('#avatarPreview').attr("src", `img/${fileName}`);
+        $('#avatarPreview').attr("src", `http://localhost:8080/file/img/${fileName}`);
         $('#avatarPreview').css('display', 'inline');
     }
 }
