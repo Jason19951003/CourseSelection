@@ -9,7 +9,6 @@ const loadDepartment = async () => {
         }
     });
     const {state, message, data} = await response.json();
-    
     data.forEach(obj => {
         if (obj.departmentId == 'IM') {
             $('select[name="depId"]').append(`<option value="${obj.departmentId}" selected>${obj.departmentName}</>`);
@@ -19,6 +18,9 @@ const loadDepartment = async () => {
     });
     
     $('select[name="depId"]').on('change', async function() {
+        if (!$(this).attr('id')) {
+            return;
+        }
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
         const depId = $(this).val();

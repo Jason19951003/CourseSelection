@@ -29,9 +29,13 @@ public interface CourseMapper {
 
     public Integer updateScore(List<Map<String, Object>> listMap);
 
-    public Integer updateScoreMap(Map<String, Object> listMap);
+    public Integer updateScoreMap(Map<String, Object> param);
 
     public List<Map<String, Object>> findSchedule(Map<String, Object> param);
 
     public List<Map<String, Object>> findCourseYear(String userId);
+
+    public List<Map<String, Object>> findCourseOfferingInfo(Map<String, Object> param);
+
+    public List<Map<String, Object>> findAllCourseYear();
 }

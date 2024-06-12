@@ -18,12 +18,6 @@
     </div>
     <div class="form-group">
         <select id="courseYear" name="courseYear" class="form-select">
-            <option value="112" data-semester="1">112-1</option>
-            <option value="112" data-semester="2">112-2</option>
-            <option value="111" data-semester="1">111-1</option>
-            <option value="111" data-semester="2">111-2</option>
-            <option value="110" data-semester="1">110-1</option>
-            <option value="110" data-semester="2">110-2</option>
         </select>
     </div>
     <div class="form-group">
@@ -77,8 +71,11 @@
 </div>
 
 <script>
-    loadDepartment();
-    loadTeacherCourse();
+    $(document).ready(async function() {
+        loadDepartment();
+        loadTeacherCourse();
+        loadCourseYear('courseYear');
+    });
 
     $('#courseId, #courseYear').on('change', async(e) => {
         loadCourseScore();
