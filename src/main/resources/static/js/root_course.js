@@ -58,7 +58,7 @@ const deleteCourseInfo = async (e) => {
 const updateCourseInfo = async (e) => {
     var course = JSON.parse($(e).attr('data-course'));
     
-    $('#depId').val(course.courseDep).change();
+    $('#depId').val(course.courseDep);
     $('#courseIndex').val(course.courseIndex);
     $('#courseId').val(course.courseId);
     $('#courseGrade').val(course.courseGrade);
