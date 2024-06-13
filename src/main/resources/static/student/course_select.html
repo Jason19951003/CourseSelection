@@ -167,8 +167,8 @@
                         return;
                     }
                     cell.html(courseName);
-                }                
-                console.log(course);
+                }
+                
                 const response = await fetch(`${ip}/select/insertCourse`, {
                     method : 'POST',
                     headers : {
@@ -259,9 +259,9 @@
                 'Authorization': `Bearer ${token}`,
             }
         });
-
+                
         const {state, message, data} = await response.json();
-
+        
         data.forEach(obj => {
             var column;
             switch (obj.courseOfWeek) {
