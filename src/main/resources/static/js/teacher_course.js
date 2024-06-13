@@ -7,7 +7,7 @@ const findCourseByTeacherId = async() => {
     }
     var queryString = new URLSearchParams(formData).toString();
 
-    const response = await fetch(`http://localhost:8080/course/findCourse?${queryString}`, {
+    const response = await fetch(`${ip}/course/findCourse?${queryString}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }
@@ -54,7 +54,7 @@ const saveCourse = async() => {
         teacherId : `${userId}`
     }
     
-    const response = await fetch(`http://localhost:8080/course/updateCourseOfferings/${formData.courseIndex}`, {
+    const response = await fetch(`${ip}/course/updateCourseOfferings/${formData.courseIndex}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

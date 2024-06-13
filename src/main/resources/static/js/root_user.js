@@ -15,7 +15,7 @@ const updateUser = async(e, permissionId) => {
             userId : userId,
             permissionId : permissionId
     }).toString();
-    const res = await fetch(`http://localhost:8080/user/findUser?${queryString}`, {
+    const res = await fetch(`${ip}/user/findUser?${queryString}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }
@@ -40,7 +40,7 @@ const updateUser = async(e, permissionId) => {
         var parts = data[0].avatar.split('/');
         const fileName = parts[parts.length-1];
 
-        $('#avatarPreview').attr("src", `http://localhost:8080/file/img/${fileName}`);
+        $('#avatarPreview').attr("src", `${ip}/file/img/${fileName}`);
         $('#avatarPreview').css('display', 'inline');
     }
 }
@@ -53,7 +53,7 @@ const saveUser = async(form, body, modal) => {
         var flag = saveFunction == 'insert';
         var method = flag ? 'POST' : 'PUT';
         var userId = $('#userId').val();
-        var url = flag ? 'http://localhost:8080/user/insertUser' : `http://localhost:8080/user/updateUser/${userId}`;
+        var url = flag ? `${ip}/user/insertUser` : `${ip}/user/updateUser/${userId}`;
     
         const response = await fetch(url, {
             method : method,
@@ -83,7 +83,7 @@ const deleteUser = async(e, body, modal, permissionId) => {
         try {
             var userId = e.getAttribute('user-id');
 
-            const response = await fetch(`http://localhost:8080/user/deleteUser/${userId}`, {
+            const response = await fetch(`${ip}/user/deleteUser/${userId}`, {
                 method : "DELETE",
                 headers : {
                     'Authorization': `Bearer ${token}`
@@ -112,7 +112,7 @@ const searchUser = async(body, modal, permissionId) => {
         classId : classId
     }
     const queryString = new URLSearchParams(param).toString();
-    const response = await fetch(`http://localhost:8080/user/findUsers?${queryString}`, {
+    const response = await fetch(`${ip}/user/findUsers?${queryString}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }

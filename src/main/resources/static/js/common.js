@@ -1,9 +1,10 @@
 const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
 const userId = localStorage.getItem('userId');
+const ip = 'http://192.168.0.197:8080';
 
 const loadDepartment = async () => {
-    const response = await fetch('http://localhost:8080/course/findDepartment', {
+    const response = await fetch(`${ip}/course/findDepartment`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -24,7 +25,7 @@ const loadDepartment = async () => {
         // 要先清空Select裡的html才能append(不然會接續在後面)
         $('#teacherId').html('');
         const depId = $(this).val();
-        const res = await fetch(`http://localhost:8080/course/findTeacher/${depId}`, {
+        const res = await fetch(`${ip}/course/findTeacher/${depId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -52,7 +53,7 @@ const loadDepartment = async () => {
             className: className
         }).toString();
 
-        const res = await fetch(`http://localhost:8080/user/findClassInfo?${queryString}`, {
+        const res = await fetch(`${ip}/user/findClassInfo?${queryString}`, {
             method : 'GET',
             headers : {
                 'Authorization': `Bearer ${token}`
@@ -80,7 +81,7 @@ const loadCourseScore = async() => {
     };
     var queryString = new URLSearchParams(params);
     $('#scoreBody').html('');
-    const response = await fetch(`http://localhost:8080/course/findScore?${queryString}`, {
+    const response = await fetch(`${ip}/course/findScore?${queryString}`, {
         headers : {
             'Authorization': `Bearer ${token}`,
         }
@@ -109,7 +110,7 @@ const loadCourseScore = async() => {
 
 const loadTeacherCourse = async() => {
     $('#courseId').html('');
-    const response = await fetch(`http://localhost:8080/course/findTeacherCourseById/${userId}`, {
+    const response = await fetch(`${ip}/course/findTeacherCourseById/${userId}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }
@@ -122,7 +123,7 @@ const loadTeacherCourse = async() => {
 
 const loadCourseYear = async(id) => {
     $(`#${id}`).html('');
-    const response = await fetch(`http://localhost:8080/course/findCourseYear/${userId}`, {
+    const response = await fetch(`${ip}/course/findCourseYear/${userId}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }
@@ -134,7 +135,7 @@ const loadCourseYear = async(id) => {
 }
 
 const renderHtml = async(id, url) => {
-    const response = await fetch(`http://localhost:8080/${url}`, {
+    const response = await fetch(`${ip}/${url}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }

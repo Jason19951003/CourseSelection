@@ -12,7 +12,7 @@ const saveCourse = async () => {
     var uri = saveFunction == 'insert' ? 'insertCourseInfo' : `updateCourseInfo/${formData.courseIndex}`;
     var method = saveFunction == 'insert' ? 'POST' : 'PUT';
     
-    const response = await fetch(`http://localhost:8080/course/${uri}`, {
+    const response = await fetch(`${ip}/course/${uri}`, {
         method: `${method}`,
         headers: {
             'Content-Type'  : 'application/json',
@@ -41,7 +41,7 @@ const insertCourseInfo = async () => {
 const deleteCourseInfo = async (e) => {
     if (confirm("是否要刪除?")) {
         var courseIndex = e.getAttribute('course-index');
-        const response = await fetch(`http://localhost:8080/course/deleteCourseInfo/${courseIndex}`, {
+        const response = await fetch(`${ip}/course/deleteCourseInfo/${courseIndex}`, {
             method: "DELETE",
             headers : {
                 'Authorization': `Bearer ${token}`
@@ -72,7 +72,7 @@ const updateCourseInfo = async (e) => {
 const searchCourse = async () => {
     $('#courseBody').html('');
     var param = new URLSearchParams({depId : $('#user-header select[name="depId"').val()}).toString();
-    const response = await fetch(`http://localhost:8080/course/findCourseInfo?${param}`, {
+    const response = await fetch(`${ip}/course/findCourseInfo?${param}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }

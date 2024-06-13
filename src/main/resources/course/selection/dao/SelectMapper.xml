@@ -23,4 +23,12 @@
             #{classId}, #{studentId}, #{teacherId}
         )
     </insert>
+
+    <delete id="deleteScore">
+        DELETE FROM course_score 
+        WHERE course_dep = #{depId} AND course_id = #{courseId}
+        AND coruse_year = #{courseYear} AND course_semester = #{courseSemester}
+        AND course_class_id = #{classId} AND studentId = #{studentId}
+        AND teacherId = #{teacherId}
+    </delete>
 </mapper>

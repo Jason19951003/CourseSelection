@@ -35,7 +35,7 @@
         }
 
         var queryString = new URLSearchParams(param).toString();
-        const response = await fetch(`http://localhost:8080/course/findStudentScore?${queryString}`, {
+        const response = await fetch(`${ip}/course/findStudentScore?${queryString}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

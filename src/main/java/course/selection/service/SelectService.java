@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import course.selection.dao.SelectMapper;
 import course.selection.model.pojo.CourseScore;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class SelectService {
 
     @Autowired
@@ -28,6 +30,8 @@ public class SelectService {
 
     public Integer insertScore(Map<String, Object> param) {
         synchronized (status) {
+            log.info("---------------------------------------------------------");
+            log.info("before status: " + status.toString());
             for (CourseScore course : status) {
                 String courseDep = String.valueOf(param.get("depId"));
                 String courseId = String.valueOf(param.get("courseId"));
@@ -42,6 +46,26 @@ public class SelectService {
                 }
             }
         }
+        log.info("after status: " + status.toString());
+        log.info("---------------------------------------------------------");
         return 1;
     }
+
+    public Integer deleteScore(Map<String, Object> param) {
+        synchronized (status) {
+            for (CourseScore course : status) {
+                String courseDep = String.valueOf(param.get("depId"));
+                String courseId = String.valueOf(param.get("courseId"));
+                Integer capacity = course.getCourseCapacity();
+                
+                if (course.getCourseDep().equals(courseDep) && course.getCourseId().equals(courseId)) {
+                    selectMapper.insertScore(param);
+                    course.setCourseCapacity(capacity + 1);
+                    break;
+                }
+            }
+        }
+        return 1;
+    }
+
 }

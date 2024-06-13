@@ -150,7 +150,7 @@
                     className: className
                 }).toString();
 
-                const res = await fetch(`http://localhost:8080/user/findClassInfo?${queryString}`, {
+                const res = await fetch(`${ip}/user/findClassInfo?${queryString}`, {
                     method : 'GET',
                     headers : {
                         'Authorization': `Bearer ${token}`
@@ -183,7 +183,7 @@
             courseEnd : $('#courseEnd').val(),
             courseLocate : $('#courseLocate').val()
         }
-        const response = await fetch(`http://localhost:8080/course/updateCourseOfferings/${formData.courseIndex}`, {
+        const response = await fetch(`${ip}/course/updateCourseOfferings/${formData.courseIndex}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -232,7 +232,7 @@
             classId : $('input[name="classId"]').val()
         }
         var queryString = new URLSearchParams(param).toString();
-        const response = await fetch(`http://localhost:8080/course/findCourseOfferingInfo?${queryString}`, {
+        const response = await fetch(`${ip}/course/findCourseOfferingInfo?${queryString}`, {
             headers : {
                 'Authorization': `Bearer ${token}`
             }
@@ -263,7 +263,7 @@
 
     var loadAllCourseYear = async() => {
         $('select[name="courseYear"]').html('');
-        const response = await fetch(`http://localhost:8080/course/findAllCourseYear`, {
+        const response = await fetch(`${ip}/course/findAllCourseYear`, {
             headers : {
                 'Authorization': `Bearer ${token}`
             }
