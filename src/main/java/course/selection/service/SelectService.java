@@ -32,9 +32,10 @@ public class SelectService {
         synchronized (status) {
             log.info("---------------------------------------------------------");
             log.info("before status: " + status.toString());
+            String courseDep = String.valueOf(param.get("courseDep"));
+            String courseId = String.valueOf(param.get("courseId"));
+
             for (CourseScore course : status) {
-                String courseDep = String.valueOf(param.get("depId"));
-                String courseId = String.valueOf(param.get("courseId"));
                 Integer capacity = course.getCourseCapacity();
                 if (capacity == 0) {
                     return 0;
