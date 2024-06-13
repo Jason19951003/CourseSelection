@@ -9,6 +9,8 @@ public interface SelectMapper {
 
     public List<CourseScore> checkCourseStatus();
 
+    public List<Map<String,Object>> findCourseCapacity();
+
     public Integer insertScore(Map<String, Object> param);
 
     public Integer deleteScore(Map<String, Object> param);

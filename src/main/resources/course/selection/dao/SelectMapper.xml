@@ -14,6 +14,19 @@
         WHERE b.course_required = '2'
     </select>
 
+    <select id="findCourseCapacity">
+        SELECT
+            a.course_dep, a.course_id, count(*) AS capacity
+        FROM
+            course_score a
+            LEFT JOIN course_offerings b ON a.course_year = b.course_year AND a.course_semester = b.course_semester
+            AND a.course_class_id = b.course_class_id
+            LEFT JOIN course_info c ON b.course_index = c.course_index AND a.course_dep = c.course_dep AND a.course_id = c.course_id
+            WHERE c.course_required = '2'
+        GROUP BY a.course_dep, a.course_id
+        HAVING capacity > 1
+    </select>
+
 	<insert id="insertScore">
         INSERT INTO course_score (
             course_dep, course_id, course_year, course_semester,

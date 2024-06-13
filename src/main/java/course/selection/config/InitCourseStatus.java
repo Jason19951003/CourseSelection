@@ -1,6 +1,7 @@
 package course.selection.config;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,11 @@ public class InitCourseStatus {
     
     @Bean
     public List<CourseScore> getStatus() {
-        return selectMapper.checkCourseStatus();
+        List<Map<String, Object>> listMap = selectMapper.findCourseCapacity();
+        List<CourseScore> status = selectMapper.checkCourseStatus();
+        for (Map<String, Object> map : listMap) {
+            
+        }
+        return status;
     }
 }

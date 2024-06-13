@@ -291,6 +291,8 @@
     <select id="findSchedule">
         SELECT
             b.course_index,
+            b.course_dep,
+            b.course_id,
             b.course_name,
             b.course_credit,
             a.course_year,
