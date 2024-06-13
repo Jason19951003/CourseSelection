@@ -225,18 +225,22 @@
                     $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html('');
                 }
 
-                const response = await fetch(`${ip}/select/deleteCourse`, {
-                    method : 'DELETE',
-                    headers : {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body : JSON.stringify(course)
-                });
+                try {
+                    const response = await fetch(`${ip}/select/deleteScore`, {
+                        method : 'POST',
+                        headers : {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-type' : 'application/json'
+                        },
+                        body : JSON.stringify(course)
+                    });
+                    const {state, message, data} = await response.json();
 
-                const {state, message, data} = await response.json();
-
-                if (state) {
-                    alert(message);
+                    if (state) {
+                        alert(message);
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
 
                 selectedCourse.removeClass('active').appendTo('#availableCourses');
@@ -262,7 +266,6 @@
             }
         });
         const {state, message, data} = await response.json();
-        
         data.forEach(obj => {
             var column;
             switch (obj.courseOfWeek) {
@@ -285,7 +288,7 @@
 
             for (var i = obj.courseStart; i <= obj.courseEnd; i++) {
                 var rowIndex = obj.courseStart < 5 ? i-1 : i;
-                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(obj.courseName);
+                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`${obj.courseName}<br>${obj.courseLocate}`);
             }
         });
     }

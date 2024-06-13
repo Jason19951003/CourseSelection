@@ -54,14 +54,14 @@ public class SelectService {
     }
 
     public Integer deleteScore(Map<String, Object> param) {
+        String courseDep = String.valueOf(param.get("courseDep"));
+        String courseId = String.valueOf(param.get("courseId"));
         synchronized (status) {
-            for (CourseScore course : status) {
-                String courseDep = String.valueOf(param.get("depId"));
-                String courseId = String.valueOf(param.get("courseId"));
+            for (CourseScore course : status) {                
                 Integer capacity = course.getCourseCapacity();
                 
                 if (course.getCourseDep().equals(courseDep) && course.getCourseId().equals(courseId)) {
-                    selectMapper.insertScore(param);
+                    selectMapper.deleteScore(param);
                     course.setCourseCapacity(capacity + 1);
                     break;
                 }

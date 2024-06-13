@@ -27,8 +27,8 @@
     <delete id="deleteScore">
         DELETE FROM course_score 
         WHERE course_dep = #{courseDep} AND course_id = #{courseId}
-        AND coruse_year = #{courseYear} AND course_semester = #{courseSemester}
-        AND course_class_id = #{classId} AND studentId = #{studentId}
-        AND teacherId = #{teacherId}
+        AND course_year = #{courseYear} AND course_semester = #{courseSemester}
+        AND course_class_id = #{classId} AND student_id = #{studentId}
+        AND teacher_id = #{teacherId}
     </delete>
 </mapper>
