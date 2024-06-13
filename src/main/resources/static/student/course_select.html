@@ -136,6 +136,7 @@
             var selectedCourse = $('#availableCourses .active');
             if (selectedCourse.length > 0) {
                 var course = selectedCourse.data('course');
+                course.studentId = `${userId}`;
                 var courseOfWeek = course.courseOfWeek;
                 var courseStart = course.courseStart;
                 var courseEnd = course.courseEnd;
@@ -195,6 +196,7 @@
             var selectedCourse = $('#selectedCourses .active');
             if (selectedCourse.length > 0) {
                 var course = selectedCourse.data('course');
+                course.studentId = `${userId}`;
                 var courseOfWeek = course.courseOfWeek;
                 var courseStart = course.courseStart;
                 var courseEnd = course.courseEnd;
@@ -259,7 +261,6 @@
                 'Authorization': `Bearer ${token}`,
             }
         });
-                
         const {state, message, data} = await response.json();
         
         data.forEach(obj => {
