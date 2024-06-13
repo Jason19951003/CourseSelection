@@ -168,15 +168,16 @@
                     }
                     cell.html(courseName);
                 }                
-
+                console.log(course);
                 const response = await fetch(`${ip}/select/insertCourse`, {
                     method : 'POST',
                     headers : {
                         'Authorization': `Bearer ${token}`,
+                        'Content-type' : 'application/json'
                     },
                     body : JSON.stringify(course)
                 });
-
+                
                 const {state, message, data} = await response.json();
 
                 if (state) {
