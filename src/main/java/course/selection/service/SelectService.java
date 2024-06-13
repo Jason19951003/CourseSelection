@@ -36,12 +36,13 @@ public class SelectService {
             String courseId = String.valueOf(param.get("courseId"));
 
             for (CourseScore course : status) {
-                Integer capacity = course.getCourseCapacity();
-                if (capacity == 0) {
-                    return 0;
-                }
+                
                 if (course.getCourseDep().equals(courseDep) && course.getCourseId().equals(courseId)) {
-                    selectMapper.insertScore(param);
+                	Integer capacity = course.getCourseCapacity();
+                    if (capacity == 0) {
+                        return 0;
+                    }
+                	selectMapper.insertScore(param);
                     course.setCourseCapacity(capacity - 1);
                     break;
                 }
