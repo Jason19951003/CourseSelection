@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course.selection.dao.SelectMapper">
+	<select id="checkCourseStatus">
+        SELECT 
+            b.course_dep,
+            b.course_id,
+            b.course_name,
+            a.course_capacity
+        FROM
+            course_offerings a
+        LEFT JOIN course_info b ON a.course_index = b.course_index
+        WHERE b.course_required = '2'
+    </select>
+
+	<insert id="insertScore">
+        INSERT INTO course_score (
+            course_dep, course_id, course_year, course_semester,
+            course_class_id, student_id, teacher_id)
+        VALUES (
+            #{depId}, #{courseId}, #{courseYear}, #{courseSemester},
+            #{classId}, #{studentId}, #{teacherId}
+        )
+    </insert>
+</mapper>

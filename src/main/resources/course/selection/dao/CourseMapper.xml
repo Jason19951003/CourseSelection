@@ -44,6 +44,7 @@
             a.course_credit,
             b.course_content,
             a.teacher_id,
+            b.course_capacity,
             c.user_name,
             b.course_year,
             b.course_semester,
@@ -338,6 +339,7 @@
             a.course_locate,
             a.course_content,
             a.teacher_id,
+            a.course_capacity,
             d.user_name,
             CASE a.course_of_week
                 WHEN 'Monday' THEN '星期ㄧ'
@@ -367,6 +369,9 @@
             </if>
             <if test="classId != null and classId != ''">
                 AND c.class_id = #{classId}
+            </if>
+            <if test="courseRequired != null and courseRequired != ''">
+                AND b.course_required = #{courseRequired}
             </if>
         </where>
         ) a       

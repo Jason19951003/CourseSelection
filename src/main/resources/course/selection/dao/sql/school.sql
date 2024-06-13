@@ -88,6 +88,7 @@ create table if not exists course_offerings (
 	course_index int COMMENT '索引',
 	course_year int not null COMMENT '年分',
 	course_semester ENUM('1','2') not null COMMENT '學期',
+    course_capacity int not null default 60 COMMENT '人數',
 	course_class_id int COMMENT '課程班級',
 	course_of_week ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday') NOT NULL COMMENT '星期',
 	course_start tinyint not null,
