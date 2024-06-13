@@ -299,7 +299,11 @@
             c.course_of_week,
             c.course_start,
             c.course_end,
-            c.course_locate
+            c.course_locate,
+            CASE b.course_required
+                WHEN '1' THEN '必修'
+                WHEN '2' THEN '選修'
+            END AS required
         FROM
             course_score a
             LEFT JOIN course_info b ON a.course_dep = b.course_dep 

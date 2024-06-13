@@ -288,7 +288,7 @@
 
             for (var i = obj.courseStart; i <= obj.courseEnd; i++) {
                 var rowIndex = obj.courseStart < 5 ? i-1 : i;
-                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`${obj.courseName}<br>${obj.courseLocate}`);
+                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`${obj.courseName}(${obj.required})<br>${obj.courseLocate}`);
             }
         });
     }
