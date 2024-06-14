@@ -306,11 +306,39 @@
         });
         const {state, message, data} = await response.json();
         $('#availableCourses').html('');
+        $('#selectedCourses').html('');
         data.forEach(obj => {
             var jsonStr = JSON.stringify(obj);
-            $('#availableCourses').append(`
-                <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}</li>
-            `);
-        });        
+            
+            var column;
+            switch (obj.courseOfWeek) {
+                case 'Monday':
+                    column = 0;
+                    break;
+                case 'Tuesday':
+                    column = 1;
+                    break;
+                case 'Wednesday':
+                    column = 2;
+                    break;
+                case 'Thursday':
+                    column = 3;
+                    break;
+                case 'Friday':
+                    column = 4;
+                    break;
+            }
+            var rowIndex = obj.courseStart < 5 ? obj.courseStart-1 : obj.courseStart;
+            var findSchedule = $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).text();
+            if (findSchedule.includes(obj.courseName)) {
+                $('#selectedCourses').append(`
+                    <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}</li>
+                `);
+            } else {
+                $('#availableCourses').append(`
+                    <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}</li>
+                `);
+            } 
+        });
     }
 </script>

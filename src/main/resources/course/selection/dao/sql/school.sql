@@ -51,6 +51,11 @@ INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 4, '甲'
 INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 4, '乙');
 INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 4, '丙');
 
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 1, '選修');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 2, '選修');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 3, '選修');
+INSERT INTO class_info (department_id, grade, class_name) VALUES ('IM', 4, '選修');
+
 create table if not exists user_info(
     user_id varchar(255) primary key COMMENT '帳號',
     user_password varchar(255) not null COMMENT '密碼',
