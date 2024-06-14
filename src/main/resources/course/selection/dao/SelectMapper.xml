@@ -24,7 +24,7 @@
             LEFT JOIN course_info c ON b.course_index = c.course_index AND a.course_dep = c.course_dep AND a.course_id = c.course_id
             WHERE c.course_required = '2'
         GROUP BY a.course_dep, a.course_id
-        HAVING capacity > 1
+        HAVING capacity >= 1
     </select>
 
 	<insert id="insertScore">

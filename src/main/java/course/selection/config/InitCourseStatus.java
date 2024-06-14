@@ -33,6 +33,7 @@ public class InitCourseStatus {
 						courseScore.getCourseCapacity() - Integer.parseInt(map.get("capacity") + ""));
 			}
 		}
+		System.out.println(status);
         return status;
     }
 }

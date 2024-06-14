@@ -2,18 +2,22 @@ package course.selection.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import course.selection.dao.CourseMapper;
+import course.selection.model.pojo.CourseScore;
 import course.selection.util.CamelCaseUtil;
 
 @Service
 public class CourseService {
     @Autowired
     private CourseMapper courseMapper;
+
 
     public List<Map<String, Object>> findCourseInfo(Map<String, Object> param) {
         return CamelCaseUtil.underlineToCamel(courseMapper.findCourseInfo(param));
@@ -73,9 +77,19 @@ public class CourseService {
     }
 
     public List<Map<String, Object>> findCourseOfferingInfo(Map<String, Object> param) {
-        return CamelCaseUtil.underlineToCamel(courseMapper.findCourseOfferingInfo(param));
+        List<Map<String, Object>> result = CamelCaseUtil.underlineToCamel(courseMapper.findCourseOfferingInfo(param));
+        
+        for (Map<String, Object> map : result) {
+            Optional<CourseScore> op =  SelectService.status.stream()
+                                .filter(cs -> cs.getCourseDep().equals(map.get("courseDep")) &&
+                                              cs.getCourseId().equals(map.get("courseId")))
+                                .findFirst();
+            System.out.println(op.get().getCourseCapacity());
+            map.put("enrolledStudent", Integer.parseInt(map.get("courseCapacity")+"") - op.get().getCourseCapacity());
+        }
+        return result;
     }
-
+ 
     public List<Map<String, Object>> findAllCourseYear() {
         return CamelCaseUtil.underlineToCamel(courseMapper.findAllCourseYear());
     }

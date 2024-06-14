@@ -120,6 +120,9 @@
         await findSchedule();
         findAllCourse();
         
+        // 每隔5秒鐘調用一次 findAllCourse 函數
+        setInterval(findAllCourse, 5000);
+        
         // 點擊課程項目時選中課程
         $(document).on('click', '.course-item', function() {
             $('.course-item').removeClass('active');
@@ -137,6 +140,10 @@
             if (selectedCourse.length > 0) {
                 var course = selectedCourse.data('course');
                 course.studentId = `${userId}`;
+                if (course.courseCapacity == course.enrolledStudent) {
+                    alert('課程已滿');
+                    return;
+                }
                 var courseOfWeek = course.courseOfWeek;
                 var courseStart = course.courseStart;
                 var courseEnd = course.courseEnd;
@@ -182,10 +189,10 @@
                 const {state, message, data} = await response.json();
 
                 if (state) {
-                    alert(message);
+                    await findSchedule();
+                    await findAllCourse();
                 }
-
-                selectedCourse.removeClass('active').appendTo('#selectedCourses');
+                alert(message);
             } else {
                 alert('請選擇一門課程');
             }
@@ -197,33 +204,6 @@
             if (selectedCourse.length > 0) {
                 var course = selectedCourse.data('course');
                 course.studentId = `${userId}`;
-                var courseOfWeek = course.courseOfWeek;
-                var courseStart = course.courseStart;
-                var courseEnd = course.courseEnd;
-                var courseName = course.courseName;
-                var column;
-                switch (courseOfWeek) {
-                    case 'Monday':
-                        column = 0;
-                        break;
-                    case 'Tuesday':
-                        column = 1;
-                        break;
-                    case 'Wednesday':
-                        column = 2;
-                        break;
-                    case 'Thursday':
-                        column = 3;
-                        break;
-                    case 'Friday':
-                        column = 4;
-                        break;
-                }
-
-                for (var i = courseStart; i <= courseEnd; i++) {
-                    var rowIndex = courseStart < 5 ? i-1 : i;
-                    $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html('');
-                }
 
                 try {
                     const response = await fetch(`${ip}/select/deleteScore`, {
@@ -237,13 +217,13 @@
                     const {state, message, data} = await response.json();
 
                     if (state) {
+                        await findSchedule();
+                        await findAllCourse();
                         alert(message);
                     }
                 } catch (error) {
                     console.log(error);
                 }
-
-                selectedCourse.removeClass('active').appendTo('#availableCourses');
             } else {
                 alert('請選擇一門已選課程');
             }
@@ -332,11 +312,11 @@
             var findSchedule = $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).text();
             if (findSchedule.includes(obj.courseName)) {
                 $('#selectedCourses').append(`
-                    <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}</li>
+                    <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}(${obj.enrolledStudent}/${obj.courseCapacity})</li>
                 `);
             } else {
                 $('#availableCourses').append(`
-                    <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}</li>
+                    <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}(${obj.enrolledStudent}/${obj.courseCapacity})</li>
                 `);
             } 
         });

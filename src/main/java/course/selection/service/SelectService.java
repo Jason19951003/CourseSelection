@@ -17,7 +17,7 @@ public class SelectService {
     @Autowired
     private SelectMapper selectMapper;
 
-    private static List<CourseScore> status;
+    public static List<CourseScore> status;
 
     @Autowired
     public void setStatus(List<CourseScore> status) {
