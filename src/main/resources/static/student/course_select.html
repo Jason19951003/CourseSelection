@@ -120,8 +120,8 @@
         await findSchedule();
         findAllCourse();
         
-        // 每隔5秒鐘調用一次 findAllCourse 函數
-        setInterval(findAllCourse, 5000);
+        // 每隔0.5秒鐘調用一次 findAllCourse 函數
+        setInterval(findAllCourse, 500);
         
         // 點擊課程項目時選中課程
         $(document).on('click', '.course-item', function() {
@@ -174,7 +174,6 @@
                         alert('該時段已有課程');
                         return;
                     }
-                    cell.html(courseName);
                 }
                 
                 const response = await fetch(`${ip}/select/insertCourse`, {
@@ -274,6 +273,15 @@
     }
 
     var findAllCourse = async function() {
+    	// 保存當前選中的課程ID
+        var selectedCourseIds = [];
+        $('#selectedCourses .course-item.active').each(function() {
+            selectedCourseIds.push($(this).data('course').courseId);
+        });
+        $('#availableCourses .course-item.active').each(function() {
+            selectedCourseIds.push($(this).data('course').courseId);
+        });
+        
         var param = {
             courseRequired : '2',
             depId : $('#depId').val()
@@ -318,7 +326,18 @@
                 $('#availableCourses').append(`
                     <li class="list-group-item course-item" data-course='${jsonStr}'">${obj.courseName} - ${obj.courseTime}(${obj.enrolledStudent}/${obj.courseCapacity})</li>
                 `);
-            } 
+            }
+        });
+        // 恢復之前選中的課程狀態
+        $('#selectedCourses .course-item').each(function() {
+            if (selectedCourseIds.includes($(this).data('course').courseId)) {
+                $(this).addClass('active');
+            }
+        });
+        $('#availableCourses .course-item').each(function() {
+            if (selectedCourseIds.includes($(this).data('course').courseId)) {
+                $(this).addClass('active');
+            }
         });
     }
 </script>

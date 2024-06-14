@@ -84,8 +84,9 @@ public class CourseService {
                                 .filter(cs -> cs.getCourseDep().equals(map.get("courseDep")) &&
                                               cs.getCourseId().equals(map.get("courseId")))
                                 .findFirst();
-            System.out.println(op.get().getCourseCapacity());
-            map.put("enrolledStudent", Integer.parseInt(map.get("courseCapacity")+"") - op.get().getCourseCapacity());
+            if (op.isPresent()) {
+                map.put("enrolledStudent", Integer.parseInt(map.get("courseCapacity")+"") - op.get().getCourseCapacity());
+            }
         }
         return result;
     }
