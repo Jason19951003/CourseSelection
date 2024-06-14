@@ -139,13 +139,5 @@ const searchUser = async(body, modal, permissionId) => {
                 </tr>
             `)
         });
-        new DataTable('#studentTable', {
-            searching: false,
-            initComplete: function () {
-                var pagination = $('#studentTable_paginate').detach();
-                console.log(pagination);
-                $('#mypagination').append(pagination);
-            }
-        });
     }
 }
