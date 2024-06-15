@@ -8,10 +8,6 @@
         min-width: 150px;
         margin-right: 10px;
     }
-
-    .dt-paging-button.page-item {
-        color: white !important;
-    }
 </style>
 
 <div id="user-header" class="d-flex align-items-center mb-3 p-3 border border-opacity-100 bg-white rounded">
@@ -68,7 +64,7 @@
     </table>
 </div>
 
-<div class="border border-opacity-100 bg-white rounded">
+<div class="border border-opacity-100 bg-white rounded d-flex justify-content-center">
     <div class="pagination p-3">
         
     </div>
@@ -198,69 +194,7 @@
             $('#page_length').change();
         });
 
-        // 分頁實現
-        $('#page_length').on('change', async function() {
-
-            // 1. 先決定每頁要顯示的列數
-            $('#studentBody').find('tr').removeClass('d-none');
-            var trLength = $('#studentBody').find('tr').length;
-            var length = Math.min(trLength, $(this).val());
-            for (var i = length; i < trLength; i++) {
-                $('#studentBody').find('tr').eq(i).addClass('d-none');
-            }
-
-            // 2. 計算總共有幾頁
-            var page = Math.ceil(trLength / $(this).val());
-                
-            $('.pagination').html('');
-            $('.pagination').append(`
-                <li class="page-item">
-                    <a class="page-link" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            `);
-            for (var i = 0; i < page; i++) {
-                $('.pagination').append(`
-                    <li class="page-item"><a class="page-link">${i+1}</a></li>
-                `);
-            } 
-            $('.pagination').append(`
-                <li class="page-item">
-                    <a class="page-link" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            `);
-            // 3. 處理每頁顯示的內容
-            $('.pagination .page-link').on('click', function(e) {
-                // e.preventDefault();
-                $('.page-link.active').removeClass('active');
-                
-                var pageNumber = $(this).text().trim();
-                if (pageNumber === '«') {
-                    // 處理上一頁
-                    console.log("Previous page clicked");
-                } else if (pageNumber === '»') {
-                    // 處理下一頁
-                    console.log("Next page clicked");
-                } else {
-                    // 處理其他頁面
-                    $(this).addClass('active');
-                    loadPageContent(pageNumber);
-                }
-            });
-
-            // 預設點擊第一頁
-            $('.pagination .page-item').eq(1).find('a').trigger('click');
-        });
-
-        // 假設點擊第一頁的行為是載入頁面的內容
-        function loadPageContent(pageNumber) {
-            console.log("Loading content for page " + pageNumber);
-            // 在這裡加入頁面載入內容的邏輯
-        }
-
+        bindPage('studentBody');
         await loadDepartment();
         await $('#user-header select[name="depId"]').change();
     });
