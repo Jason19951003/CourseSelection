@@ -64,7 +64,6 @@ const loadDepartment = async () => {
         if (data[0]) {
             $('#classId').val(data[0].classId);
         }
-        loadCourseScore();
     });
     
     $('#depId').change();
