@@ -10,7 +10,6 @@
 </head>
 
 <body class="d-flex align-items-center vh-100">
-
     <div class="container-xl">
         <div class="row justify-content-center">
             <div class="col-md-4">
@@ -24,7 +23,6 @@
                                 <input type="text" class="form-control" id="username" name="username"
                                     placeholder="請輸入帳號" required>
                             </div>
-
                             <div class="mb-3 input-group">
                                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
                                 <input type="password" class="form-control" id="password" name="password"
@@ -56,7 +54,7 @@
                             </div>
 
                             <div class="text-center">
-                                <a href="#" class="text-decoration-none">Forgot Password?</a>
+                                <a href="./forget.html" class="text-decoration-none">Forgot Password?</a>
                             </div>
                         </form>
                     </div>
@@ -110,10 +108,8 @@
             } catch (error) {
                 console.error('Network error or other issue:', error);
                 $('#errorMessage').removeClass('d-none');
-                // Handle network error or other issues (e.g., show an alert)
             }
         });
     </script>
 </body>
-
 </html>

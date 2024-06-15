@@ -39,7 +39,7 @@ public class SecurityConfig {
 						.permitAll()
 						.requestMatchers("/user/login")
 						.permitAll()
-						.requestMatchers("/file/**")
+						.requestMatchers("/api/**")
 						.permitAll()
 						.anyRequest()
 						.authenticated()

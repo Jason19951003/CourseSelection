@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="./css/common.css" rel="stylesheet">
+    <title>Forget Password</title>
+</head>
+<body class="d-flex align-items-center vh-100">
+    <div class="container-xl">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4 fw-bold">忘記密碼</h5>
+                        <form id="forgetPassWordForm" action="/forget/email" method="post">
+                            <div class="mb-3 form-group">
+                                <label for="email">Email:&nbsp;&nbsp;</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="請輸入Email" required>
+                            </div>
+
+                            <div class="mb-3 form-group">
+                                <label for="email">驗證碼:</label>
+                                <input type="number" class="form-control" id="passcode" name="passcode"
+                                    placeholder="請輸入驗證碼" required> 
+                                <button class="btn btn-success" onclick="sendPassCode(this)">發送驗證碼</button>
+                            </div>
+
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary">確認送出</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/common.js"></script>
+    <script>
+        let passcodeId;
+
+        document.addEventListener("DOMContentLoaded", async() => {
+            // getPasscode();
+        })
+
+        async function getPasscode() {
+            const response = await fetch(`${ip}/api/passcode`);
+            passcodeId = response.headers.get('Passcode-Id');
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                document.getElementById('passcodeImg').src = url;
+            } else {
+                console.error('Failed to fetch passcode image');
+            }
+        }
+
+        function sendPassCode(e) {
+            if ($('#email').val().trim() == '') {
+                alert('請輸入Email');
+                return;
+            }
+            $(e).addClass('disabled');
+            $(e).text('60 發送驗證碼');
+            var time = 59;
+            var interval = setInterval(() => {
+                $(e).text(`${time} 發送驗證碼`);
+                time--;
+
+                if (time < 0) {
+                    clearInterval(interval);
+                    $(e).removeClass('disabled');
+                    $(e).text('發送驗證碼');
+                }
+            }, 1000);
+        }
+
+        $('#forgetPassWordForm').submit(async function(e) {
+            e.preventDefault();
+            console.log(passcodeId);
+            console.log($('#passcode').val());
+            if ($('#passcode').val() != passcodeId) {
+                
+            }
+        });
+    </script>
+</body>
+</html>
