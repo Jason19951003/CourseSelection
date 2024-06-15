@@ -109,7 +109,7 @@
     });
 
     $('#page_length').on('change', async function() {
-        var num = arguments[1] || 0; // 獲取傳遞參數，如果沒有默認為0
+        var num = arguments[1] || 1; // 獲取傳遞參數，如果沒有默認為0
         // 1. 計算總共有幾頁
         var trLength = $(`#scoreBody`).find('tr').length;
         var page = Math.ceil(trLength / $(this).val());

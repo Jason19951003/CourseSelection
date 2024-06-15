@@ -5,7 +5,7 @@ function bindPage(id) {
         var page = Math.ceil(trLength / $(this).val());
         // 2. 實現分頁按鈕
         $('.pagination').html('');
-    
+        // 2.1 上一頁
         $('.pagination').append(`
             <li class="page-item">
                 <a class="page-link" aria-label="Previous">
@@ -13,13 +13,13 @@ function bindPage(id) {
                 </a>
             </li>
         `);
-    
+        // 2.2 頁數
         for (var i = 0; i < page; i++) {
             $('.pagination').append(`
                 <li class="page-item"><a class="page-link">${i+1}</a></li>
             `);
         }
-    
+        // 2.3 下一頁
         $('.pagination').append(`
             <li class="page-item">
                 <a class="page-link" aria-label="Next">
@@ -30,10 +30,10 @@ function bindPage(id) {
     
         // 3. 綁定按鈕事件(要先載入完按鈕才能綁定方法)
         $('.pagination .page-link').on('click', function(e) {
-            // 1. 先取得active狀態的和active上一個與下一個按鈕
+            // 1. 先取得active狀態上一個與下一個按鈕
             var prev = $('.page-link.active').parent().prev();
             var next = $('.page-link.active').parent().next();
-            var active = $('.page-link.active').removeClass('active');
+            $('.page-link.active').removeClass('active');
             // 2. 取得觸發事件的按鈕
             var pageNumber = $(this).text().trim();
             // 3. 初始化(移除上一頁和下一頁的disabled)
@@ -58,7 +58,7 @@ function bindPage(id) {
                 pageNumber = next.text();
             } else {
                 // 如果是第一頁，則把上一頁按鈕設為disabled
-                if ($(this).parent().prev().text().trim() === '«') {                        
+                if ($(this).parent().prev().text().trim() === '«') {
                     $(this).parent().prev().children().addClass('disabled');
                 }
                 // 如果是最後一頁，則把下一頁按鈕設為disabled
