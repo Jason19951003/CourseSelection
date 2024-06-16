@@ -123,9 +123,6 @@
 
 <script>
     $(document).ready(async function() {
-        
-        
-        
         $('#teacherForm').on('submit', (e) => {
             e.preventDefault();
             saveUser('teacherForm', 'teacherBody', 'teacherModal');
@@ -136,14 +133,12 @@
                 $(this).on('change', async function() {
                     await searchUser('teacherBody', 'teacherModal', 2);
                     bindPage('teacherBody');
-                    $('#page_length').change();
+                    $('#page_length').trigger('change', [$('.page-link.active').text()]);
                 });
             }
         });
 
-        await loadDepartment();        
-        // await searchUser('teacherBody', 'teacherModal', 2);
-        
+        await loadDepartment();
         $('#user-header select[name="depId"]').change();        
     });
 </script>

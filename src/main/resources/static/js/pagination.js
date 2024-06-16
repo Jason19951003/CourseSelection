@@ -1,5 +1,6 @@
 function bindPage(id) {
     $('#page_length').on('change', async function() {
+        var num = arguments[1] || 1; // 獲取傳遞參數，如果沒有默認為0
         // 1. 計算總共有幾頁
         var trLength = $(`#${id}`).find('tr').length;
         var page = Math.ceil(trLength / $(this).val());
@@ -72,7 +73,7 @@ function bindPage(id) {
         });
     
         // 預設點擊第一頁
-        $('.pagination .page-item').eq(1).find('a').trigger('click');
+        $('.pagination .page-item').eq(num).find('a').trigger('click');
     });
 }
 

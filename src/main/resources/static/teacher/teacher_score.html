@@ -202,28 +202,53 @@
     }
 
     var saveCourseGrade = async() => {
-        if (confirm('是否儲存?')) {
-            var jsonArr = [];
-            $('input[name="score"]').each(function(index, element) {
-                jsonArr.push(JSON.parse($(element).attr('data-score')));
-            });
-            const response = await fetch(`${ip}/course/updateScore`, {
-                method : 'PUT',
-                headers : {
-                    'Content-Type' : 'application/json',
-                    'Authorization': `Bearer ${token}`
+        $.confirm({
+            title: '確認!',
+            content: '是否要儲存?',
+            buttons: {
+                '是':  {
+                    btnClass: 'btn-blue',
+                    action : async function () {
+                        var jsonArr = [];
+                        $('input[name="score"]').each(function(index, element) {
+                            jsonArr.push(JSON.parse($(element).attr('data-score')));
+                        });
+                        const response = await fetch(`${ip}/course/updateScore`, {
+                            method : 'PUT',
+                            headers : {
+                                'Content-Type' : 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body : JSON.stringify(jsonArr)
+                        });
+                        
+                        const {state, message, data} = await response.json();
+                        if (state) {
+                            $.alert({
+                                title: '訊息',
+                                content: '儲存成功',
+                                animationSpeed: 500,
+                                buttons : {
+                                    ok : {
+                                        btnClass: 'btn-blue',
+                                        text : '確定',
+                                        action : function() {
+                                            
+                                        }
+                                    }
+                                }
+                            });
+                            document.body.scrollTop = 0;
+                            document.documentElement.scrollTop = 0;
+                            await loadCourseScore();
+                            $('#page_length').trigger('change', [$('.page-link.active').text()]);
+                        }
+                    }
                 },
-                body : JSON.stringify(jsonArr)
-            });
-            
-            const {state, message, data} = await response.json();
-            if (state) {
-                alert('儲存成功');
-                document.body.scrollTop = 0;
-                document.documentElement.scrollTop = 0;
-                await loadCourseScore();
-                $('#page_length').trigger('change', [$('.page-link.active').text()]);
+                '否': {
+                    btnClass: 'btn-blue'
+                }
             }
-        }
+        });
     }
 </script>

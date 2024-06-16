@@ -70,37 +70,82 @@ const saveUser = async(form, body, modal) => {
             var modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
             $(`#${form}`)[0].reset();
-            searchUser(body, modal, $('#permissionId').val());
+            await searchUser(body, modal, $('#permissionId').val());
+            bindPage(`${body}`);
+            $('#page_length').trigger('change', [$('.page-link.active').text()]);
         }
-        alert(message);
+        $.alert({
+            title: '訊息',
+            content: message,
+            animationSpeed: 500,
+            buttons : {
+                ok : {
+                    btnClass: 'btn-blue',
+                    text : '確定',
+                    action : function() {
+                        
+                    }
+                }
+            }
+        });
     } catch (error) {
         console.log(error);
     }
 }
 
 const deleteUser = async(e, body, modal, permissionId) => {
-    if (confirm('是否要刪除')) {
-        try {
-            var userId = e.getAttribute('user-id');
-
-            const response = await fetch(`${ip}/user/deleteUser/${userId}`, {
-                method : "DELETE",
-                headers : {
-                    'Authorization': `Bearer ${token}`
+    $.confirm({
+        title: '確認!',
+        content: '是否要刪除?',
+        buttons: {
+            '是': {
+                btnClass: 'btn-blue',
+                action : async function () {
+                    try {
+                        var userId = e.getAttribute('user-id');
+            
+                        const response = await fetch(`${ip}/user/deleteUser/${userId}`, {
+                            method : "DELETE",
+                            headers : {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        if (!response.ok) {
+                            console.log(response);
+                        }
+                        const { state, message, data } = await response.json();
+                        $.alert({
+                            title: '訊息',
+                            content: message,
+                            animationSpeed: 500,
+                            buttons : {
+                                ok : {
+                                    btnClass: 'btn-blue',
+                                    text : '確定',
+                                    action : function() {
+                                        
+                                    }
+                                }
+                            }
+                        });
+                        if (state) {
+                            await searchUser(body, modal, permissionId);
+                            bindPage(`${body}`);
+                            $('#page_length').trigger('change', [$('.page-link.active').text()]);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
-            });
-            if (!response.ok) {
-                console.log(response);
+            },
+            '否': {
+                btnClass: 'btn-blue',
+                action : function() {
+
+                }
             }
-            const { state, message, data } = await response.json();
-            alert(message);
-            if (state) {
-                searchUser(body, modal, permissionId);
-            }
-        } catch (error) {
-            console.log(error);
         }
-    }
+    });
 }
 
 const searchUser = async(body, modal, permissionId) => {

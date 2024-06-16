@@ -34,7 +34,6 @@ const loadDepartment = async () => {
         data.forEach(obj => {
             $('#teacherId').append(`<option value="${obj.userId}">${obj.userName}</option>`);
         });
-        
         $('#classGrade').change();
     });
     

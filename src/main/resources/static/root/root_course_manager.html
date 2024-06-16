@@ -103,7 +103,7 @@
                 $(this).on('change', async function() {
                     await searchCourse();
                     bindPage('courseBody');
-                    $('#page_length').change();
+                    $('#page_length').trigger('change', [$('.page-link.active').text()]);
                 });
             }
         });

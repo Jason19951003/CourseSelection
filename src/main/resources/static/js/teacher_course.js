@@ -72,5 +72,18 @@ const saveCourse = async() => {
         $('#courseForm')[0].reset();
         findCourseByTeacherId();
     }
-    alert(message);
+    $.alert({
+        title: '訊息',
+        content: message,
+        animationSpeed: 500,
+        buttons : {
+            ok : {
+                btnClass: 'btn-blue',
+                text : '確定',
+                action : function() {
+                    
+                }
+            }
+        }
+    });
 }

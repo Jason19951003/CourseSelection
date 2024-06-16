@@ -71,7 +71,7 @@
 			avatar
 		) VALUES (
 			#{userId},
-			#{userId},
+			#{password},
 			#{permissionId},
 			#{userName},
 			#{birthDate},

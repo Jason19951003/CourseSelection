@@ -35,6 +35,7 @@ public class UserService {
 
     public Integer insertUser(Map<String, Object> param, MultipartFile avatar) {
         String userId = String.valueOf(param.get("userId"));
+        param.put("passowrd", new BCryptPasswordEncoder().encode(userId));
         if (!"".equals(avatar.getOriginalFilename().trim())) {
             param.put("avatar", FileUtil.getAvatarName(avatar, userId));
             FileUtil.uploadFile(avatar, userId);

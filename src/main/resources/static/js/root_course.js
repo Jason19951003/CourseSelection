@@ -28,45 +28,94 @@ const saveCourse = async () => {
         var modalInstance = bootstrap.Modal.getInstance(modalElement);
         modalInstance.hide();
         $('#courseForm')[0].reset();
-        searchCourse();
+        await searchCourse();
+        bindPage('courseBody');
+        $('#page_length').trigger('change', [$('.page-link.active').text()]);
     }
-    alert(message);
+    $.alert({
+        title: '訊息',
+        content: message,
+        animationSpeed: 500,
+        buttons : {
+            ok : {
+                btnClass: 'btn-blue',
+                text : '確定',
+                action : function() {
+                    
+                }
+            }
+        }
+    });
 }
 
 const insertCourseInfo = async () => {
     $('#courseForm')[0].reset();
+    $('#courseForm #depId').val($('#user-header select[name="depId"]').val()).change();
     $('#saveFunction').val('insert');
 }
 
 const deleteCourseInfo = async (e) => {
-    if (confirm("是否要刪除?")) {
-        var courseIndex = e.getAttribute('course-index');
-        const response = await fetch(`${ip}/course/deleteCourseInfo/${courseIndex}`, {
-            method: "DELETE",
-            headers : {
-                'Authorization': `Bearer ${token}`
+    $.confirm({
+        title: '確認',
+        content: '是否要刪除?',
+        buttons: {
+            '是': {
+                btnClass: 'btn-blue',
+                action : async function () {
+                    var courseIndex = e.getAttribute('course-index');
+                    const response = await fetch(`${ip}/course/deleteCourseInfo/${courseIndex}`, {
+                        method: "DELETE",
+                        headers : {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    const { state, message, data } = await response.json();
+                    $.alert({
+                        title: '訊息',
+                        content: message,
+                        animationSpeed: 500,
+                        buttons : {
+                            ok : {
+                                btnClass: 'btn-blue',
+                                text : '確定',
+                                action : function() {
+                                    
+                                }
+                            }
+                        }
+                    });
+                    if (state) {
+                        await searchCourse();
+                        bindPage('courseBody');
+                        $('#page_length').trigger('change', [$('.page-link.active').text()]);
+                    }
+                }
+            },
+            '否': {
+                btnClass: 'btn-blue',
+                action : function () {
+                
+                }
             }
-        });
-        const { state, message, data } = await response.json();
-        alert(message);
-        if (state) {
-            searchCourse();
         }
-    }
+    });
 }
 
 const updateCourseInfo = async (e) => {
     var course = JSON.parse($(e).attr('data-course'));
     
-    $('#depId').val(course.courseDep);
+    await $('#depId').val(course.courseDep).change();
+    
     $('#courseIndex').val(course.courseIndex);
     $('#courseId').val(course.courseId);
     $('#courseGrade').val(course.courseGrade);
     $('#courseName').val(course.courseName);
     $('#courseRequired').val(course.courseRequired);
     $('#courseCredit').val(course.courseCredit);
-    $('#teacherId').val(course.teacherId);
     $('#saveFunction').val('update');
+    setTimeout(() => {
+        $('#teacherId').val(course.teacherId);
+    }, 100);
 }
 
 const searchCourse = async () => {
