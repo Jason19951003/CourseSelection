@@ -141,19 +141,9 @@
                 var course = selectedCourse.data('course');
                 course.studentId = `${userId}`;
                 if (course.courseCapacity == course.enrolledStudent) {
-                    $.alert({
-                        title: '訊息',
-                        content: message,
-                        animationSpeed: 500,
-                        buttons : {
-                            ok : {
-                                btnClass: 'btn-blue',
-                                text : '確定',
-                                action : function() {
-                                    
-                                }
-                            }
-                        }
+                    Swal.fire({
+                        title: "課程已滿",
+                        icon: "warning"
                     });
                     return;
                 }
@@ -184,19 +174,9 @@
                     var rowIndex = courseStart < 5 ? i-1 : i;
                     var cell = $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column);
                     if (!cell.text() == '') {
-                        $.alert({
-                            title: '訊息',
-                            content: message,
-                            animationSpeed: 500,
-                            buttons : {
-                                ok : {
-                                    btnClass: 'btn-blue',
-                                    text : '確定',
-                                    action : function() {
-                                        
-                                    }
-                                }
-                            }
+                        Swal.fire({
+                            title: "該時段已有課程",
+                            icon: "warning"
                         });
                         return;
                     }
@@ -217,34 +197,14 @@
                     await findSchedule();
                     await findAllCourse();
                 }
-                $.alert({
-                    title: '訊息',
-                    content: message,
-                    animationSpeed: 500,
-                    buttons : {
-                        ok : {
-                            btnClass: 'btn-blue',
-                            text : '確定',
-                            action : function() {
-                                
-                            }
-                        }
-                    }
+                Swal.fire({
+                    title: message,
+                    icon: state ? "success" : "error"
                 });
             } else {
-                $.alert({
-                    title: '訊息',
-                    content: '請選擇一門課程',
-                    animationSpeed: 500,
-                    buttons : {
-                        ok : {
-                            btnClass: 'btn-blue',
-                            text : '確定',
-                            action : function() {
-                                
-                            }
-                        }
-                    }
+                Swal.fire({
+                    title: "請選擇一門課程",
+                    icon: "warning"
                 });
             }
         });
@@ -270,38 +230,18 @@
                     if (state) {
                         await findSchedule();
                         await findAllCourse();
-                        $.alert({
-                            title: '訊息',
-                            content: message,
-                            animationSpeed: 500,
-                            buttons : {
-                                ok : {
-                                    btnClass: 'btn-blue',
-                                    text : '確定',
-                                    action : function() {
-                                        
-                                    }
-                                }
-                            }
+                        Swal.fire({
+                            title: message,
+                            icon: "success"
                         });
                     }
                 } catch (error) {
                     console.log(error);
                 }
             } else {
-                $.alert({
-                    title: '訊息',
-                    content: '請選擇一門已選課程',
-                    animationSpeed: 500,
-                    buttons : {
-                        ok : {
-                            btnClass: 'btn-blue',
-                            text : '確定',
-                            action : function() {
-                                
-                            }
-                        }
-                    }
+                Swal.fire({
+                    title: "請選擇一門已選課程",
+                    icon: "warning"
                 });
             }
         });

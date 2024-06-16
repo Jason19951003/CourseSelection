@@ -74,19 +74,9 @@ const saveUser = async(form, body, modal) => {
             bindPage(`${body}`);
             $('#page_length').trigger('change', [$('.page-link.active').text()]);
         }
-        $.alert({
-            title: '訊息',
-            content: message,
-            animationSpeed: 500,
-            buttons : {
-                ok : {
-                    btnClass: 'btn-blue',
-                    text : '確定',
-                    action : function() {
-                        
-                    }
-                }
-            }
+        Swal.fire({
+            title: message,
+            icon: state ? "success" : "error"
         });
     } catch (error) {
         console.log(error);
@@ -94,58 +84,40 @@ const saveUser = async(form, body, modal) => {
 }
 
 const deleteUser = async(e, body, modal, permissionId) => {
-    $.confirm({
-        title: '確認!',
-        content: '是否要刪除?',
-        buttons: {
-            '是': {
-                btnClass: 'btn-blue',
-                action : async function () {
-                    try {
-                        var userId = e.getAttribute('user-id');
-            
-                        const response = await fetch(`${ip}/user/deleteUser/${userId}`, {
-                            method : "DELETE",
-                            headers : {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                        if (!response.ok) {
-                            console.log(response);
-                        }
-                        const { state, message, data } = await response.json();
-                        $.alert({
-                            title: '訊息',
-                            content: message,
-                            animationSpeed: 500,
-                            buttons : {
-                                ok : {
-                                    btnClass: 'btn-blue',
-                                    text : '確定',
-                                    action : function() {
-                                        
-                                    }
-                                }
-                            }
-                        });
-                        if (state) {
-                            await searchUser(body, modal, permissionId);
-                            bindPage(`${body}`);
-                            $('#page_length').trigger('change', [$('.page-link.active').text()]);
-                        }
-                    } catch (error) {
-                        console.log(error);
-                    }
-                }
-            },
-            '否': {
-                btnClass: 'btn-blue',
-                action : function() {
-
-                }
-            }
-        }
+    const result = await Swal.fire({
+        title: "是否要刪除?",
+        showCancelButton: true,
+        confirmButtonText: "是",
+        cancelButtonText : "否"
     });
+
+    if (result.isConfirmed) {
+        try {
+            var userId = e.getAttribute('user-id');
+
+            const response = await fetch(`${ip}/user/deleteUser/${userId}`, {
+                method : "DELETE",
+                headers : {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                console.log(response);
+            }
+            const { state, message, data } = await response.json();
+            Swal.fire({
+                title: message,
+                icon: state ? "success" : "error"
+            });
+            if (state) {
+                await searchUser(body, modal, permissionId);
+                bindPage(`${body}`);
+                $('#page_length').trigger('change', [$('.page-link.active').text()]);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 const searchUser = async(body, modal, permissionId) => {

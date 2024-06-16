@@ -32,19 +32,9 @@ const saveCourse = async () => {
         bindPage('courseBody');
         $('#page_length').trigger('change', [$('.page-link.active').text()]);
     }
-    $.alert({
-        title: '訊息',
-        content: message,
-        animationSpeed: 500,
-        buttons : {
-            ok : {
-                btnClass: 'btn-blue',
-                text : '確定',
-                action : function() {
-                    
-                }
-            }
-        }
+    Swal.fire({
+        title: message,
+        icon: state ? "success" : "error"
     });
 }
 
@@ -55,50 +45,32 @@ const insertCourseInfo = async () => {
 }
 
 const deleteCourseInfo = async (e) => {
-    $.confirm({
-        title: '確認',
-        content: '是否要刪除?',
-        buttons: {
-            '是': {
-                btnClass: 'btn-blue',
-                action : async function () {
-                    var courseIndex = e.getAttribute('course-index');
-                    const response = await fetch(`${ip}/course/deleteCourseInfo/${courseIndex}`, {
-                        method: "DELETE",
-                        headers : {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    const { state, message, data } = await response.json();
-                    $.alert({
-                        title: '訊息',
-                        content: message,
-                        animationSpeed: 500,
-                        buttons : {
-                            ok : {
-                                btnClass: 'btn-blue',
-                                text : '確定',
-                                action : function() {
-                                    
-                                }
-                            }
-                        }
-                    });
-                    if (state) {
-                        await searchCourse();
-                        bindPage('courseBody');
-                        $('#page_length').trigger('change', [$('.page-link.active').text()]);
-                    }
-                }
-            },
-            '否': {
-                btnClass: 'btn-blue',
-                action : function () {
-                
-                }
-            }
-        }
+    const result = await Swal.fire({
+        title: "是否要刪除?",
+        showCancelButton: true,
+        confirmButtonText: "是",
+        cancelButtonText : "否"
     });
+
+    if (result.isConfirmed) {
+        var courseIndex = e.getAttribute('course-index');
+        const response = await fetch(`${ip}/course/deleteCourseInfo/${courseIndex}`, {
+            method: "DELETE",
+            headers : {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const { state, message, data } = await response.json();
+        Swal.fire({
+            title: message,
+            icon: state ? "success" : "error"
+        });
+        if (state) {
+            await searchCourse();
+            bindPage('courseBody');
+            $('#page_length').trigger('change', [$('.page-link.active').text()]);
+        }
+    }
 }
 
 const updateCourseInfo = async (e) => {
