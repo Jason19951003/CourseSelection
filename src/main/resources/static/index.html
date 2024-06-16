@@ -13,7 +13,7 @@
 <body class="d-flex align-items-center vh-100">
     <div class="container-xl">
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-4 col-md-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center mb-4 fw-bold">學生選課系統</h5>
@@ -112,6 +112,7 @@
                             window.location.href = data.page;
                         }
                     });
+                    $('body').removeClass('swal2-shown swal2-height-auto');
 				} else {
 					$('#errorMessage').removeClass('d-none');
 				}
