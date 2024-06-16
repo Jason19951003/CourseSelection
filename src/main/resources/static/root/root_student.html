@@ -191,7 +191,7 @@
                 $('#user-header input[name="classId"]').val(data[0].classId);
             }
             await searchUser('studentBody', 'studentModal', 3);
-            $('#page_length').trigger('change', [$('.page-link.active').text()]);
+            $('#page_length').trigger('change', [1]);
         });
 
         bindPage('studentBody');

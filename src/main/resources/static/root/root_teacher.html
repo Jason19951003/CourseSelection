@@ -133,7 +133,7 @@
                 $(this).on('change', async function() {
                     await searchUser('teacherBody', 'teacherModal', 2);
                     bindPage('teacherBody');
-                    $('#page_length').trigger('change', [$('.page-link.active').text()]);
+                    $('#page_length').trigger('change', [1]);
                 });
             }
         });
