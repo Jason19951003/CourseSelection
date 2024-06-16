@@ -193,11 +193,14 @@
             Swal.fire({
                 title: message,
                 icon: state ? "success" : "error"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (state) {
+                        window.location.href = `${ip}/index.html`;
+                    }
+                }
             });
-
-            if (state) {
-                window.location.href = `${ip}/index.html`;
-            }
+            
         }
     </script>
 </body>
