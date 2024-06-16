@@ -157,6 +157,7 @@
                 title: message,
                 icon: state ? "success" : "error"
             });
+            $('body').removeClass('swal2-shown swal2-height-auto');
         });
 
         async function updatePassword() {
@@ -200,7 +201,7 @@
                     }
                 }
             });
-            
+            $('body').removeClass('swal2-shown swal2-height-auto');
         }
     </script>
 </body>
