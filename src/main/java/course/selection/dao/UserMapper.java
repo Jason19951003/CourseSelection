@@ -13,4 +13,8 @@ public interface UserMapper {
     public Integer updateUser(Map<String,Object> param);
 
     public Integer deleteUser(String userId);
+
+    public Map<String, Object> findUserByEmail(String emaiil);
+
+    public Integer updatePassword(Map<String,Object> param);
 }

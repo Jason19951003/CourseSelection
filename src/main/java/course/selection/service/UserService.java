@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,4 +57,14 @@ public class UserService {
         return userMapper.deleteUser(userId);
     }
 
+    public Map<String, Object> findUserByEmail(String email) {
+        return userMapper.findUserByEmail(email);
+    }
+
+    public Integer updatePassword(Map<String, Object> param) {
+        // 將密碼加密存進資料庫
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        param.put("password", encoder.encode(param.get("password")+""));
+        return userMapper.updatePassword(param);
+    }
 }

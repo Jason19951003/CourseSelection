@@ -12,22 +12,27 @@ public class RedisService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    // 保存數據
+    // 保存資料
     public void save(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
-    // 獲取數據
+    // 保存資料並設置過期時間
+    public void saveWithExpire(String key, String value, long timeout, TimeUnit unit) {
+        redisTemplate.opsForValue().set(key, value, timeout, unit);
+    }
+
+    // 獲取資料
     public String get(String key) {
         return (String) redisTemplate.opsForValue().get(key);
     }
 
-    // 更新數據
+    // 更新資料
     public void update(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
-    // 刪除數據
+    // 刪除資料
     public void delete(String key) {
         redisTemplate.delete(key);
     }

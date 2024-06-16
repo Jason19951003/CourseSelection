@@ -125,4 +125,15 @@
 	<delete id="deleteUser">
 		DELETE FROM user_info WHERE user_id = #{userId}
 	</delete>
+
+	<select id="findUserByEmail">
+		select * from user_info where email = #{email}
+	</select>
+
+	<update id="updatePassword">
+		UPDATE user_info
+			SET user_password = #{password}
+		WHERE
+			email = #{email}
+	</update>
 </mapper>

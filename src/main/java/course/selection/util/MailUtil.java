@@ -10,13 +10,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class MailUtil {
-    public static void main(String[] args) {
-        String to = "jason19951003@gmail.com"; // sender email
-        String from = "jason19951003@gmail.com";       // receiver email
+    public static boolean sendMail (String email, String OPT) {
+        String to = email;
+        String from = "jason19951003@gmail.com";
 		String host = "smtp.gmail.com";
 		int port = 587;
 		final String username = "jason19951003@gmail.com";//smtp帳號
-		final String password = "";//smtp密碼
+		final String password = "zzbb veci ldlg mceg";//smtp密碼
 		
 		Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
@@ -32,19 +32,17 @@ public class MailUtil {
 
         try {
             MimeMessage message = new MimeMessage(session); // email message
-
             message.setFrom(new InternetAddress(from)); // setting header fields
-
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            message.setSubject("測試HTML Email", "utf-8"); // subject line
+            message.setSubject("OPT驗證碼", "utf-8"); // subject line
             //寄送html格式的email
-            message.setContent("<h1>This is a test</h1>", "text/html; charset=utf-8");	
+            message.setContent("<h3>你的驗證碼:"+ OPT + "</h3>", "text/html; charset=utf-8");	
 
             Transport.send(message);
-            System.out.println("Email Sent successfully....");
+            return true;
         } catch (MessagingException mex){
-            mex.printStackTrace(); 
+            mex.printStackTrace();
+            return false;
         }
     }
 }
