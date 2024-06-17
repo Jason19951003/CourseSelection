@@ -75,7 +75,7 @@ public class UserService {
             map.put("email", getCellValue(row.getCell(4)));
             map.put("phone", getCellValue(row.getCell(5)));
             map.put("depId", getCellValue(row.getCell(6)));
-            map.put("admissionDate", getCellValue(row.getCell(7)));
+            map.put("admissionDate", getCellValue(row.getCell(8)));
             map.put("classId", findClassInfo(classMap).get(0).get("classId"));
 
             int rowCount = userMapper.insertUser(map);
