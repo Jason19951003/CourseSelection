@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.Map;
@@ -16,6 +17,10 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -132,6 +137,29 @@ public class ApiController {
         ApiResponse<Map<String, Object>> apiResponse = new ApiResponse<>(state, message, map);
         return ResponseEntity.ok(apiResponse);
     }
+
+    @GetMapping("/downloadUserInfo")
+    public ResponseEntity<InputStreamResource> downloadUserInfo() throws IOException {
+        File file = new File("src/main/resources/static/file/user_info.xlsx");
+
+        if (!file.exists()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        FileInputStream fis = new FileInputStream(file);
+        InputStreamResource resource = new InputStreamResource(fis);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
+
 
     // 產生四個數字的圖檔(BufferedImage)
 	private BufferedImage getPassCodeImage(String passCode) {

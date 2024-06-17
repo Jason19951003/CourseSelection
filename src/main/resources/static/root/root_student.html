@@ -35,8 +35,10 @@
 
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
     <table id="studentTable" class="table table-striped table-hover">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#studentModal"
+        <button class="btn btn-success" style="margin-right: 15px;" data-bs-toggle="modal" data-bs-target="#studentModal"
             onclick="insertUser('studentForm', 3)">新增</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#importModal"
+            onclick="importUser()">匯入</button>
         <div>
             <select id="page_length" name="page_length" class="form-select mt-3" style="width: 150px;">
                 <option value="10">10</option>
@@ -157,8 +159,40 @@
     </div>
 </div>
 
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importModalLabel">匯入資料</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="importForm" action="" enctype="multipart/form-data">
+                <input type="hidden" name="permissionId" id="permissionId" value="3">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <a href="http://localhost:8080/api/downloadUserInfo" class="btn btn-success" onclick="download()">下載</a>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">年&#12288;&#12288;份:</label>
+                        <input type="number" id="year" name="year" class="form-control" placeholder="請輸入年份" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userFile">檔&#12288;&#12288;案:</label>
+                        <input type="file" id="userFile" name="userFile" class="form-control" accept=".xls,.xlsx" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(async function () {
+        $('#year').val(new Date().getFullYear()-1911);
         $('#studentForm').on('submit', (e) => {
             e.preventDefault();
             saveUser('studentForm', 'studentBody', 'studentModal');
@@ -198,4 +232,17 @@
         await loadDepartment();
         await $('#user-header select[name="depId"]').change();
     });
+
+    async function importUser() {
+
+        const res = await fetch(`${ip}/user/findClassInfo?${queryString}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body : new FormData($('#importForm')[0])
+        });
+
+        const { state, message, data } = await res.json();
+    }
 </script>

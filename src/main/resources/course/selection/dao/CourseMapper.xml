@@ -27,6 +27,7 @@
                 AND a.course_dep = #{depId}
             </if>
         </where>
+        ORDER BY a.course_id
     </select>
 
 	<select id="findCourse">

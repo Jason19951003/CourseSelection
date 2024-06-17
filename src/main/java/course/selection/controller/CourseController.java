@@ -94,11 +94,17 @@ public class CourseController {
 
 	@DeleteMapping("/deleteCourseInfo/{courseIndex}")
 	public ResponseEntity<ApiResponse<?>> deleteCourseInfo(@PathVariable("courseIndex") Integer courseIndex) {
-		Integer rowCount = courseService.deleteCourseInfo(courseIndex);
-		boolean state = rowCount > 0;
-		String message = state ? "刪除成功" : "刪除失敗";
-		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
-		return ResponseEntity.ok(result);
+		try {
+			Integer rowCount = courseService.deleteCourseInfo(courseIndex);
+			boolean state = rowCount > 0;
+			String message = state ? "刪除成功" : "刪除失敗";
+			ApiResponse<String> result = new ApiResponse<>(state, message, "刪除");
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ApiResponse<String> result = new ApiResponse<>(false, "無法刪除該課程", "刪除");
+			return ResponseEntity.ok(result);
+		}
 	}
 
 	@GetMapping("/findScore")
