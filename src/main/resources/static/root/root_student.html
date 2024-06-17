@@ -37,8 +37,7 @@
     <table id="studentTable" class="table table-striped table-hover">
         <button class="btn btn-success" style="margin-right: 15px;" data-bs-toggle="modal" data-bs-target="#studentModal"
             onclick="insertUser('studentForm', 3)">新增</button>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#importModal"
-            onclick="importUser()">匯入</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#importModal">匯入</button>
         <div>
             <select id="page_length" name="page_length" class="form-select mt-3" style="width: 150px;">
                 <option value="10">10</option>
@@ -183,7 +182,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="submit" class="btn btn-primary">上傳</button>
                 </div>
             </form>
         </div>
@@ -233,16 +232,24 @@
         await $('#user-header select[name="depId"]').change();
     });
 
-    async function importUser() {
-
-        const res = await fetch(`${ip}/user/findClassInfo?${queryString}`, {
+    $('#importForm').submit(async function(e) {
+        e.preventDefault();
+        const res = await fetch(`${ip}/user/insertUserFromExcel`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
             },
             body : new FormData($('#importForm')[0])
         });
-
+        
         const { state, message, data } = await res.json();
-    }
+        console.log(data);
+        var modalElement = document.getElementById('importModal');
+        var modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance.hide();
+        Swal.fire({
+            title: message,
+            icon: state ? "success" : "error"
+        });
+    })
 </script>

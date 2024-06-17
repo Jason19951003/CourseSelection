@@ -55,6 +55,21 @@ public class UserController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PostMapping("/insertUserFromExcel")
+    public ResponseEntity<ApiResponse<?>> insertUserFromExcel(@RequestParam Map<String, Object> param, @RequestParam("userFile") MultipartFile file) {
+        try {
+            Integer rowCount = userService.insertUserFromExcel(file);
+            Boolean state = rowCount > 0;
+            String message = state ? "新增成功" : "新增失敗";
+            ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "新增");
+            return ResponseEntity.ok(apiResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ApiResponse<String> apiResponse = new ApiResponse<>(false, e.getMessage(), "新增");
+            return ResponseEntity.ok(apiResponse);
+        }
+    }
+
     @PutMapping("/updateUser/{userId}")
     public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Map<String, Object> param, @RequestParam("avatar") MultipartFile avatar) {
     	Integer rowCount = userService.updateUser(param, avatar);
