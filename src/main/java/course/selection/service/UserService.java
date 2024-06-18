@@ -54,36 +54,36 @@ public class UserService {
 
     @Transactional
     public Integer insertUserFromExcel(MultipartFile file) throws IOException {
-        Workbook workbook = new XSSFWorkbook(file.getInputStream());
-        Sheet sheet = workbook.getSheetAt(0);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
-            Map<String, Object> map = new HashMap<>();
-            Row row = sheet.getRow(rowNum);
+        try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0);
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
+                Map<String, Object> map = new HashMap<>();
+                Row row = sheet.getRow(rowNum);
 
-            Map<String, Object> classMap = new HashMap<>();
-            classMap.put("depId", getCellValue(row.getCell(6)));
-            classMap.put("classGrade", 1);
-            classMap.put("className", getCellValue(row.getCell(7)));
+                Map<String, Object> classMap = new HashMap<>();
+                classMap.put("depId", getCellValue(row.getCell(6)));
+                classMap.put("classGrade", 1);
+                classMap.put("className", getCellValue(row.getCell(7)));
 
-            map.put("userId", getCellValue(row.getCell(0)));
-            map.put("password", encoder.encode(getCellValue(row.getCell(0)) + ""));
-            map.put("permissionId", 3);
-            map.put("userName", getCellValue(row.getCell(1)));
-            map.put("sex", getCellValue(row.getCell(2)));
-            map.put("birthDate", getCellValue(row.getCell(3)));
-            map.put("email", getCellValue(row.getCell(4)));
-            map.put("phone", getCellValue(row.getCell(5)));
-            map.put("depId", getCellValue(row.getCell(6)));
-            map.put("admissionDate", getCellValue(row.getCell(8)));
-            map.put("classId", findClassInfo(classMap).get(0).get("classId"));
+                map.put("userId", getCellValue(row.getCell(0)));
+                map.put("password", encoder.encode(getCellValue(row.getCell(0)) + ""));
+                map.put("permissionId", 3);
+                map.put("userName", getCellValue(row.getCell(1)));
+                map.put("sex", getCellValue(row.getCell(2)));
+                map.put("birthDate", getCellValue(row.getCell(3)));
+                map.put("email", getCellValue(row.getCell(4)));
+                map.put("phone", getCellValue(row.getCell(5)));
+                map.put("depId", getCellValue(row.getCell(6)));
+                map.put("admissionDate", getCellValue(row.getCell(8)));
+                map.put("classId", findClassInfo(classMap).get(0).get("classId"));
 
-            int rowCount = userMapper.insertUser(map);
-            if (!(rowCount > 0)) {
-                throw new RuntimeException("新增學生發生錯誤!");
+                int rowCount = userMapper.insertUser(map);
+                if (!(rowCount > 0)) {
+                    throw new RuntimeException("新增學生發生錯誤!");
+                }
             }
         }
-
         return 1;
     }
 
