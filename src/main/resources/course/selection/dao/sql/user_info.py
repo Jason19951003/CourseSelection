@@ -28,7 +28,7 @@ for i in range(1, 151):
     name = fake.name()
     gender = random.choice([1, 2])
     birthdate = random_date(start_date, end_date).strftime("%Y-%m-%d")
-    email = f"{student_id}@example.com"
+    email = f"{student_id}@gmail.com"
     phone = f"09{''.join(random.choices(string.digits, k=8))}"
     department = "IM"
     
@@ -39,7 +39,7 @@ for i in range(1, 151):
     else:
         class_name = "丙"
         
-    entry_date = "2023-09-01"
+    entry_date = "2020-09-01"
     
     ws.append([student_id, name, gender, birthdate, email, phone, department, class_name, entry_date])
 

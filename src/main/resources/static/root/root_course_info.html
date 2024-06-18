@@ -33,6 +33,7 @@
             <option value="甲">甲</option>
             <option value="乙">乙</option>
             <option value="丙">丙</option>
+            <option value="選修">選修</option>
         </select>
     </div>
 </div>
@@ -239,7 +240,7 @@
             $('#courseBody').append(`
                 <tr>
                     <td>${obj.departmentName}</td>
-                    <td>${obj.grade}年${obj.className}班</td>
+                    <td>${obj.required === '必修' ? `${obj.grade}年${obj.className}班` : ''}</td>
                     <td>${obj.courseId}</td>
                     <td>${obj.courseName}</td>
                     <td>${obj.required}</td>
@@ -251,7 +252,7 @@
                         <button id="updateCourseOfferings" onclick="updateCourseOfferings(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#courseModal" data-course='${jsonStr}'>編輯</button>    
                     </td>
                 </tr>
-            `)
+            `);
         });
     }
 

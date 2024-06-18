@@ -17,4 +17,6 @@ public interface UserMapper {
     public Map<String, Object> findUserByEmail(String emaiil);
 
     public Integer updatePassword(Map<String,Object> param);
+
+    public Integer updateCurrentStudent();
 }

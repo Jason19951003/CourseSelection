@@ -87,7 +87,7 @@ public class UserService {
         return 1;
     }
 
-        private Object getCellValue(Cell cell) {
+    private Object getCellValue(Cell cell) {
         switch (cell.getCellType()) {
             case STRING:
                 return cell.getStringCellValue();
@@ -129,5 +129,10 @@ public class UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         param.put("password", encoder.encode(param.get("password")+""));
         return userMapper.updatePassword(param);
+    }
+
+    // 更新年級
+    public Integer updateCurrentStudent() {
+        return userMapper.updateCurrentStudent();
     }
 }

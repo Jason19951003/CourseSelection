@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import course.selection.model.ApiResponse;
+import course.selection.service.RedisService;
 import course.selection.service.UserService;
-
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisService redisService;
 
     @GetMapping("/findUsers")
     public ResponseEntity<ApiResponse<?>> findUsers(@RequestParam Map<String, Object> param) {
@@ -40,14 +43,15 @@ public class UserController {
     }
 
     @GetMapping("/findClassInfo")
-    public ResponseEntity<ApiResponse<?>> findClassInfo(@RequestParam Map<String,Object> param) {
+    public ResponseEntity<ApiResponse<?>> findClassInfo(@RequestParam Map<String, Object> param) {
         List<Map<String, Object>> result = userService.findClassInfo(param);
         ApiResponse<List<Map<String, Object>>> apiResponse = new ApiResponse<>(true, "查詢成功", result);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/insertUser")
-    public ResponseEntity<ApiResponse<?>> insertUser(@RequestParam Map<String, Object> param, @RequestParam("avatar") MultipartFile avatar) {
+    public ResponseEntity<ApiResponse<?>> insertUser(@RequestParam Map<String, Object> param,
+            @RequestParam("avatar") MultipartFile avatar) {
         Integer rowCount = userService.insertUser(param, avatar);
         Boolean state = rowCount > 0;
         String message = state ? "新增成功" : "新增失敗";
@@ -56,24 +60,26 @@ public class UserController {
     }
 
     @PostMapping("/insertUserFromExcel")
-    public ResponseEntity<ApiResponse<?>> insertUserFromExcel(@RequestParam Map<String, Object> param, @RequestParam("userFile") MultipartFile file) {
+    public ResponseEntity<ApiResponse<?>> insertUserFromExcel(@RequestParam Map<String, Object> param,
+            @RequestParam("userFile") MultipartFile file) {
         try {
             Integer rowCount = userService.insertUserFromExcel(file);
             Boolean state = rowCount > 0;
-            String message = state ? "新增成功" : "新增失敗";
-            ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "新增");
+            String message = state ? "匯入成功" : "匯入失敗";
+            ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "匯入");
             return ResponseEntity.ok(apiResponse);
         } catch (Exception e) {
             e.printStackTrace();
-            ApiResponse<String> apiResponse = new ApiResponse<>(false, e.getMessage(), "新增");
+            ApiResponse<String> apiResponse = new ApiResponse<>(false, e.getMessage(), "匯入");
             return ResponseEntity.ok(apiResponse);
         }
     }
 
     @PutMapping("/updateUser/{userId}")
-    public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Map<String, Object> param, @RequestParam("avatar") MultipartFile avatar) {
-    	Integer rowCount = userService.updateUser(param, avatar);
-    	Boolean state = rowCount > 0;
+    public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Map<String, Object> param,
+            @RequestParam("avatar") MultipartFile avatar) {
+        Integer rowCount = userService.updateUser(param, avatar);
+        Boolean state = rowCount > 0;
         String message = state ? "修改成功" : "修改失敗";
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "修改");
         return ResponseEntity.ok(apiResponse);
@@ -82,14 +88,37 @@ public class UserController {
     @DeleteMapping("/deleteUser/{userId}")
     public ResponseEntity<ApiResponse<?>> deleteUser(@PathVariable("userId") String userId) {
         try {
-        	Integer rowCount = userService.deleteUser(userId);
+            Integer rowCount = userService.deleteUser(userId);
             Boolean state = rowCount > 0;
             String message = state ? "刪除成功" : "刪除失敗";
             ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "刪除");
             return ResponseEntity.ok(apiResponse);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(400).body(new ApiResponse<>(false, "無法刪除該人員!", "刪除失敗"));
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(new ApiResponse<>(false, "無法刪除該人員!", "刪除失敗"));
+        }
+    }
+
+    @PutMapping("/updateCurrentStudent")
+    public ResponseEntity<ApiResponse<?>> updateCurrentStudent() {
+        try {
+            // 檢查是否可以更新
+            if (!redisService.get("updateStatus").equals("true")) {
+                throw new RuntimeException("現在不能更新學生年級!");
+            }
+            Integer rowCount = userService.updateCurrentStudent();
+            Boolean state = rowCount > 0;
+            // 更新成功後，就不能再更新了
+            if (state) {
+                redisService.save("updateStatus", "false");
+            }
+            String message = state ? "更新成功" : "更新失敗";
+            ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "更新");
+            return ResponseEntity.ok(apiResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ApiResponse<String> apiResponse = new ApiResponse<>(false, e.getMessage(), "更新insertUserFromExcel");
+            return ResponseEntity.ok(apiResponse);
+        }
     }
 }

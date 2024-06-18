@@ -136,4 +136,12 @@
 		WHERE
 			email = #{email}
 	</update>
+
+	<update id="updateCurrentStudent">
+		UPDATE user_info a
+		LEFT JOIN class_info b ON a.class_id = b.class_id
+		LEFT JOIN class_info c ON c.grade = b.grade + 1 AND c.class_name = b.class_name
+		SET a.class_id = c.class_id
+		WHERE a.permission_id = '3' AND a.class_id IS NOT NULL
+	</update>
 </mapper>
