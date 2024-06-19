@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course.selection.dao.ScheduleMapper">
+
+	<select id="findAllCourseInfo">
+		SELECT
+			course_index,
+			course_dep,
+			course_id,
+			course_grade,
+			course_name,
+			course_required,
+			course_credit,
+			teacher_id
+		FROM course_info
+	</select>
+	
+	<select id="findAllClassInfo">
+		SELECT 
+			class_id, 
+			department_id, 
+			grade, 
+			class_name 
+		FROM class_info
+	</select>
+	
+</mapper>
