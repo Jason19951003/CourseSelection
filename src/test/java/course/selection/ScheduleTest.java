@@ -1,14 +1,8 @@
 package course.selection;
 
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.intThat;
-import static org.mockito.ArgumentMatchers.matches;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -53,7 +47,5 @@ public class ScheduleTest {
 			filteredClassInfos.forEach(classInfo -> System.out.println(classInfo));
 			System.out.println("-----------------------");
 		}
-			
-		
 	}
 }
