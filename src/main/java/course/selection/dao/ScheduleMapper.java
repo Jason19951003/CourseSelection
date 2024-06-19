@@ -8,4 +8,6 @@ public interface ScheduleMapper {
     public List<Map<String, Object>> findAllCourseInfo();
 
     public List<Map<String, Object>> findAllClassInfo();
+    
+    public List<Map<String, Object>> findAllCurrentStudent();
 }
