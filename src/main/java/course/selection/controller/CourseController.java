@@ -65,7 +65,7 @@ public class CourseController {
 		} catch (Exception e) {
 			String message = "新增失敗:";
 			if (e.getMessage().contains("Duplicate")) {
-				message += "該年份已經有此課程了";
+				message += "此課程已存在!";
 			} else {
 				message += e.getMessage();
 			}

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import course.selection.dao.ScheduleMapper;
 import course.selection.dao.SelectMapper;
 import course.selection.model.pojo.CourseScore;
 import course.selection.service.RedisService;

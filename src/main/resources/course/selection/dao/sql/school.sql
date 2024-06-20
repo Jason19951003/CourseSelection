@@ -86,7 +86,8 @@ create table if not exists course_info (
     course_credit int not null COMMENT '學分',
     teacher_id varchar(255) not null COMMENT '老師',
     foreign key (course_dep) references department(department_id),
-    foreign key (teacher_id) references user_info(user_id)
+    foreign key (teacher_id) references user_info(user_id),
+    unique key idx_course_dep_id (course_dep, course_id)
 );
 
 create table if not exists course_offerings (
