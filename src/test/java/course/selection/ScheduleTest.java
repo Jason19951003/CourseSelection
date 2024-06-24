@@ -51,7 +51,7 @@ public class ScheduleTest {
 		    filteredClassInfos.forEach(classInfo -> {
 		        System.out.println("班級: " + classInfo);
 		        StringBuffer sql = new StringBuffer();
-		        sql.append("INSERT INTO course_schedule (course_index, course_year, course_semester, course_class_id, course_of_week, course_start, course_end, course_locate, course_content, teacher_id) VALUES (");
+		        sql.append("INSERT INTO course_offerings (course_index, course_year, course_semester, course_class_id, course_of_week, course_start, course_end, course_locate, course_content, teacher_id) VALUES (");
 		        sql.append(courseInfo.get("course_index"));
 		        sql.append(", ");
 		        sql.append(courseYear);

@@ -31,4 +31,30 @@
 		FROM user_info a 
 		WHERE a.permission_id = '3' AND a.class_id IS NOT NULL
 	</select>
+
+	<insert id="insertAllCourseOfferings">
+		INSERT INTO course_offerings (
+			course_index, 
+			course_year, 
+			course_semester, 
+			course_class_id, 
+			course_of_week, 
+			course_start, 
+			course_end, 
+			course_locate, 
+			course_content, 
+			teacher_id) 
+		VALUES (
+			#{courseIndex},
+			#{courseYear},
+			#{courseSemester},
+			#{classId},
+			#{courseOfWeek},
+			#{courseStart},
+			#{courseEnd},
+			#{courseLocate},
+			#{courseContent},
+			#{userId}
+		)
+	</insert>
 </mapper>

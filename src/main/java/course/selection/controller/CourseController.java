@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import course.selection.model.ApiResponse;
 import course.selection.service.CourseService;
+import course.selection.service.ScheduleService;
 
 
 @RestController
@@ -25,6 +26,9 @@ public class CourseController {
 	
 	@Autowired
 	private CourseService courseService;
+
+	@Autowired
+	private ScheduleService scheduleService;
 
 	@GetMapping("/findCourseInfo")
 	public ResponseEntity<ApiResponse<?>> findCourseInfo(@RequestParam() Map<String, Object> param) {
@@ -163,6 +167,19 @@ public class CourseController {
 		List<Map<String, Object>> result = courseService.findCourseOfferingInfo(param);
 		ApiResponse<List<Map<String, Object>>> response = new ApiResponse<>(true, "查詢成功", result);
 		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("/importCourseOfferings/{courseYear}")
+	public ResponseEntity<ApiResponse<?>> importCourseOfferings(@PathVariable("courseYear") Integer courseYear) {
+		try {
+			boolean state = scheduleService.insertAllCourseOfferings(courseYear);
+			String message = state ? "匯入成功" : "匯入失敗";
+			ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			ApiResponse<String> result = new ApiResponse<>(false, e.getMessage(), "失敗");
+			return ResponseEntity.ok(result);
+		}
 	}
 
 }

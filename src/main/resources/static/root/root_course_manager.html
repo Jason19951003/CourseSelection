@@ -126,10 +126,21 @@
                     Swal.showValidationMessage('請輸入一個有效的年份');
                 }
             }
-        }).then((result) => {
+        }).then(async(result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                Swal.fire("Saved!", "", "success");
+                var courseYear = result.value; // 獲取輸入的年份
+                const response = await fetch(`${ip}/course/importCourseOfferings/${courseYear}`, {
+                    method : 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const {state, message, data} = await response.json();
+                Swal.fire({
+                    title: message,
+                    icon: state ? "success" : "error"
+                });
             }
         });
     }
