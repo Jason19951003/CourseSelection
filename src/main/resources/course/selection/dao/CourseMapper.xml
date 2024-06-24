@@ -270,18 +270,20 @@
 
     <select id="findStudentScore">
         SELECT
-        a.course_dep,
-        a.course_id,
-        a.course_year,
-        a.course_semester,
-        a.course_class_id,
-        a.student_id,
-        a.teacher_id,
-        IFNULL(a.score, '0') as score,
-        b.course_name
+            a.course_dep,
+            a.course_id,
+            a.course_year,
+            a.course_semester,
+            a.course_class_id,
+            a.student_id,
+            a.teacher_id,
+            IFNULL(a.score, '0') as score,
+            b.course_name,
+            c.department_name
         FROM
             course_score a
         LEFT JOIN course_info b ON a.course_dep = b.course_dep AND a.course_id = b.course_id
+        LEFT JOIN department c ON a.course_dep = c.department_id
         WHERE
             a.student_id = #{userId}
             AND a.course_dep = #{depId}
