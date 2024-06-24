@@ -3,6 +3,15 @@
 
 <mapper namespace="course.selection.dao.ScheduleMapper">
 
+	<select id="checkCourseYear">
+		SELECT 
+			course_year 
+		FROM 
+			course_offerings
+		WHERE course_year = #{courseYear}
+		GROUP BY course_year
+	</select>
+
 	<select id="findAllCourseInfo">
 		SELECT
 			course_index,

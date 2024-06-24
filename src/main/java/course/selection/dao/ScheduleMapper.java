@@ -12,4 +12,6 @@ public interface ScheduleMapper {
     public List<Map<String, Object>> findAllCurrentStudent();
 
     public Integer insertAllCourseOfferings(Map<String, Object> param);
+
+    public Integer checkCourseYear(Integer courseYear);
 }

@@ -410,6 +410,7 @@
         GROUP BY
             course_year,
             course_semester
+        ORDER BY course_year, course_semester DESC
     </select>
 
     <select id="findAllCourseYear">

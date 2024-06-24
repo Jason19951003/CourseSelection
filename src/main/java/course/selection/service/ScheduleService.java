@@ -20,6 +20,10 @@ public class ScheduleService {
     @Autowired
     private ScheduleMapper scheduleMapper;
 
+	public Boolean checkCourseYear(Integer courseYear) {
+		return scheduleMapper.checkCourseYear(courseYear) == null;
+	}
+
     @Transactional
     public Boolean insertAllCourseOfferings(Integer courseYear) {
         Map<String, Object> param = new HashMap<>();
