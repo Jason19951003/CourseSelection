@@ -44,11 +44,6 @@ public class AuthenticationController {
         
 		final SchoolUserDetails loginUser;
 		try {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-			if (authentication != null)
-				System.out.println(authentication.getPrincipal());
-
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
 			loginUser = (SchoolUserDetails) userDetailsService.loadUserByUsername(userName);
 			if (loginUser != null) {
@@ -102,10 +97,12 @@ public class AuthenticationController {
 			userName = jwtUtil.extractUsername(jwtToken);
 
 			// 使用jwt token 的有效期限判斷登入的先後順序
-			if (jwtUtil.extractExpiration(jwtToken).before(jwtUtil.extractExpiration(redisService.get(userName)))) {
+			if (jwtUtil.isTokenExpired(jwtToken)) {
+				return ResponseEntity.ok(new ApiResponse<>(false, "您的登入時間已超過15分鐘，請重新登入以繼續使用。", ""));
+			} else if (jwtUtil.extractExpiration(jwtToken).before(jwtUtil.extractExpiration(redisService.get(userName)))) {
 				return ResponseEntity.ok(new ApiResponse<>(false, "因為在另一個裝置進行了新的登入。如果這不是您的操作，請立即更改您的密碼並聯絡支援團隊。請重新登入以繼續使用服務。", ""));
 			} else {
-				return ResponseEntity.ok(new ApiResponse<>(true, "驗證成功", ""));
+				return ResponseEntity.ok(new ApiResponse<>(true, "", ""));
 			}
 		}
 

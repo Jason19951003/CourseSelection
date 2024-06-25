@@ -249,13 +249,9 @@
 
     $('#importForm').submit(async function (e) {
         e.preventDefault();
-        // 顯示模態視窗
-        $('#loadingModal').modal('show');
-        var modalElement = document.getElementById('importModal');
-        var modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-
-        const res = await fetch(`${ip}/user/insertUserFromExcel`, {
+        
+        // 先檢查是否有更新年級和userfile資料是否正確
+        var res = await fetch(`${ip}/user/checkUserFile`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -263,17 +259,39 @@
             body: new FormData($('#importForm')[0])
         });
 
-        const { state, message, data } = await res.json();
-        // 顯示模態視窗
-        $('#loadingModal').modal('hide');
-        $('#importForm')[0].reset();
+        var { state, message, data } = await res.json();
         if (state) {
-            $('#user-header select[name="depId"]').change();
+            // 顯示模態視窗
+            $('#loadingModal').modal('show');
+            var modalElement = document.getElementById('importModal');
+            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+
+            const res = await fetch(`${ip}/user/insertUserFromExcel`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: new FormData($('#importForm')[0])
+            });
+
+            const { state, message, data } = await res.json();
+            // 隱藏模態視窗
+            $('#loadingModal').modal('hide');
+            $('#importForm')[0].reset();
+            if (state) {
+                $('#user-header select[name="depId"]').change();
+            }
+            Swal.fire({
+                title: message,
+                icon: state ? "success" : "error"
+            });
+        } else {
+            Swal.fire({
+                title: message,
+                icon: "error"
+            });
         }
-        Swal.fire({
-            title: message,
-            icon: state ? "success" : "error"
-        });
     });
 
     async function updateGrade() {

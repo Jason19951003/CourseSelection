@@ -59,11 +59,26 @@ public class UserController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PostMapping("/checkUserFile")
+    public ResponseEntity<ApiResponse<?>> checkUserFile(@RequestParam Map<String, Object> param,
+            @RequestParam("userFile") MultipartFile file) {
+        try {
+        	Boolean state = userService.checkUserFile(param.get("year")+"", file);
+            String message = state ? "資料正確" : "資料錯誤";
+            ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "檢查資料");
+            return ResponseEntity.ok(apiResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ApiResponse<String> apiResponse = new ApiResponse<>(false, e.getMessage(), "檢查資料");
+            return ResponseEntity.ok(apiResponse);
+        }
+    }
+    
     @PostMapping("/insertUserFromExcel")
     public ResponseEntity<ApiResponse<?>> insertUserFromExcel(@RequestParam Map<String, Object> param,
             @RequestParam("userFile") MultipartFile file) {
         try {
-            Integer rowCount = userService.insertUserFromExcel(file);
+            Integer rowCount = userService.insertUserFromExcel(param.get("year")+"", file);
             Boolean state = rowCount > 0;
             String message = state ? "匯入成功" : "匯入失敗";
             ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "匯入");
@@ -117,7 +132,7 @@ public class UserController {
             return ResponseEntity.ok(apiResponse);
         } catch (Exception e) {
             e.printStackTrace();
-            ApiResponse<String> apiResponse = new ApiResponse<>(false, e.getMessage(), "更新insertUserFromExcel");
+            ApiResponse<String> apiResponse = new ApiResponse<>(false, e.getMessage(), "更新");
             return ResponseEntity.ok(apiResponse);
         }
     }

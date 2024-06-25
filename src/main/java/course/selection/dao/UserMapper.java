@@ -19,4 +19,6 @@ public interface UserMapper {
     public Integer updatePassword(Map<String,Object> param);
 
     public Integer updateCurrentStudent();
+
+    public List<Map<String, Object>> checkGrade();
 }

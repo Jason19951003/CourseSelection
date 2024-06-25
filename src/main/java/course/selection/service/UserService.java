@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -52,15 +54,34 @@ public class UserService {
     return userMapper.insertUser(param);
     }
 
+    public Boolean checkUserFile(String year, MultipartFile file) throws IOException {
+    	if (!userMapper.checkGrade().isEmpty()) {
+    		throw new RuntimeException("請先更新年級，再匯入資料!");
+    	}
+        try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0);
+            for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
+                Row row = sheet.getRow(rowNum);
+                String userId = getCellValue(row.getCell(0))+"";
+                String depId = getCellValue(row.getCell(6))+"";
+                if (userId.startsWith(depId+year)) {
+                } else {
+                    throw new RuntimeException("資料錯誤!");
+                }
+            }
+        }
+        return true;
+    }
+    
     @Transactional
-    public Integer insertUserFromExcel(MultipartFile file) throws IOException {
+    public Integer insertUserFromExcel(String year, MultipartFile file) throws IOException {
         try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
                 Map<String, Object> map = new HashMap<>();
                 Row row = sheet.getRow(rowNum);
-
+                
                 Map<String, Object> classMap = new HashMap<>();
                 classMap.put("depId", getCellValue(row.getCell(6)));
                 classMap.put("classGrade", 1);
@@ -81,7 +102,7 @@ public class UserService {
                 int rowCount = userMapper.insertUser(map);
                 if (!(rowCount > 0)) {
                     throw new RuntimeException("新增學生發生錯誤!");
-                }
+                }                
             }
         }
         return 1;
