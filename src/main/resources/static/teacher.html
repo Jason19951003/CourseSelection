@@ -59,6 +59,7 @@
 			renderHtml('content', 'teacher/teacher_front_page.html');
 			sideBarLinkage();
 			$('#headerName').append(`${userName}`);
+			interval = setInterval(singleSessionControl, 100);
 		});
 
 		// sidebar 連動

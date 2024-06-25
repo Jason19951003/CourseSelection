@@ -2,7 +2,7 @@ const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
 const userId = localStorage.getItem('userId');
 const permissionId = localStorage.getItem('permissionId');
-
+var interval;
 const ip = 'http://192.168.0.197:8080';
 
 const loadDepartment = async () => {
@@ -149,5 +149,37 @@ const logout = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
     localStorage.removeItem('permissionId');
-    window.location.href = "/index.html"
+    window.location.href = "/index.html";
+}
+
+// 防止多開
+const singleSessionControl = async() => {
+    var token = localStorage.getItem('token');
+
+    if (token) {
+        try {
+            // 呼叫singleSessionController 驗證是否有其他裝置登入，如果有則登出。
+            const response = await fetch(`${ip}/user/singleSession`, {
+                headers : {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const {state, message, data} = await response.json();
+            if (!state) {
+                clearInterval(interval);
+                Swal.fire({
+                    title: message,
+                    icon: "warning"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        logout();
+                    }
+                });
+            }
+        } catch (error) {
+            logout();
+        }
+    } else {
+        window.location.href = "/index.html";
+    }
 }
