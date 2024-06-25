@@ -1,7 +1,7 @@
-const token = localStorage.getItem('token');
-const userName = localStorage.getItem('userName');
-const userId = localStorage.getItem('userId');
-const permissionId = localStorage.getItem('permissionId');
+const token = sessionStorage.getItem('token');
+const userName = sessionStorage.getItem('userName');
+const userId = sessionStorage.getItem('userId');
+const permissionId = sessionStorage.getItem('permissionId');
 var interval;
 const ip = 'http://192.168.0.197:8080';
 
@@ -145,16 +145,13 @@ const renderHtml = async(id, url) => {
 }
 
 const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('permissionId');
+    sessionStorage.clear('token');
     window.location.href = "/index.html";
 }
 
 // 防止多開
 const singleSessionControl = async() => {
-    var token = localStorage.getItem('token');
+    var token = sessionStorage.getItem('token');
 
     if (token) {
         try {

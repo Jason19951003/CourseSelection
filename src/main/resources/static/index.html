@@ -87,6 +87,7 @@
             $('#errorMessage').addClass("d-none");
             var username = $("#username").val();
             var password = $("#password").val();
+            
             try {
                 var response = await fetch(`${ip}/user/login`, {
                     method: "POST",
@@ -101,10 +102,10 @@
                 
                 if (response.ok) {
                     const {state, message, data} = await response.json();
-                    localStorage.setItem("token", data.token);
-                    localStorage.setItem("userName", data.userName);
-                    localStorage.setItem("userId", data.userId);
-                    localStorage.setItem("permissionId", data.permissionId);
+                    sessionStorage.setItem("token", data.token);
+                    sessionStorage.setItem("userName", data.userName);
+                    sessionStorage.setItem("userId", data.userId);
+                    sessionStorage.setItem("permissionId", data.permissionId);
                     Swal.fire({
                         title: "登入成功",
                         icon: "success"

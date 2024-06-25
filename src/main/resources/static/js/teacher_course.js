@@ -1,7 +1,7 @@
 const findCourseByTeacherId = async() => {
     $('#courseBody').html('');
     var formData = {
-        teacherId: localStorage.getItem('userId'),
+        teacherId: sessionStorage.getItem('userId'),
         courseYear : $('#year').val(),
         courseSemester : $('#year').find('option:selected').data('semester')
     }
