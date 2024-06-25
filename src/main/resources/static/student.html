@@ -71,9 +71,8 @@
 	<script src="./js/student_common.js"></script>
 	<script>
 		$(document).ready(function() {
-			var token = localStorage.getItem("token");
-			if (token == null) {
-				window.location.href = '/index.html';
+			if (token == null || permissionId != 3) {
+				logout();
 			}
 			renderHtml('content', 'student/student_front_page.html');
 			sideBarLinkage();

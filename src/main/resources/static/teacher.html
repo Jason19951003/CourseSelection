@@ -53,9 +53,8 @@
 	<script src="./js/teacher_course.js"></script>
 	<script>
 		$(document).ready(function() {
-			var token = localStorage.getItem("token");
-			if (token == null) {
-				window.location.href = '/index.html';
+			if (token == null || permissionId != 2) {
+				logout();
 			}
 			renderHtml('content', 'teacher/teacher_front_page.html');
 			sideBarLinkage();

@@ -43,6 +43,7 @@ public class AuthenticationController {
 				result.put("userName", loginUser.getUser().getUserName());
 				result.put("token", jwtUtil.generateToken(loginUser));
 				result.put("user", loginUser.getUser());
+				result.put("permissionId", loginUser.getUser().getPermissionId());
 				switch (loginUser.getPermission()) {
 					case ADMIN:
 						result.put("page", "./root.html");

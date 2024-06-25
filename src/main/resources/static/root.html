@@ -78,9 +78,8 @@
 	
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
-			var token = localStorage.getItem("token");
-			if (token == null) {
-				window.location.href = '/index.html';
+			if (token == null || permissionId != 1) {
+				logout();
 			}
 			renderHtml('content', 'root/root_front_page.html');
 			sideBarLinkage();

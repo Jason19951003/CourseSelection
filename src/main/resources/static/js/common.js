@@ -1,6 +1,8 @@
 const token = localStorage.getItem('token');
 const userName = localStorage.getItem('userName');
 const userId = localStorage.getItem('userId');
+const permissionId = localStorage.getItem('permissionId');
+
 const ip = 'http://192.168.0.197:8080';
 
 const loadDepartment = async () => {
@@ -146,5 +148,6 @@ const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
+    localStorage.removeItem('permissionId');
     window.location.href = "/index.html"
 }

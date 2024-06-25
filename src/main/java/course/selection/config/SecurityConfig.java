@@ -35,7 +35,7 @@ public class SecurityConfig {
 		.csrf(csrf-> csrf.disable())
 		.authorizeHttpRequests(
 			(requests) -> requests
-						.requestMatchers("/*.html","/favicon.ico" ,"/*/*.html" ,"/*/*.css", "/*/*.js", "/*/*.jpg")
+						.requestMatchers("/*.html", "/favicon.ico" ,"/*/*.html" ,"/*/*.css", "/*/*.js", "/*/*.jpg")
 						.permitAll()
 						.requestMatchers("/user/login")
 						.permitAll()
@@ -44,7 +44,7 @@ public class SecurityConfig {
 						.anyRequest()
 						.authenticated()
 		)
-		.formLogin(login -> login.loginPage("/index.html"))
+		.formLogin(login -> login.loginPage("http://192.168.0.197:8080/index.html"))
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authenticationProvider(authenticationProvider())
 		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
