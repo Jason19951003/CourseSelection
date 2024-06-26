@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,6 +89,8 @@ public class ScheduleService {
 	            }
 		    });
 		}
+		if (!(scheduleMapper.importRequiredCourse(param) > 0))
+			throw new RuntimeException("匯入課程時，發生錯誤");
         return true;
     }
 }
