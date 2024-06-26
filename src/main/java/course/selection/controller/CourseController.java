@@ -89,11 +89,16 @@ public class CourseController {
 
 	@PutMapping("/updateCourseOfferings/{courseIndex}")
 	public ResponseEntity<ApiResponse<?>> updateCourseOfferings(@RequestBody Map<String, Object> param) {
-		Integer rowCount = courseService.updateCourseOfferings(param);
-		boolean state = rowCount > 0;
-		String message = state ? "修改成功" : "修改失敗";
-		ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
-		return ResponseEntity.ok(result);
+		try {
+			Integer rowCount = courseService.updateCourseOfferings(param);
+			boolean state = rowCount > 0;
+			String message = state ? "修改成功" : "修改失敗";
+			ApiResponse<String> result = new ApiResponse<>(state, message, "修改");
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok(new ApiResponse<>(false, "當前時間和地點已有其他課程安排，請選擇不同的時間或地點。", "成功"));
+		}
 	}
 
 	@DeleteMapping("/deleteCourseInfo/{courseIndex}")
