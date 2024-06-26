@@ -51,9 +51,10 @@ public class ScheduleService {
 		                            ("" + map.get("grade")).equals(courseInfo.get("course_grade") + "") &&
 		                            (courseRequired == 1 ? !"選修".equals(map.get("class_name") + "") : "選修".equals(map.get("class_name") + "")));
 
+			param.put("courseIndex", courseInfo.get("course_index"));
+			param.put("courseSemester", new Random().nextInt(2) + 1);
+					
 		    filteredClassInfos.forEach(classInfo -> {
-                param.put("courseIndex", courseInfo.get("course_index"));
-                param.put("courseSemester", new Random().nextInt(2) + 1);
                 param.put("classId", classInfo.get("class_id"));
 
 		        while (true) {
@@ -82,8 +83,6 @@ public class ScheduleService {
 	            
 	            if (!(rowCount > 0)) {
 	                throw new RuntimeException("匯入課程發生錯誤");
-	            } else {
-	            	System.out.println("新增成功");
 	            }
 		    });
 		}

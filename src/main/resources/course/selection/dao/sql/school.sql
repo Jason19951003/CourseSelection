@@ -104,7 +104,8 @@ create table if not exists course_offerings (
 	teacher_id varchar(255) not null COMMENT '老師',    
 	foreign key (course_index) references course_info(course_index),
 	foreign key (teacher_id) references user_info(user_id),
-	foreign key (course_class_id) references class_info(class_id)
+	foreign key (course_class_id) references class_info(class_id),
+    constraint course_idx_unique unique (course_year, course_semester, course_of_week, course_start, course_end, course_locate)
 );
 
 create table if not exists course_score (
