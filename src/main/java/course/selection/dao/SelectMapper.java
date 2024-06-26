@@ -9,7 +9,7 @@ public interface SelectMapper {
 
     public List<CourseScore> checkCourseStatus();
 
-    public List<Map<String,Object>> findCourseCapacity();
+    public List<Map<String,Object>> findCourseCapacity(Integer courseYear);
 
     public Integer insertScore(Map<String, Object> param);
 

@@ -1,5 +1,6 @@
 package course.selection;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +31,7 @@ class CourseSelectionApplicationTests {
 	
 	@Test
 	void contextLoads() {
-		List<Map<String, Object>> listMap = selectMapper.findCourseCapacity();
+		List<Map<String, Object>> listMap = selectMapper.findCourseCapacity(LocalDate.now().getYear()-1911);
 		List<CourseScore> status = selectMapper.checkCourseStatus();
 		for (Map<String, Object> map : listMap) {
 			Optional<CourseScore> result = status.stream()

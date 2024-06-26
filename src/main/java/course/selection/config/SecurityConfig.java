@@ -44,7 +44,7 @@ public class SecurityConfig {
 						.anyRequest()
 						.authenticated()
 		)
-		.formLogin(login -> login.loginPage("http://192.168.0.197:8080/index.html"))
+		.formLogin(login -> login.loginPage("http://127.0.0.1:8080/index.html"))
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authenticationProvider(authenticationProvider())
 		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -302,7 +302,9 @@
         
         var param = {
             courseRequired : '2',
-            depId : $('#depId').val()
+            depId : $('#depId').val(),
+            courseYear : new Date().getFullYear()-1911,
+            courseSemester : new Date().getMonth() > 6 ? 1 : 2
         }
         var queryString = new URLSearchParams(param).toString();
         const response = await fetch(`${ip}/course/findCourseOfferingInfo?${queryString}`, {
