@@ -251,10 +251,9 @@
         $('#scheduleBody').find('td').html('');
         var param = {
             'userId' : `${userId}`,
-            'courseYear' : '112',
-            'courseSemester' : '1'
+            'courseYear' : new Date().getFullYear()-1911,
+            'courseSemester' : new Date().getMonth() >= 5 ? 1 : 2
         }
-
         var queryString = new URLSearchParams(param).toString();
 
         const response = await fetch(`${ip}/course/findSchedule?${queryString}`, {
@@ -304,8 +303,9 @@
             courseRequired : '2',
             depId : $('#depId').val(),
             courseYear : new Date().getFullYear()-1911,
-            courseSemester : new Date().getMonth() > 6 ? 1 : 2
+            courseSemester : new Date().getMonth() >= 5 ? 1 : 2
         }
+        
         var queryString = new URLSearchParams(param).toString();
         const response = await fetch(`${ip}/course/findCourseOfferingInfo?${queryString}`, {
             headers : {
