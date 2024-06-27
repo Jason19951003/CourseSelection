@@ -197,12 +197,14 @@
             a.teacher_id,
             IFNULL(a.score, '0') as score,
             b.user_name,
-            c.course_name 
+            c.course_name, 
+            d.department_name
         FROM
             course_score a
             LEFT JOIN user_info b ON a.student_id = b.user_id
             LEFT JOIN course_info c ON c.course_dep = a.course_dep
             AND c.course_id = a.course_id
+            LEFT JOIN department d ON a.course_dep = d.department_id
         <where>
             <if test="depId != null and depId != ''">
                 AND a.course_dep = #{depId}

@@ -114,10 +114,15 @@
                             window.location.href = data.page;
                         }
                     });
-                    $('body').removeClass('swal2-shown swal2-height-auto');
+                    // $('body').removeClass('swal2-shown swal2-height-auto');
 				} else {
-					$('#errorMessage').removeClass('d-none');
+                    Swal.fire({
+                        title: "帳號或密碼錯誤",
+                        icon: "error"
+                    });
+					//$('#errorMessage').removeClass('d-none');
 				}
+                $('body').removeClass('swal2-shown swal2-height-auto');
             } catch (error) {
                 console.error('Network error or other issue:', error);
                 $('#errorMessage').removeClass('d-none');

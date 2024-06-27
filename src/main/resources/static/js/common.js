@@ -90,11 +90,12 @@ const loadCourseScore = async() => {
     
     data.forEach(obj => {
         var objStr = JSON.stringify(obj);
+        console.log(obj);
         $('#scoreBody').append(`
             <tr>
                 <td>${obj.courseYear}</td>
                 <td>${obj.courseSemester}</td>
-                <td>${obj.courseDep}</td>
+                <td>${obj.departmentName}</td>
                 <td>${obj.courseName}</td>
                 <td>${obj.userName}</td>
                 <td><input id='score' name='score' type="number" value="${obj.score}" min="0" max="100" class="form-control" style="width: 150px" data-score='${objStr}'></td>
