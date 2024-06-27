@@ -164,6 +164,32 @@
     });
 
     var saveCourseOfferings = async() => {
+        // 格式檢查
+        var courseStart = $('#courseStart').val();
+        var courseEnd = $('#courseEnd').val();
+
+        if (courseStart >= courseEnd) {
+            Swal.fire({
+                title: '起始時間必須小於結束時間',
+                icon: 'error'
+            });
+            return false;
+        }
+
+        var validPairs = [["1", "2"], ["3", "4"], ["5", "6"], ["7", "8"]];
+
+        var isValidPair = validPairs.some(function(pair) {
+            return (pair.includes(courseStart) && pair.includes(courseEnd));
+        });
+
+        if (!isValidPair) {
+            Swal.fire({
+                title: '上課時間只能是(1,2)(3,4)(5,6)(7,8)',
+                icon: 'error'
+            });
+            return false;
+        }
+
         var formData = {
             courseIndex: $('#courseIndex').val(),
             courseYear : $('#courseYear').val(),
@@ -171,8 +197,8 @@
             classId : $('#classId').val(),
             teacherId : $('#teacherId').val(),
             courseOfWeek : $('#courseOfWeek').val(),
-            courseStart : $('#courseStart').val(),
-            courseEnd : $('#courseEnd').val(),
+            courseStart : courseStart,
+            courseEnd : courseEnd,
             courseLocate : $('#courseLocate').val()
         }
         const response = await fetch(`${ip}/course/updateCourseOfferings/${formData.courseIndex}`, {
