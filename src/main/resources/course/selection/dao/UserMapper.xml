@@ -111,6 +111,9 @@
 			<if test="classId != null and classId != ''">
 				class_id = #{classId},
 			</if>
+			<if test="classId == ''">
+				class_id = null,
+			</if>
 			<if test="admissionDate != null and admissionDate != ''">
 				admission_date = #{admissionDate},
 			</if>
