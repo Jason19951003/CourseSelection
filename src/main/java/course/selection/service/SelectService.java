@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import course.selection.config.InitCourseStatus;
 import course.selection.dao.SelectMapper;
 import course.selection.model.pojo.CourseScore;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,14 @@ public class SelectService {
     public void setStatus(List<CourseScore> status) {
         SelectService.status = status;
     }
+
+    @Autowired
+    private InitCourseStatus initCourseStatus;  // 注入InitCourseStatus
+
+    // 新增重新注入狀態的方法
+    public void refreshStatus() {
+        setStatus(initCourseStatus.getStatus());
+    }    
 
     public List<CourseScore> checkCourseStatus() {
         return selectMapper.checkCourseStatus();

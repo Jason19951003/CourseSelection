@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import course.selection.model.ApiResponse;
 import course.selection.service.CourseService;
 import course.selection.service.ScheduleService;
+import course.selection.service.SelectService;
 
 
 @RestController
@@ -29,6 +30,9 @@ public class CourseController {
 
 	@Autowired
 	private ScheduleService scheduleService;
+
+	@Autowired
+    private SelectService selectService;
 
 	@GetMapping("/findCourseInfo")
 	public ResponseEntity<ApiResponse<?>> findCourseInfo(@RequestParam() Map<String, Object> param) {
@@ -181,6 +185,7 @@ public class CourseController {
 				boolean state = scheduleService.insertAllCourseOfferings(courseYear);
 				String message = state ? "匯入成功" : "匯入失敗";
 				ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
+				selectService.refreshStatus();
 				return ResponseEntity.ok(result);
 			} else {
 				throw new RuntimeException("該年份已有課程");
