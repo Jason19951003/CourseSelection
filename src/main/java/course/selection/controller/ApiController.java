@@ -4,14 +4,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -34,6 +35,7 @@ import course.selection.model.ApiResponse;
 import course.selection.service.RedisService;
 import course.selection.service.UserService;
 import course.selection.util.MailUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -71,20 +73,20 @@ public class ApiController {
         }
     }
 
+    // 將驗證碼圖片轉為base64傳回前端
     @GetMapping("/passcode")
-    public void getPassCode(HttpServletResponse res) {
+    public ResponseEntity<ApiResponse<?>> getPassCode(HttpServletRequest req, HttpServletResponse res) {
         String passCode = String.format("%04d", new Random().nextInt(10000));
-        String passcodeId = UUID.randomUUID().toString();
-        res.setContentType("image/jpeg");
-        res.setHeader("Passcode-Id", passcodeId);
-
         try {
             BufferedImage img = getPassCodeImage(passCode);
-            OutputStream os = res.getOutputStream();
-            ImageIO.write(img, "JPEG", os);
-            os.flush();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(img, "JPEG", baos);
+            
+            ApiResponse<String> apiResponse = new ApiResponse<>(true, passCode, Base64.getEncoder().encodeToString(baos.toByteArray()));
+            return ResponseEntity.ok(apiResponse);
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.ok(new ApiResponse<>(false, "產生驗證碼發生錯誤", null));
         }
     }
 
@@ -98,16 +100,16 @@ public class ApiController {
         }
     }
 
-    // 發送OPT驗證碼
+    // 發送OTP驗證碼
     @GetMapping("/sendPassCode/{email}")
     public ResponseEntity<ApiResponse<?>> sendPassCode(@PathVariable("email") String email) {
-        // 產生OPT驗證碼
+        // 產生OTP驗證碼
         SecureRandom sec = new SecureRandom();
-        String OPT = String.format("%06d", sec.nextInt(100000));
+        String OTP = String.format("%06d", sec.nextInt(100000));
         // 將驗證碼儲存到Redis，時效五分鐘
-        redisService.saveWithExpire(email, OPT, 5, TimeUnit.MINUTES);
+        redisService.saveWithExpire(email, OTP, 5, TimeUnit.MINUTES);
         // 發送Email
-        boolean state = MailUtil.sendMail(email, OPT);
+        boolean state = MailUtil.sendMail(email, OTP);
         String message = state ? "發送成功" : "發送失敗";
         // 回傳至前端
         ApiResponse<String> apiResponse = new ApiResponse<>(state, message, "發送驗證碼");
@@ -171,15 +173,15 @@ public class ApiController {
 		// 建立畫布
 		Graphics g = img.getGraphics();
 		// 設定顏色
-		g.setColor(Color.GRAY);
+		g.setColor(Color.WHITE);
 		// 塗滿背景
 		g.fillRect(0, 0, w, h);
 		// 繪製文字
-		g.setColor(Color.BLUE);
-		g.setFont(new Font("新細明體", Font.BOLD, 30));
+		g.setColor(new Color(116, 71, 194));
+		g.setFont(new Font("Courier New", Font.BOLD, 30));
 		g.drawString(passCode, 10, 25);
 		// 加入干擾線
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.RED);
 		Random random = new Random();
 		
 		for (int i = 0; i < 10; i++) {
