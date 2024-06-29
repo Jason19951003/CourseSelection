@@ -1,3 +1,78 @@
-<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
-    <h2>歡迎學生來到首頁~</h2>
+<style>
+    .info-card {
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 25%;
+        margin-right: 20px; /* 添加間隔 */
+    }
+    /* 最後一個卡片不需要右邊的間隔 */
+    .info-card:last-child {
+        margin-right: 0;
+    }
+    .icon {
+        font-size: 24px;
+        color: #ff0000;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .title {
+        /* font-size: 24px;*/
+        font-weight: bold;
+        text-align: center;
+        border-bottom: 2px solid #ffd141;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .description {
+        font-size: 20px;
+        color: #000000;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .description:hover {
+        cursor: pointer;
+    }
+</style>
+<div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded">
+    <div class="info-card">
+        <div class="icon"><img src="/img/DM_20240629151906_001.png" alt=""></div>
+        <h2 class="title">資安暨個資宣導</h2>
+        <div class="description">資訊安全政策</div>
+        <div class="description">資訊安全宣導</div>
+        <div class="description">個人資料保護專區</div>
+        <div class="description">校園保護智慧財產權專區</div>
+        <div class="description">行動裝置資通安全注意事項</div>
+    </div>
+    <div class="info-card">
+        <div class="icon"><img src="/img/DM_20240629151906_002.png" alt=""></div>
+        <h2 class="title" style="border-color: #ec8273">學校資訊</h2>
+        <div class="description">徵才訊息</div>
+        <div class="description">校務及財務資訊公開專區</div>
+        <div class="description">獎勵補助經費專區</div>
+        <div class="description">教師產學合作能量互動系統</div>
+        <div class="description">校區平面圖(含無障礙通道)</div>
+    </div>
+    <div class="info-card">
+        <div class="icon"><img src="/img/DM_20240629151906_003.png" alt=""></div>
+        <h2 class="title">宣導及重點連結</h2>
+        <div class="description">推廣教育中心</div>
+        <div class="description">性別平等教育網</div>
+        <div class="description">反詐騙宣教資料</div>
+        <div class="description">1111大學網</div>
+        <div class="description">新冠肺炎防疫專區</div>
+        <div class="description">職業災害勞工權益宣導短片</div>
+    </div>
+    <div class="info-card">
+        <div class="icon"><img src="/img/DM_20240629151906_004.png" alt=""></div>
+        <h2 class="title" style="border-color: #ec8273">政府相關連結</h2>
+        <div class="description">流感防治網</div>
+        <div class="description">教育部全民資訊素養網</div>
+        <div class="description">秋行軍蟲防治</div>
+        <div class="description">國發會推動ODF標準格式</div>
+        <div class="description">109年資源回收暨環境衛生宣導資料</div>
+        <div class="description">職災權益宣導</div>
+    </div>
+    <!-- 添加更多 info-card 按需求 -->
 </div>
