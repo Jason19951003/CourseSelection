@@ -41,6 +41,12 @@
                                     placeholder="請輸入驗證碼">
                                 <!-- 顯示驗證碼圖片 -->
                                 <img id="captchaImage" src="" alt="Captcha">
+                                <!-- 新增刷新圖示 -->
+                                <div class="input-group-append">
+                                    <button class="btn" style="border: none;" type="button" id="refreshCaptchaButton">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-primary">登入</button>
@@ -63,6 +69,12 @@
     <script>
         var passcode;
         $(document).ready(async function() {
+            getPassCode();
+
+            document.getElementById('refreshCaptchaButton').addEventListener('click', getPassCode);
+        });
+
+        async function getPassCode() {
             const response = await fetch(`${ip}/api/passcode`);
             const {state, message, data} = await response.json();
             if (state) {
@@ -70,7 +82,7 @@
                 const base64String = `data:image/jpeg;base64, ${data}`;
                 document.getElementById('captchaImage').src = base64String;
             }
-        });
+        }
 
         $('#togglePasswordButton').click(function () {
             var passwordInput = $('#password');
