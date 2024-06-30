@@ -1,7 +1,6 @@
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">大學選課系統</h1>
 <h4 align="center">基於SpringBoot+Mybatis的Java快速開發框架</h4>
 
-
 ## 專題簡介
 * 前端採用html、css、JavaScript、jQuery、JavaScirpt。
 * 後端採用SpringBoot、SpringSecurity、Mybatis。
@@ -12,7 +11,7 @@
 
 ## 頁面功能
 1. 管理員頁面
-    * 個人資料維護
+    * 個人資料
     * 課程管理
     * 開課資訊
 2. 老師頁面
@@ -22,3 +21,5 @@
     * 成績查詢
     * 課表查詢
     * 選課系統
+
+## 演示圖
