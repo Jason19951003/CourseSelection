@@ -16,7 +16,7 @@ public class MailUtil {
 		String host = "smtp.gmail.com";
 		int port = 587;
 		final String username = "jason19951003@gmail.com";//smtp帳號
-		final String password = "qjmb zxwa gten zahg";//smtp密碼
+		final String password = "";//smtp密碼
 		
 		Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
