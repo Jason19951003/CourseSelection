@@ -305,7 +305,6 @@
             courseYear : new Date().getFullYear()-1911,
             courseSemester : new Date().getMonth() >= 5 ? 1 : 2
         }
-        
         var queryString = new URLSearchParams(param).toString();
         const response = await fetch(`${ip}/course/findCourseOfferingInfo?${queryString}`, {
             headers : {

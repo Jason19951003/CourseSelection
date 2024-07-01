@@ -367,7 +367,7 @@
         LEFT JOIN department e ON b.course_dep = e.department_id
         <where>
             <if test="userId != null and userId != ''">
-                AND a.teacher_id = #{userID}
+                AND a.teacher_id = #{userId}
             </if>
             <if test="depId != null and depId != ''">
                 AND b.course_dep = #{depId}

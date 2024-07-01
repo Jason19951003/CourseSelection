@@ -12,6 +12,7 @@
             course_offerings a
         LEFT JOIN course_info b ON a.course_index = b.course_index
         WHERE b.course_required = '2'
+        GROUP BY b.course_dep, b.course_id, b.course_name, a.course_capacity
     </select>
 
     <select id="findCourseCapacity">

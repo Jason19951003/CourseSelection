@@ -31,7 +31,7 @@ public class SelectService {
     // 新增重新注入狀態的方法
     public void refreshStatus() {
         setStatus(initCourseStatus.getStatus());
-    }    
+    }
 
     public List<CourseScore> checkCourseStatus() {
         return selectMapper.checkCourseStatus();
@@ -45,7 +45,6 @@ public class SelectService {
             String courseId = String.valueOf(param.get("courseId"));
 
             for (CourseScore course : status) {
-                
                 if (course.getCourseDep().equals(courseDep) && course.getCourseId().equals(courseId)) {
                 	Integer capacity = course.getCourseCapacity();
                     if (capacity == 0) {
@@ -66,7 +65,7 @@ public class SelectService {
         String courseDep = String.valueOf(param.get("courseDep"));
         String courseId = String.valueOf(param.get("courseId"));
         synchronized (status) {
-            for (CourseScore course : status) {                
+            for (CourseScore course : status) {
                 Integer capacity = course.getCourseCapacity();
                 
                 if (course.getCourseDep().equals(courseDep) && course.getCourseId().equals(courseId)) {

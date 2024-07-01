@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import course.selection.dao.SelectMapper;
 import course.selection.model.pojo.CourseScore;
@@ -19,6 +21,7 @@ public class InitCourseStatus {
     private SelectMapper selectMapper;
     
     @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public List<CourseScore> getStatus() {
         List<Map<String, Object>> listMap = selectMapper.findCourseCapacity(LocalDate.now().getYear()-1911);
 		List<CourseScore> status = selectMapper.checkCourseStatus();
