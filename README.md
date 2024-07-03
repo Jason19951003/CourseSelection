@@ -2,7 +2,7 @@
 <h4 align="center">基於SpringBoot+Mybatis的Java快速開發框架</h4>
 
 ## 專題簡介
-* 前端採用html、css、JavaScript、jQuery、JavaScirpt。
+* 前端採用html、css、JavaScript、jQuery、Bootstrap5。
 * 後端採用SpringBoot、SpringSecurity、Mybatis。
 * 資料庫採用MySQL、Redis。
 * 透過JWT生成token的有效期限，來實現防止多開的功能。
