@@ -1,4 +1,4 @@
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">大學選課系統</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">翔的學園</h1>
 <h4 align="center">基於SpringBoot+Mybatis的Java快速開發框架</h4>
 
 ## 專題簡介
