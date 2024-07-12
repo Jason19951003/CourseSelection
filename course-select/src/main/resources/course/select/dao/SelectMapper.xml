@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="course.select.dao.SelectMapper">
+<mapper namespace="course.select.dao.SelectMapper">	
+
 	<select id="checkCourseStatus">
-        SELECT 
-            b.course_dep,
-            b.course_id,
-            b.course_name,
-            a.course_capacity
-        FROM
-            course_offerings a
-        LEFT JOIN course_info b ON a.course_index = b.course_index
-        WHERE b.course_required = '2'
-        GROUP BY b.course_dep, b.course_id, b.course_name, a.course_capacity
-    </select>
+		SELECT
+			course_capacity,
+			enrollment
+		FROM
+			course_offerings 
+		WHERE
+			course_index = #{courseIndex}
+			AND course_year = #{courseYear}
+			AND course_semester = #{courseSemester}
+			AND course_class_id = #{classId}
+	</select>
 
 	<insert id="insertScore">
         INSERT INTO course_score (
@@ -32,4 +33,86 @@
         AND course_class_id = #{classId} AND student_id = #{studentId}
         AND teacher_id = #{teacherId}
     </delete>
+    
+    <update id="updateEnrollment">    
+	    UPDATE course_offerings
+	    <choose>
+	    	<when test="status eq 'add'">
+	    		SET enrollment = enrollment + 1
+	    	</when>
+	    	<otherwise>
+	    		SET enrollment = enrollment - 1
+	    	</otherwise>
+	    </choose>
+    	WHERE
+			course_index = #{courseIndex}
+			AND course_year = #{courseYear}
+			AND course_semester = #{courseSemester}
+			AND course_class_id = #{classId}
+    </update>
+    
+    <select id="findCourseOfferingInfo">
+        SELECT a.*, CONCAT(a.weeks,' 第', a.course_start, '-', a.course_end,'節') as course_time
+        FROM (SELECT 
+            a.course_index,
+            b.course_dep,
+            e.department_name,
+            b.course_id,
+            b.course_name,
+            b.course_required,
+            CASE b.course_required
+                WHEN '1' THEN '必修'
+                WHEN '2' THEN '選修'
+            END AS required,
+            b.course_credit,
+            a.course_year,
+            a.course_semester,
+            c.class_id,
+            c.grade,
+            c.class_name,
+            a.course_of_week,
+            a.course_start,
+            a.course_end,
+            a.course_locate,
+            a.course_content,
+            a.teacher_id,
+            a.course_capacity,
+            a.enrollment as enrolled_student,
+            d.user_name,
+            CASE a.course_of_week
+                WHEN 'Monday' THEN '星期ㄧ'
+                WHEN 'Tuesday' THEN '星期二'
+                WHEN 'Wednesday' THEN '星期三'
+                WHEN 'Thursday' THEN '星期四'
+                WHEN 'Friday' THEN '星期五'
+            END AS weeks
+        FROM
+            course_offerings a
+        LEFT JOIN course_info b ON a.course_index = b.course_index 
+        LEFT JOIN class_info c ON a.course_class_id = c.class_id
+        LEFT JOIN user_info d ON a.teacher_id = d.user_id
+        LEFT JOIN department e ON b.course_dep = e.department_id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND a.teacher_id = #{userId}
+            </if>
+            <if test="depId != null and depId != ''">
+                AND b.course_dep = #{depId}
+            </if>
+            <if test="courseYear != null and courseYear != ''">
+                AND a.course_year = #{courseYear}
+            </if>
+            <if test="courseSemester != null and courseSemester != null">
+                AND a.course_semester = #{courseSemester}
+            </if>
+            <if test="classId != null and classId != ''">
+                AND c.class_id = #{classId}
+            </if>
+            <if test="courseRequired != null and courseRequired != ''">
+                AND b.course_required = #{courseRequired}
+            </if>
+        </where>
+        ) a
+    </select>
+    
 </mapper>
