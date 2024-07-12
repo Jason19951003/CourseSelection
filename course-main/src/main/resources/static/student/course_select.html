@@ -182,7 +182,7 @@
                     }
                 }
                 
-                const response = await fetch(`${ip}/select/insertCourse`, {
+                const response = await fetch(`${selctIp}/select/insertCourse`, {
                     method : 'POST',
                     headers : {
                         'Authorization': `Bearer ${token}`,
@@ -217,7 +217,7 @@
                 course.studentId = `${userId}`;
 
                 try {
-                    const response = await fetch(`${ip}/select/deleteScore`, {
+                    const response = await fetch(`${selctIp}/select/deleteScore`, {
                         method : 'POST',
                         headers : {
                             'Authorization': `Bearer ${token}`,
@@ -306,7 +306,7 @@
             courseSemester : new Date().getMonth() >= 5 ? 1 : 2
         }
         var queryString = new URLSearchParams(param).toString();
-        const response = await fetch(`${ip}/course/findCourseOfferingInfo?${queryString}`, {
+        const response = await fetch(`${selctIp}/select/findCourseOfferingInfo?${queryString}`, {
             headers : {
                 'Authorization': `Bearer ${token}`
             }
