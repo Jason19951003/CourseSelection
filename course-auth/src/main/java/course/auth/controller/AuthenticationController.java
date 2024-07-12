@@ -28,6 +28,7 @@ public class AuthenticationController {
 			String result= redisService.get("updateStatus");
 			return ResponseEntity.ok(new ApiResponse<>(true, "", result));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.ok(new ApiResponse<>(true, e.getMessage(), ""));
 		}
 	}
