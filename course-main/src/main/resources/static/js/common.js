@@ -5,6 +5,7 @@ const permissionId = sessionStorage.getItem('permissionId');
 var interval;
 const ip = 'http://192.168.0.197:8080';
 const selectIp = 'http://192.168.0.197:8081';
+const authIp = 'http://192.168.0.197:8082';
 
 const loadDepartment = async () => {
     const response = await fetch(`${ip}/course/findDepartment`, {
@@ -158,7 +159,7 @@ const singleSessionControl = async() => {
     if (token) {
         try {
             // 呼叫singleSessionController 驗證是否有其他裝置登入，如果有則登出。
-            const response = await fetch(`${ip}/user/singleSession`, {
+            const response = await fetch(`${authIp}/user/singleSession`, {
                 headers : {
                     'Authorization': `Bearer ${token}`
                 }
