@@ -2,14 +2,12 @@ package course.selection.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import course.selection.dao.CourseMapper;
-import course.selection.model.pojo.CourseScore;
 import course.selection.util.CamelCaseUtil;
 
 @Service
