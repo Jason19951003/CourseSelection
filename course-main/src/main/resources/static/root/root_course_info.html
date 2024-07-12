@@ -253,7 +253,7 @@
             classId : $('input[name="classId"]').val()
         }
         var queryString = new URLSearchParams(param).toString();
-        const response = await fetch(`${ip}/course/findCourseOfferingInfo?${queryString}`, {
+        const response = await fetch(`${selectIp}/select/findCourseOfferingInfo?${queryString}`, {
             headers : {
                 'Authorization': `Bearer ${token}`
             }

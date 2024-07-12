@@ -52,7 +52,8 @@
 			course_end, 
 			course_locate, 
 			course_content, 
-			teacher_id) 
+			teacher_id,
+			enrollment) 
 		VALUES (
 			#{courseIndex},
 			#{courseYear},
@@ -63,9 +64,19 @@
 			#{courseEnd},
 			#{courseLocate},
 			#{courseContent},
-			#{userId}
+			#{userId},
+			#{enrollment}
 		)
 	</insert>
+
+	<select id="countStudentNum">
+		SELECT
+			count(*) as count
+		FROM
+			user_info a
+		WHERE
+			a.permission_id = 3 AND a.class_id = #{classId}
+	</select>
 
 	<insert id="importRequiredCourse">
 		INSERT INTO course_score (course_dep, course_id, course_year, course_semester, course_class_id, student_id, teacher_id)

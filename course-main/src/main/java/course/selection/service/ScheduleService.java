@@ -77,8 +77,9 @@ public class ScheduleService {
 		        }
 		        param.put("courseContent", courseInfo.get("course_name"));
 	            param.put("userId", courseInfo.get("teacher_id"));
+				// 匯入必修課程時，加上該班級的人數
+				param.put("enrollment", scheduleMapper.countStudentNum(param.get("classId")+""));
 
-			    System.out.println("課程->" + param);
 	            int rowCount = scheduleMapper.insertAllCourseOfferings(param);
 	            
 	            if (!(rowCount > 0)) {

@@ -4,7 +4,7 @@ const userId = sessionStorage.getItem('userId');
 const permissionId = sessionStorage.getItem('permissionId');
 var interval;
 const ip = 'http://192.168.0.197:8080';
-const selctIp = 'http://192.168.0.197:8081';
+const selectIp = 'http://192.168.0.197:8081';
 
 const loadDepartment = async () => {
     const response = await fetch(`${ip}/course/findDepartment`, {

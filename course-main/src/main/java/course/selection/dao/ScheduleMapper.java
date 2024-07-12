@@ -13,6 +13,8 @@ public interface ScheduleMapper {
 
     public Integer insertAllCourseOfferings(Map<String, Object> param);
 
+    public Integer countStudentNum(String classId);
+
     public Integer checkCourseYear(Integer courseYear);
 
     public Integer importRequiredCourse(Map<String, Object> param);

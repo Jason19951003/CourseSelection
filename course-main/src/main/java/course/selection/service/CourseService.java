@@ -74,21 +74,6 @@ public class CourseService {
     public List<Map<String, Object>> findCourseYear(String userId) {
         return CamelCaseUtil.underlineToCamel(courseMapper.findCourseYear(userId));
     }
-
-    public List<Map<String, Object>> findCourseOfferingInfo(Map<String, Object> param) {
-        List<Map<String, Object>> result = CamelCaseUtil.underlineToCamel(courseMapper.findCourseOfferingInfo(param));
-        
-        for (Map<String, Object> map : result) {
-            Optional<CourseScore> op =  SelectService.status.stream()
-                                .filter(cs -> cs.getCourseDep().equals(map.get("courseDep")) &&
-                                              cs.getCourseId().equals(map.get("courseId")))
-                                .findFirst();
-            if (op.isPresent()) {
-                map.put("enrolledStudent", Integer.parseInt(map.get("courseCapacity")+"") - op.get().getCourseCapacity());
-            }
-        }
-        return result;
-    }
  
     public List<Map<String, Object>> findAllCourseYear() {
         return CamelCaseUtil.underlineToCamel(courseMapper.findAllCourseYear());
