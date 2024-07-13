@@ -69,6 +69,10 @@ public class CourseService {
         return CamelCaseUtil.underlineToCamel(courseMapper.findSchedule(param));
     }
 
+    public List<Map<String, Object>> getScheduleByClass(Map<String, Object> param) {
+        return CamelCaseUtil.underlineToCamel(courseMapper.getScheduleByClass(param));
+    }
+
     public List<Map<String, Object>> findCourseYear(String userId) {
         return CamelCaseUtil.underlineToCamel(courseMapper.findCourseYear(userId));
     }

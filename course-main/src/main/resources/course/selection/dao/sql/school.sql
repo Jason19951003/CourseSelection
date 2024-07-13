@@ -91,16 +91,18 @@ create table if not exists course_info (
 );
 
 create table if not exists course_offerings (
+    course_pk int auto_increment PRIMARY KEY COMMENT  '索引',
 	course_index int COMMENT '索引',
 	course_year int not null COMMENT '年分',
 	course_semester ENUM('1','2') not null COMMENT '學期',
     course_capacity int not null default 60 COMMENT '人數',
+    enrollment int COMMENT '已選人數',
 	course_class_id int COMMENT '課程班級',
 	course_of_week ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday') NOT NULL COMMENT '星期',
 	course_start tinyint not null,
 	course_end tinyint not null,
 	course_locate varchar(255) not null COMMENT '上課地點',
-    course_content varchar(255) COMMENT '課程介紹',
+    course_content longtext COMMENT '課程介紹',
 	teacher_id varchar(255) not null COMMENT '老師',    
 	foreign key (course_index) references course_info(course_index),
 	foreign key (teacher_id) references user_info(user_id),

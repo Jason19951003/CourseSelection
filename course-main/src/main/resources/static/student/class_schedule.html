@@ -9,7 +9,7 @@
     <select id="courseYear" name="courseYear" class="form-select" style="width: 150px;">
     </select>
 </div>
-<!-- 課表 -->
+
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
     <h2 class="text-center mb-4">課表</h2>
     <table class="table table-bordered table-striped schedule-table">
@@ -94,20 +94,6 @@
         </tbody>
     </table>
 </div>
-<!-- 課程資訊視窗 -->
-<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="courseModalLabel">課程訊息</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div id="courseContent" class="modal-body">
-                
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     $(document).ready(async function() {
@@ -124,7 +110,7 @@
         }
 
         var queryString = new URLSearchParams(param).toString();
-        // 學生課表查詢方法不一樣
+
         const response = await fetch(`${ip}/course/findSchedule?${queryString}`, {
             headers : {
                 'Authorization': `Bearer ${token}`,
@@ -154,26 +140,8 @@
 
             for (var i = obj.courseStart; i <= obj.courseEnd; i++) {
                 var rowIndex = obj.courseStart < 5 ? i-1 : i;
-                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`<a href="#" data-bs-toggle="modal" data-bs-target="#courseModal" onclick="getCourseContent('${obj.coursePk}')">${obj.courseName}</a>(${obj.required})<br>${obj.courseLocate}`);
+                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`${obj.courseName}(${obj.required})<br>${obj.courseLocate}`);
             }
         });
     });
-
-    // 因為直接將html存在前端可能導致格式跑掉，所以用pk重新去資料庫查資料。
-    async function getCourseContent(pk) {
-        $('#courseContent').html('');
-        var param = {
-            coursePk : pk
-        }
-
-        var queryString = new URLSearchParams(param).toString();
-        const response = await fetch(`${ip}/course/getScheduleByClass?${queryString}`, {
-            headers : {
-                'Authorization': `Bearer ${token}`,
-            }
-        });
-        const {state, message, data} = await response.json();
-        console.log(data);
-        $('#courseContent').html(data[0].courseContent);
-    }
 </script>

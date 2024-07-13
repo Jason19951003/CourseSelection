@@ -292,14 +292,14 @@
             AND a.course_year = #{courseYear}
             AND a.course_semester = #{courseSemester}
     </select>
-
+    <!-- 查詢學生課表 要從成績單查(因為開課資訊的課不代表學生都有選) -->
     <select id="findSchedule">
         SELECT
             b.course_index,
             b.course_dep,
             b.course_id,
             b.course_name,
-            b.course_credit,
+            b.course_credit,            
             a.course_year,
             a.course_semester,
             a.course_class_id,
@@ -307,6 +307,7 @@
             c.course_start,
             c.course_end,
             c.course_locate,
+            c.course_pk,
             CASE b.course_required
                 WHEN '1' THEN '必修'
                 WHEN '2' THEN '選修'
@@ -325,6 +326,39 @@
             AND a.course_semester = #{courseSemester}
     </select>
 
+    <!-- 根據老師和班級查課表 -->
+    <select id="getScheduleByClass">
+        SELECT
+            a.course_pk,
+            a.course_capacity,
+            a.course_of_week,
+            a.course_start,
+            a.course_end,
+            a.course_locate,
+            a.course_content,
+            b.course_name,
+            CASE b.course_required
+                WHEN '1' THEN '必修'
+                WHEN '2' THEN '選修'
+            END	AS required
+        FROM
+            course_offerings a
+        LEFT JOIN course_info b ON a.course_index = b.course_index
+        <where>
+            <if test="courseYear != null and courseYear != ''">
+                AND a.course_year = #{courseYear}
+            </if>
+            <if test="courseSemester != null and courseSemester != ''">
+                AND a.course_semester = #{courseSemester}
+            </if>            
+            <if test="teacherId != null and teacherId != ''">
+                AND a.teacher_id = #{teacherId}
+            </if>
+            <if test="coursePk != null and coursePk != ''">
+                AND a.course_pk = #{coursePk}
+            </if>
+        </where>
+    </select>
     <select id="findCourseOfferingInfo">
         SELECT a.*, CONCAT(a.weeks,' 第', a.course_start, '-', a.course_end,'節') as course_time
         FROM (SELECT 

@@ -6,9 +6,14 @@
 </style>
 
 <div class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded">
-    <select id="courseYear" name="courseYear" class="form-select" style="width: 150px;">
+    <select id="depId" name="depId" class="form-select" style="width: 150px; margin-right: 10px;">
+    </select>
+    <select id="teacherId" name="teacherId" class="form-select" style="width: 150px; margin-right: 10px;">
+    </select>
+    <select id="courseYear" name="courseYear" class="form-select" style="width: 150px; margin-right: 10px;">
     </select>
 </div>
+
 <!-- 課表 -->
 <div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
     <h2 class="text-center mb-4">課表</h2>
@@ -94,6 +99,7 @@
         </tbody>
     </table>
 </div>
+
 <!-- 課程資訊視窗 -->
 <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -108,24 +114,27 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(async function() {
+        await loadDepartment();
         await loadCourseYear('courseYear');
-        $('#courseYear').change();
+        // timeout 一定要宣告funciton 不能直接寫$('#courseYear').change()
+        setTimeout(function() {
+            $('#courseYear').change();
+        }, 100);
     });
 
-    $('#courseYear').on('change', async(e) => {
+    $('#courseYear, #depId, #teacherId').on('change', async(e) => {
         $('#scheduleBody').find('td').html('');
         var param = {
-            'userId' : `${userId}`,
+            'teacherId' : $('#teacherId').val(),
             'courseYear' : $('#courseYear').val(),
             'courseSemester' : $('#courseYear').find('option:selected').data('semester')
         }
 
         var queryString = new URLSearchParams(param).toString();
-        // 學生課表查詢方法不一樣
-        const response = await fetch(`${ip}/course/findSchedule?${queryString}`, {
+
+        const response = await fetch(`${ip}/course/getScheduleByClass?${queryString}`, {
             headers : {
                 'Authorization': `Bearer ${token}`,
             }
@@ -151,7 +160,7 @@
                     column = 4;
                     break;
             }
-
+            
             for (var i = obj.courseStart; i <= obj.courseEnd; i++) {
                 var rowIndex = obj.courseStart < 5 ? i-1 : i;
                 $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`<a href="#" data-bs-toggle="modal" data-bs-target="#courseModal" onclick="getCourseContent('${obj.coursePk}')">${obj.courseName}</a>(${obj.required})<br>${obj.courseLocate}`);

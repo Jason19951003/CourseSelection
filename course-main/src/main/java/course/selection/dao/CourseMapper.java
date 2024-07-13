@@ -33,6 +33,8 @@ public interface CourseMapper {
 
     public List<Map<String, Object>> findSchedule(Map<String, Object> param);
 
+    public List<Map<String, Object>> getScheduleByClass(Map<String, Object> param);
+
     public List<Map<String, Object>> findCourseYear(String userId);
 
     public List<Map<String, Object>> findCourseOfferingInfo(Map<String, Object> param);
