@@ -6,6 +6,7 @@ target/
 fonts/
 *.yml
 Dockerfile
+*.jar
 
 ### STS ###
 .apt_generated
