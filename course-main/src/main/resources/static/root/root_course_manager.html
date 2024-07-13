@@ -17,6 +17,7 @@
         </div>
         <thead>
             <tr>
+                <th><input type="checkbox" id="selectAll" name="selectAll" class="form-check-input"></th>
                 <th>科系</th>
                 <th>年級</th>
                 <th>課程代號</th>
@@ -110,6 +111,17 @@
         });
         await loadDepartment();
         $('#user-header select[name="depId"]').change();
+
+        // 全選複選框的change事件
+        $('#selectAll').on('change', function() {
+            if (this.checked) {
+                // 如果全選複選框被選中，則選中所有input[name="courseIndex"]複選框
+                $('input[name="courseIndex"]').prop('checked', true);
+            } else {
+                // 如果全選複選框被取消選中，則取消選中所有input[name="courseIndex"]複選框
+                $('input[name="courseIndex"]').prop('checked', false);
+            }
+        });
     });
 
     async function importCourseOffering() {

@@ -105,6 +105,7 @@ const searchCourse = async () => {
             var objStr = JSON.stringify(obj);
             $('#courseBody').append(`
             <tr>
+                <td><input type="checkbox" id="courseIndex" name="courseIndex" class="form-check-input" data-course='${objStr}'></td>
                 <td>${obj.departmentName}</td>
                 <td>${obj.courseGrade}</td>
                 <td>${obj.courseId}</td>
