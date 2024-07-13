@@ -174,10 +174,12 @@ public class CourseController {
 	}
 
 	@PostMapping("/importCourseOfferings/{courseYear}")
-	public ResponseEntity<ApiResponse<?>> importCourseOfferings(@PathVariable("courseYear") Integer courseYear) {
-		try {
+	public ResponseEntity<ApiResponse<?>> importCourseOfferings(@PathVariable("courseYear") Integer courseYear, @RequestBody Map<String, Object> param) {
+		try {			
 			if (scheduleService.checkCourseYear(courseYear)) {
-				boolean state = scheduleService.insertAllCourseOfferings(courseYear);
+				// 改只匯入前端有勾選的課程
+				List<Integer> courseIndexList = (List)param.get("courseIndex");
+				boolean state = scheduleService.insertAllCourseOfferings(courseYear, courseIndexList);
 				String message = state ? "匯入成功" : "匯入失敗";
 				ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
 				return ResponseEntity.ok(result);
@@ -185,6 +187,7 @@ public class CourseController {
 				throw new RuntimeException("該年份已有課程");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			ApiResponse<String> result = new ApiResponse<>(false, e.getMessage(), "失敗");
 			return ResponseEntity.ok(result);
 		}

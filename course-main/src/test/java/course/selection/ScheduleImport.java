@@ -1,5 +1,7 @@
 package course.selection;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,6 @@ public class ScheduleImport {
 	
 	@Test
 	void testImport() {
-		System.out.println(scheduleService.insertAllCourseOfferings(111));
+		System.out.println(scheduleService.insertAllCourseOfferings(111, new ArrayList<Integer>()));
 	}
 }

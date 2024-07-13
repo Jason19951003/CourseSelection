@@ -25,11 +25,12 @@ public class ScheduleService {
 	}
 
     @Transactional
-    public Boolean insertAllCourseOfferings(Integer courseYear) {
+    public Boolean insertAllCourseOfferings(Integer courseYear, List<Integer> coruseIndex) {
         Map<String, Object> param = new HashMap<>();
 
         List<Map<String, Object>> classInfos = scheduleMapper.findAllClassInfo();
-		List<Map<String, Object>> courseInfos = scheduleMapper.findAllCourseInfo();
+		// 改只匯入前端有勾選的課程
+		List<Map<String, Object>> courseInfos = scheduleMapper.findAllCourseInfo(coruseIndex);
 
         String weeks[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
 		String timeSlots[] = {"1", "3", "5", "7"};
@@ -45,10 +46,12 @@ public class ScheduleService {
         for (Map<String, Object> courseInfo : courseInfos) {
 		    int courseRequired = Integer.parseInt(courseInfo.get("course_required").toString());
 
+		    // 查出所有要匯入的課程後，如果是必修課就去class_info資料表查班級資料表，把班級裡所有的學生加入課程
 		    Stream<Map<String, Object>> filteredClassInfos = classInfos.stream()
 		            .filter(map ->
 		                    ("" + map.get("department_id")).equals(courseInfo.get("course_dep") + "") &&
 		                            ("" + map.get("grade")).equals(courseInfo.get("course_grade") + "") &&
+		                            // 移除class_info選修的班級
 		                            (courseRequired == 1 ? !"選修".equals(map.get("class_name") + "") : "選修".equals(map.get("class_name") + "")));
 
 			param.put("courseIndex", courseInfo.get("course_index"));

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface ScheduleMapper {
 
-    public List<Map<String, Object>> findAllCourseInfo();
+    public List<Map<String, Object>> findAllCourseInfo(List<Integer> coruseIndex);
 
     public List<Map<String, Object>> findAllClassInfo();
     

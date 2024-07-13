@@ -23,6 +23,12 @@
 			course_credit,
 			teacher_id
 		FROM course_info
+		<where>
+			course_index IN
+			<foreach collection="coruseIndex" item="index" open="(" separator="," close=")">
+				#{index}
+			</foreach>
+		</where>
 	</select>
 	
 	<select id="findAllClassInfo">

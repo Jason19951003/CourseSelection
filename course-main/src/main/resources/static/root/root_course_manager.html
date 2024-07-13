@@ -125,6 +125,13 @@
     });
 
     async function importCourseOffering() {
+        if ($('input[name="courseIndex"]:checked').length == 0) {
+            Swal.fire({
+                title: '請勾選課程',
+                icon: "warning"
+            });
+            return;
+        }
         Swal.fire({
             title: '請輸入年份',
             input: 'text',
@@ -142,11 +149,24 @@
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 var courseYear = result.value; // 獲取輸入的年份
+                // 改為讓使用可以勾選要匯入的課程，原本一次全部匯入
+                var courseIndexArr = [];
+                $('input[name="courseIndex"]:checked').each(function() {
+                    // data方法會自動將字串轉為JSON物件
+                    courseIndexArr.push($(this).data('course').courseIndex);
+                });
+                
+                var param = {
+                    courseIndex : courseIndexArr
+                }
+                
                 const response = await fetch(`${ip}/course/importCourseOfferings/${courseYear}`, {
                     method : 'POST',
                     headers: {
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    body : JSON.stringify(param)
                 });
                 const {state, message, data} = await response.json();
                 Swal.fire({
