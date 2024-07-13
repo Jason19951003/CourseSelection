@@ -119,7 +119,7 @@
         await loadDepartment();
         await loadCourseYear('courseYear');
         // timeout 一定要宣告funciton 不能直接寫$('#courseYear').change()
-        setTimeout(function() {
+        setTimeout(() => {
             $('#courseYear').change();
         }, 100);
     });
@@ -182,7 +182,6 @@
             }
         });
         const {state, message, data} = await response.json();
-        console.log(data);
         $('#courseContent').html(data[0].courseContent);
     }
 </script>
