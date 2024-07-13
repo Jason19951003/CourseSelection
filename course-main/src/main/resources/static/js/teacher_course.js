@@ -22,8 +22,7 @@ const findCourseByTeacherId = async() => {
                 <td>${obj.semester}</td>
                 <td>${obj.departmentName}</td>
                 <td>${obj.fullClassName}</td>
-                <td>${obj.courseName}</td>
-                <td>${obj.courseContent}</td>
+                <td>${obj.courseName}</td>                
                 <td>
                     <button id="updateCourse" onclick="updateCourse(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#courseModal" data-course='${jsonStr}'>編輯</button>
                 </td>
@@ -41,13 +40,15 @@ const updateCourse = (e) => {
     $('#courseYear').val(courseData.courseYear);
     $('#courseSemester').val(courseData.courseSemester);
     $('#courseIndex').val(courseData.courseIndex);
-    $('#courseContent').val(courseData.courseContent);
+    // 將課程資訊的html格式顯示到編輯器上
+    CKEDITOR.instances.courseContent.setData(courseData.courseContent);
 }
 
 const saveCourse = async() => {
     var formData = {
         courseIndex: $('#courseIndex').val(),
-        courseContent: $('#courseContent').val(),
+        // 取得編輯器的html存到資料庫
+        courseContent: CKEDITOR.instances.courseContent.getData(),
         courseYear : $('#courseYear').val(),
         courseSemester : $('#courseSemester').val(),
         classId : $('#classId').val(),

@@ -48,7 +48,6 @@ public class AuthenticationController {
 		if (!(authHeader == null || !authHeader.startsWith("Bearer"))) {
 			jwtToken = authHeader.substring(7);
 			userName = jwtUtil.extractUsername(jwtToken);
-
 			// 使用jwt token 的有效期限判斷登入的先後順序
 			if (jwtUtil.isTokenExpired(jwtToken)) {
 				return ResponseEntity.ok(new ApiResponse<>(false, "您的登入時間已超過15分鐘，請重新登入以繼續使用。", ""));
