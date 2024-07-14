@@ -24,7 +24,9 @@ public class ScheduleTest {
 	@Test
 	void testSchedule() {
 		List<Map<String, Object>> classInfos = scheduleMapper.findAllClassInfo();
-		List<Map<String, Object>> courseInfos = scheduleMapper.findAllCourseInfo(new ArrayList<>());
+		List<Integer> courseIndexArr = new ArrayList<>();
+		courseIndexArr.add(1);
+		List<Map<String, Object>> courseInfos = scheduleMapper.findAllCourseInfo(courseIndexArr);
 		List<String> resultSQL = new ArrayList<>();
 		int courseYear = 113;
 
