@@ -1,0 +1,240 @@
+<style>
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    .form-group select {
+        flex-grow: 1;
+        min-width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
+<div class="d-flex align-items-center mb-3 p-3 border border-opacity-100 bg-white rounded">
+    <input id="classId" name="classId" type="hidden">
+    <div class="form-group">
+        <select id="depId" name="depId" class="form-select">
+        </select>
+    </div>
+    <div class="form-group">
+        <select id="courseYear" name="courseYear" class="form-select">
+        </select>
+    </div>
+    <div class="form-group">
+        <select id="classGrade" name="classGrade" class="form-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select id="className" name="className" class="form-select">
+            <option value="甲">甲</option>
+            <option value="乙">乙</option>
+            <option value="丙">丙</option>
+            <option value="選修">選修</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select id="courseId" name="courseId" class="form-select">
+        </select>
+    </div>
+</div>
+
+<div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
+    <select id="page_length" name="page_length" class="form-select" style="width: 150px;">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>年份</th>
+                <th>學期</th>
+                <th>科系</th>
+                <th>課名</th>
+                <th>學生</th>
+                <th>分數</th>
+            </tr>
+        </thead>
+        <tbody id="scoreBody">
+        </tbody>
+    </table>
+    <div class="text-end">
+        <button class="btn btn-primary" onclick="saveCourseGrade()">儲存</button>
+    </div>
+</div>
+
+<div aria-label="Page navigation example" class="border border-opacity-100 bg-white rounded d-flex justify-content-center">
+    <div class="pagination p-3">
+    </div>
+</div>
+
+<script>
+    $(document).ready(async function() {
+        loadDepartment();
+        loadTeacherCourse();
+        loadCourseYear('courseYear');
+    });
+
+    $('#courseId, #courseYear, #classGrade, #className').on('change', async(e) => {
+        $('#classId').val('');
+        // 獲取參數值
+        const depId = $('#depId').val();
+        const classGrade = $('#classGrade').val();
+        const className = $('#className').val();
+
+        // 構建查詢字符串
+        const queryString = new URLSearchParams({
+            depId: depId,
+            classGrade: classGrade,
+            className: className
+        }).toString();
+
+        const res = await fetch(`${ip}/user/findClassInfo?${queryString}`, {
+            method : 'GET',
+            headers : {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        var {state, message, data} = await res.json();
+        if (data[0]) {
+            $('#classId').val(data[0].classId);
+        }
+        await loadCourseScore();        
+        $('#page_length').trigger('change', [1]);
+    });
+
+    $('#page_length').on('change', async function() {
+        var num = arguments[1] || 1; // 獲取傳遞參數，如果沒有默認為0
+        // 1. 計算總共有幾頁
+        var trLength = $(`#scoreBody`).find('tr').length;
+        var page = Math.ceil(trLength / $(this).val());
+        // 2. 實現分頁按鈕
+        $('.pagination').html('');
+    
+        $('.pagination').append(`
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        `);
+    
+        for (var i = 0; i < page; i++) {
+            $('.pagination').append(`
+                <li class="page-item"><a class="page-link">${i+1}</a></li>
+            `);
+        }
+    
+        $('.pagination').append(`
+            <li class="page-item">
+                <a class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        `);
+    
+        // 3. 綁定按鈕事件(要先載入完按鈕才能綁定方法)
+        $('.pagination .page-link').on('click', function(e) {
+            // 1. 先取得active狀態的和active上一個與下一個按鈕
+            var prev = $('.page-link.active').parent().prev();
+            var next = $('.page-link.active').parent().next();
+            var active = $('.page-link.active').removeClass('active');
+            // 2. 取得觸發事件的按鈕
+            var pageNumber = $(this).text().trim();
+            // 3. 初始化(移除上一頁和下一頁的disabled)
+            $('.page-link').eq(0).removeClass('disabled');
+            $('.page-link').eq($('.page-link').length-1).removeClass('disabled');
+    
+            // 4. 分別處理上一頁、下一頁、和數字按鈕的邏輯
+            if (pageNumber === '«') {
+                // 處理上一頁
+                prev.children().addClass('active');
+                if (prev.prev().text().trim() === '«') {
+                    prev.prev().children().addClass('disabled');
+                }
+                pageNumber = prev.text();
+                
+            } else if (pageNumber === '»') {
+                // 處理下一頁
+                next.children().addClass('active');
+                if (next.next().text().trim() === '»') {
+                    next.next().children().addClass('disabled');
+                }
+                pageNumber = next.text();
+            } else {
+                // 如果是第一頁，則把上一頁按鈕設為disabled
+                if ($(this).parent().prev().text().trim() === '«') {                        
+                    $(this).parent().prev().children().addClass('disabled');
+                }
+                // 如果是最後一頁，則把下一頁按鈕設為disabled
+                if ($(this).parent().next().text().trim() === '»') {
+                    $(this).parent().next().children().addClass('disabled');
+                }
+                $(this).addClass('active');
+            }
+            // 5. 顯示頁面
+            loadPageContent(pageNumber);
+        });
+    
+        // 預設點擊第一頁
+        $('.pagination .page-item').eq(num).find('a').trigger('click');
+    });
+
+    // 假設點擊第一頁的行為是載入頁面的內容
+    function loadPageContent(pageNumber) {
+        /**
+         * table 要顯示內容的公式為: 
+         * start: (pageNumber-1)*pagelength
+         * end:pageNumber*pagelength
+         * */
+
+        $(`#scoreBody`).find('tr').addClass('d-none');
+        var start = (pageNumber-1) * $('#page_length').val();
+        var end = pageNumber * $('#page_length').val();
+        for (var i = start; i < end; i++) {
+            $(`#scoreBody`).find('tr').eq(i).removeClass('d-none');
+        }
+    }
+
+    var saveCourseGrade = async() => {
+        const result = await Swal.fire({
+            title: "是否要儲存?",
+            showCancelButton: true,
+            confirmButtonText: "是",
+            cancelButtonText : "否"
+        });
+
+        if (result.isConfirmed) {
+            var jsonArr = [];
+            $('input[name="score"]').each(function(index, element) {
+                jsonArr.push(JSON.parse($(element).attr('data-score')));
+            });
+            const response = await fetch(`${ip}/course/updateScore`, {
+                method : 'PUT',
+                headers : {
+                    'Content-Type' : 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body : JSON.stringify(jsonArr)
+            });
+            
+            const {state, message, data} = await response.json();
+            if (state) {
+                Swal.fire({
+                    title: "儲存成功",
+                    icon: "success"
+                });
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+                await loadCourseScore();
+                $('#page_length').trigger('change', [$('.page-link.active').text()]);
+            }
+        }
+    }
+</script>

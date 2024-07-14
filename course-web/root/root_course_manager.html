@@ -1,0 +1,179 @@
+<div id="user-header" class="d-flex mb-3 p-3 border border-opacity-100 bg-white rounded ">
+    <select name="depId" class="form-select" style="width: 150px;">
+    </select>
+</div>
+
+<div class="p-3 mb-3 border border-opacity-100 bg-white rounded">
+    <table class="table table-striped table-hover">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#courseModal" style="margin-right: 15px;" onclick="insertCourseInfo()">新增</button>
+        <button class="btn btn-success" onclick="importCourseOffering()">匯入課程</button>
+        <div>
+            <select id="page_length" name="page_length" class="form-select mt-3" style="width: 150px;">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" name="selectAll" class="form-check-input"></th>
+                <th>科系</th>
+                <th>年級</th>
+                <th>課程代號</th>
+                <th>課程名稱</th>
+                <th>選/必修</th>
+                <th>學分</th>
+                <th>老師</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="courseBody">
+        </tbody>
+    </table>
+</div>
+
+<div aria-label="Page navigation example" class="border border-opacity-100 bg-white rounded d-flex justify-content-center">
+    <div class="pagination p-3">
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="courseModalLabel">課程訊息</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="courseForm" action="">
+                <input type="hidden" name="saveFunction" id="saveFunction" value="insert">
+                <input type="hidden" name="courseIndex" id="courseIndex">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="depId">科&#12288;&#12288;系:</label>
+                        <select id="depId" name="depId" class="form-select" aria-label="Default select example">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseGrade">年&#12288;&#12288;級:</label>
+                        <input type="number" id="courseGrade" name="courseGrade" class="form-control" placeholder="請輸入年級" min="1" max="4" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseId">課程代號:</label>
+                        <input type="text" id="courseId" name="courseId" class="form-control" placeholder="請輸入課程代號" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseName">課程名稱:</label>
+                        <input type="text" id="courseName" name="courseName" class="form-control" placeholder="請輸入課程名稱" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseRequired">課程類別:</label>
+                        <select id="courseRequired" name="courseRequired" class="form-select">
+                            <option selected value="1">必修</option>
+                            <option value="2">選修</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseName">學&#12288;&#12288;分:</label>
+                        <input type="number" id="courseCredit" name="courseCredit" class="form-control" placeholder="請輸入學分" min="1" max="3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherId">授課老師:</label>
+                        <select id="teacherId" name="teacherId" class="form-select">
+                        </select>
+                    </div>                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(async function() {
+        $('#courseForm').on('submit', (e) => {
+            e.preventDefault();
+            saveCourse();
+        });
+        // 沒有id的select 才綁定事件
+        $('select[name="depId"]').each(function() {
+            if (!$(this).attr('id')) {
+                $(this).on('change', async function() {
+                    await searchCourse();
+                    bindPage('courseBody');
+                    $('#page_length').trigger('change', [1]);
+                });
+            }
+        });
+        await loadDepartment();
+        $('#user-header select[name="depId"]').change();
+
+        // 全選複選框的change事件
+        $('#selectAll').on('change', function() {
+            if (this.checked) {
+                // 如果全選複選框被選中，則選中所有input[name="courseIndex"]複選框
+                $('input[name="courseIndex"]').prop('checked', true);
+            } else {
+                // 如果全選複選框被取消選中，則取消選中所有input[name="courseIndex"]複選框
+                $('input[name="courseIndex"]').prop('checked', false);
+            }
+        });
+    });
+
+    async function importCourseOffering() {
+        if ($('input[name="courseIndex"]:checked').length == 0) {
+            Swal.fire({
+                title: '請勾選課程',
+                icon: "warning"
+            });
+            return;
+        }
+        Swal.fire({
+            title: '請輸入年份',
+            input: 'text',
+            inputPlaceholder: '輸入年份',
+            inputValue: new Date().getFullYear() - 1911, // 設置初始值為今年的民國年份
+            showCancelButton: true,
+            confirmButtonText: '匯入',
+            cancelButtonText: '取消',
+            preConfirm: (year) => {
+                if (!year || !/^\d+$/.test(year)) {
+                    Swal.showValidationMessage('請輸入一個有效的年份');
+                }
+            }
+        }).then(async(result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                var courseYear = result.value; // 獲取輸入的年份
+                // 改為讓使用可以勾選要匯入的課程，原本一次全部匯入
+                var courseIndexArr = [];
+                $('input[name="courseIndex"]:checked').each(function() {
+                    // data方法會自動將字串轉為JSON物件
+                    courseIndexArr.push($(this).data('course').courseIndex);
+                });
+                
+                var param = {
+                    courseIndex : courseIndexArr
+                }
+                
+                const response = await fetch(`${ip}/course/importCourseOfferings/${courseYear}`, {
+                    method : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body : JSON.stringify(param)
+                });
+                const {state, message, data} = await response.json();
+                Swal.fire({
+                    title: message,
+                    icon: state ? "success" : "error"
+                });
+            }
+        });
+    }
+</script>

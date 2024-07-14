@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" rel="stylesheet">
+</head>
+
+<body class="d-flex align-items-center vh-100">
+    <div class="container-xl">
+        <div class="row justify-content-center">
+            <div class="col-4 col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4 fw-bold">翔的學園</h5>
+                        <form id="login" action="/main" method="post">
+                            <input type="hidden" id="permissionId" name="permissionId">
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text"><i class="bi bi-people"></i></span>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="請輸入帳號" required>
+                            </div>
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="請輸入密碼" required>
+                                <!-- 若要使用顯示/隱藏密碼功能，可以添加下面的按鈕 -->
+                                <button class="btn btn-outline-secondary" type="button" id="togglePasswordButton">
+                                    <i id="togglePasswordIcon" class="bi bi-eye"></i>
+                                </button>
+                            </div>
+
+                            <!-- 新增驗證碼欄位 -->
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+                                <input type="text" class="form-control" id="captcha" name="captcha"
+                                    placeholder="請輸入驗證碼" required>
+                                <!-- 顯示驗證碼圖片 -->
+                                <img id="captchaImage" src="" alt="Captcha">
+                                <!-- 新增刷新圖示 -->
+                                <div class="input-group-append">
+                                    <button class="btn" style="border: none;" type="button" id="refreshCaptchaButton">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary">登入</button>
+                            </div>
+
+                            <div class="text-center">
+                                <a href="./forget.html" class="text-decoration-none">Forgot Password?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/common.js"></script>
+    <script>
+        var passcode;
+        $(document).ready(async function() {
+            getPassCode();
+
+            document.getElementById('refreshCaptchaButton').addEventListener('click', getPassCode);
+        });
+
+        async function getPassCode() {
+            const response = await fetch(`${ip}/api/passcode`);
+            const {state, message, data} = await response.json();
+            if (state) {
+                passcode = message;
+                const base64String = `data:image/jpeg;base64, ${data}`;
+                document.getElementById('captchaImage').src = base64String;
+            }
+        }
+
+        $('#togglePasswordButton').click(function () {
+            var passwordInput = $('#password');
+            var passwordIcon = $('#togglePasswordIcon');
+
+            if (passwordInput.attr('type') === 'password') {
+                passwordInput.attr('type', 'text');
+                passwordIcon.removeClass('bi-eye').addClass('bi-eye-slash');
+            } else {
+                passwordInput.attr('type', 'password');
+                passwordIcon.removeClass('bi-eye-slash').addClass('bi-eye');
+            }
+        });
+        
+        $('#login').submit(async(e) => {
+            e.preventDefault();
+
+            if ($('#captcha').val() != passcode) {
+                Swal.fire({
+                    title: "請輸入正確的驗證碼",
+                    icon: "error"
+                });
+                $('body').removeClass('swal2-shown swal2-height-auto');
+                return;
+            }
+
+            $('#errorMessage').addClass("d-none");
+            var username = $("#username").val();
+            var password = $("#password").val();
+            
+            try {
+                var response = await fetch(`${ip}/user/login`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                if (response.ok) {
+                    const {state, message, data} = await response.json();
+                    sessionStorage.setItem("token", data.token);
+                    sessionStorage.setItem("userName", data.userName);
+                    sessionStorage.setItem("userId", data.userId);
+                    sessionStorage.setItem("permissionId", data.permissionId);
+                    Swal.fire({
+                        title: "登入成功",
+                        icon: "success"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = data.page;
+                        }
+                    });
+                    // $('body').removeClass('swal2-shown swal2-height-auto');
+				} else {
+                    Swal.fire({
+                        title: "帳號或密碼錯誤",
+                        icon: "error"
+                    });
+				}
+                $('body').removeClass('swal2-shown swal2-height-auto');
+            } catch (error) {
+                console.error('Network error or other issue:', error);
+            }
+        });
+    </script>
+</body>
+</html>
