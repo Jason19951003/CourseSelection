@@ -15,7 +15,9 @@ public interface ScheduleMapper {
 
     public Integer countStudentNum(String classId);
 
-    public Integer checkCourseYear(Integer courseYear);
+    public List<Map<String, Object>> checkCourseDuplicate(Integer courseYear);
+    
+    public Map<String, Object> checkCourseYear(Map<String, Object> param);
 
     public Integer importRequiredCourse(Map<String, Object> param);
 }

@@ -155,18 +155,19 @@
                     // data方法會自動將字串轉為JSON物件
                     courseIndexArr.push($(this).data('course').courseIndex);
                 });
-                
                 var param = {
-                    courseIndex : courseIndexArr
+                    courseIndex: courseIndexArr,
+                    depId: $('#user-header select[name="depId"]').val(),
+                    courseYear: courseYear
                 }
                 
-                const response = await fetch(`${ip}/course/importCourseOfferings/${courseYear}`, {
-                    method : 'POST',
+                const response = await fetch(`${ip}/course/importCourseOfferings`, {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body : JSON.stringify(param)
+                    body: JSON.stringify(param)
                 });
                 const {state, message, data} = await response.json();
                 Swal.fire({

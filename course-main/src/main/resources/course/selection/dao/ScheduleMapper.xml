@@ -5,13 +5,33 @@
 
 	<select id="checkCourseYear">
 		SELECT 
-			course_year 
-		FROM 
-			course_offerings
-		WHERE course_year = #{courseYear}
-		GROUP BY course_year
+			a.course_year, 
+			b.course_dep 
+		FROM course_offerings a
+		LEFT JOIN course_info b ON a.course_index = b.course_index
+		<where>
+			<if test="courseYear != null and courseYear != ''">
+				AND a.course_year = #{courseYear}
+			</if>
+			<if test="depId != null and depId != ''">
+				AND b.course_dep = #{depId}
+			</if>
+		</where>
+		GROUP BY a.course_year, b.course_dep
 	</select>
 
+	<select id="checkCourseDuplicate">
+		SELECT 
+		    course_of_week,
+		    course_start,
+		    course_end,
+		    course_locate,
+		    course_class_id
+		FROM
+		    course_offerings 
+		WHERE course_year = #{courseYear}
+	</select>
+	
 	<select id="findAllCourseInfo">
 		SELECT
 			course_index,

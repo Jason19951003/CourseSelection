@@ -173,13 +173,13 @@ public class CourseController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/importCourseOfferings/{courseYear}")
-	public ResponseEntity<ApiResponse<?>> importCourseOfferings(@PathVariable("courseYear") Integer courseYear, @RequestBody Map<String, Object> param) {
-		try {			
-			if (scheduleService.checkCourseYear(courseYear)) {
+	@PostMapping("/importCourseOfferings")
+	public ResponseEntity<ApiResponse<?>> importCourseOfferings(@RequestBody Map<String, Object> param) {
+		try {
+			if (scheduleService.checkCourseYear(param)) {
 				// 改只匯入前端有勾選的課程
 				List<Integer> courseIndexList = (List)param.get("courseIndex");
-				boolean state = scheduleService.insertAllCourseOfferings(courseYear, courseIndexList);
+				boolean state = scheduleService.insertAllCourseOfferings(Integer.parseInt(param.get("courseYear")+""), courseIndexList);
 				String message = state ? "匯入成功" : "匯入失敗";
 				ApiResponse<String> result = new ApiResponse<>(state, message, "成功");
 				return ResponseEntity.ok(result);
