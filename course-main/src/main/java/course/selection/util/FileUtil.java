@@ -6,10 +6,14 @@ import java.io.FileOutputStream;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtil {
-    public static final String UPLOAD_DIR = "src/main/resources/static/img";
+    public static final String UPLOAD_DIR = "/app/img";
 
     public static void uploadFile(MultipartFile avatar, String userId) {
         String fileName = getStikcerOriginalName(avatar, userId);
+        File file = new File(UPLOAD_DIR);
+        if (!file.exists()) {
+            file.mkdir();
+        }
         File dest = new File(UPLOAD_DIR, fileName);
         try (FileOutputStream os = new FileOutputStream(dest)) {
             os.write(avatar.getBytes());

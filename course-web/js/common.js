@@ -138,7 +138,7 @@ const loadCourseYear = async(id) => {
 }
 
 const renderHtml = async(id, url) => {
-    const response = await fetch(`${ip}/${url}`, {
+    const response = await fetch(`http://localhost/${url}`, {
         headers : {
             'Authorization': `Bearer ${token}`
         }

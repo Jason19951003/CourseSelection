@@ -50,7 +50,7 @@ public class ApiController {
 
     @GetMapping("/img/{fileName}")
     public void getImage(@PathVariable("fileName") String fileName, HttpServletResponse res) {
-        File imgFile = new File("src/main/resources/static/img", fileName);
+        File imgFile = new File("/app/img", fileName);
         
         // 根據副檔名來決定Contentype
         if (fileName.toLowerCase().endsWith(".jpg") || fileName.toLowerCase().endsWith(".jpeg")) {
@@ -142,7 +142,7 @@ public class ApiController {
 
     @GetMapping("/downloadUserInfo")
     public ResponseEntity<InputStreamResource> downloadUserInfo() throws IOException {
-        File file = new File("src/main/resources/static/file/user_info.xlsx");
+        File file = new File("/app/user/user_info.xlsx");
 
         if (!file.exists()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
