@@ -22,7 +22,8 @@ const findCourseByTeacherId = async() => {
                 <td>${obj.semester}</td>
                 <td>${obj.departmentName}</td>
                 <td>${obj.fullClassName}</td>
-                <td>${obj.courseName}</td>                
+                <td>${obj.courseName}</td>
+                <td>${obj.courseLocate}</td>
                 <td>
                     <button id="updateCourse" onclick="updateCourse(this)" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#courseModal" data-course='${jsonStr}'>編輯</button>
                 </td>
