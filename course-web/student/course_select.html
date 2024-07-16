@@ -114,28 +114,43 @@
     </div>
 </div>
 
+<!-- 課程資訊視窗 -->
+<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="courseModalLabel">課程訊息</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="courseContent" class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $(document).ready(async function() {
+    $(document).ready(async function () {
         await loadDepartment();
         await findSchedule();
         findAllCourse();
-        
+
         // 每隔0.5秒鐘調用一次 findAllCourse 函數
         setInterval(findAllCourse, 500);
-        
+
         // 點擊課程項目時選中課程
-        $(document).on('click', '.course-item', function() {
+        $(document).on('click', '.course-item', function () {
             $('.course-item').removeClass('active');
             $(this).addClass('active');
         });
 
         // 下拉選單
-        $('#depId').on('change', function() {
+        $('#depId').on('change', function () {
             findAllCourse();
         });
 
         // 加選課程
-        $('#addCourse').on('click', async function() {
+        $('#addCourse').on('click', async function () {
             var selectedCourse = $('#availableCourses .active');
             if (selectedCourse.length > 0) {
                 var course = selectedCourse.data('course');
@@ -171,7 +186,7 @@
                 }
 
                 for (var i = courseStart; i <= courseEnd; i++) {
-                    var rowIndex = courseStart < 5 ? i-1 : i;
+                    var rowIndex = courseStart < 5 ? i - 1 : i;
                     var cell = $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column);
                     if (!cell.text() == '') {
                         Swal.fire({
@@ -181,17 +196,17 @@
                         return;
                     }
                 }
-                
+
                 const response = await fetch(`${selectIp}/select/insertCourse`, {
-                    method : 'POST',
-                    headers : {
+                    method: 'POST',
+                    headers: {
                         'Authorization': `Bearer ${token}`,
-                        'Content-type' : 'application/json'
+                        'Content-type': 'application/json'
                     },
-                    body : JSON.stringify(course)
+                    body: JSON.stringify(course)
                 });
-                
-                const {state, message, data} = await response.json();
+
+                const { state, message, data } = await response.json();
 
                 if (state) {
                     await findSchedule();
@@ -210,7 +225,7 @@
         });
 
         // 退選課程
-        $('#removeCourse').on('click', async function() {
+        $('#removeCourse').on('click', async function () {
             var selectedCourse = $('#selectedCourses .active');
             if (selectedCourse.length > 0) {
                 var course = selectedCourse.data('course');
@@ -218,14 +233,14 @@
 
                 try {
                     const response = await fetch(`${selectIp}/select/deleteScore`, {
-                        method : 'POST',
-                        headers : {
+                        method: 'POST',
+                        headers: {
                             'Authorization': `Bearer ${token}`,
-                            'Content-type' : 'application/json'
+                            'Content-type': 'application/json'
                         },
-                        body : JSON.stringify(course)
+                        body: JSON.stringify(course)
                     });
-                    const {state, message, data} = await response.json();
+                    const { state, message, data } = await response.json();
 
                     if (state) {
                         await findSchedule();
@@ -247,21 +262,21 @@
         });
     });
 
-    var findSchedule = async function() {
+    var findSchedule = async function () {
         $('#scheduleBody').find('td').html('');
         var param = {
-            'userId' : `${userId}`,
-            'courseYear' : new Date().getFullYear()-1911,
-            'courseSemester' : new Date().getMonth() >= 5 ? 1 : 2
+            'userId': `${userId}`,
+            'courseYear': new Date().getFullYear() - 1911,
+            'courseSemester': new Date().getMonth() >= 5 ? 1 : 2
         }
         var queryString = new URLSearchParams(param).toString();
 
         const response = await fetch(`${ip}/course/findSchedule?${queryString}`, {
-            headers : {
+            headers: {
                 'Authorization': `Bearer ${token}`,
             }
         });
-        const {state, message, data} = await response.json();
+        const { state, message, data } = await response.json();
         data.forEach(obj => {
             var column;
             switch (obj.courseOfWeek) {
@@ -283,40 +298,40 @@
             }
 
             for (var i = obj.courseStart; i <= obj.courseEnd; i++) {
-                var rowIndex = obj.courseStart < 5 ? i-1 : i;
-                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`${obj.courseName}(${obj.required})<br>${obj.courseLocate}`);
+                var rowIndex = obj.courseStart < 5 ? i - 1 : i;
+                $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).html(`<a href="#" data-bs-toggle="modal" data-bs-target="#courseModal" onclick="getCourseContent('${obj.coursePk}')">${obj.courseName}</a>(${obj.required})<br>${obj.courseLocate}`);
             }
         });
     }
 
-    var findAllCourse = async function() {
-    	// 保存當前選中的課程ID
+    var findAllCourse = async function () {
+        // 保存當前選中的課程ID
         var selectedCourseIds = [];
-        $('#selectedCourses .course-item.active').each(function() {
+        $('#selectedCourses .course-item.active').each(function () {
             selectedCourseIds.push($(this).data('course').courseId);
         });
-        $('#availableCourses .course-item.active').each(function() {
+        $('#availableCourses .course-item.active').each(function () {
             selectedCourseIds.push($(this).data('course').courseId);
         });
-        
+
         var param = {
-            courseRequired : '2',
-            depId : $('#depId').val(),
-            courseYear : new Date().getFullYear()-1911,
-            courseSemester : new Date().getMonth() >= 5 ? 1 : 2
+            courseRequired: '2',
+            depId: $('#depId').val(),
+            courseYear: new Date().getFullYear() - 1911,
+            courseSemester: new Date().getMonth() >= 5 ? 1 : 2
         }
         var queryString = new URLSearchParams(param).toString();
         const response = await fetch(`${selectIp}/select/findCourseOfferingInfo?${queryString}`, {
-            headers : {
+            headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
-        const {state, message, data} = await response.json();
+        const { state, message, data } = await response.json();
         $('#availableCourses').html('');
         $('#selectedCourses').html('');
         data.forEach(obj => {
             var jsonStr = JSON.stringify(obj);
-            
+
             var column;
             switch (obj.courseOfWeek) {
                 case 'Monday':
@@ -335,7 +350,7 @@
                     column = 4;
                     break;
             }
-            var rowIndex = obj.courseStart < 5 ? obj.courseStart-1 : obj.courseStart;
+            var rowIndex = obj.courseStart < 5 ? obj.courseStart - 1 : obj.courseStart;
             var findSchedule = $('#scheduleBody').find('tr').eq(rowIndex).find('td').eq(column).text();
             if (findSchedule.includes(obj.courseName)) {
                 $('#selectedCourses').append(`
@@ -348,15 +363,33 @@
             }
         });
         // 恢復之前選中的課程狀態
-        $('#selectedCourses .course-item').each(function() {
+        $('#selectedCourses .course-item').each(function () {
             if (selectedCourseIds.includes($(this).data('course').courseId)) {
                 $(this).addClass('active');
             }
         });
-        $('#availableCourses .course-item').each(function() {
+        $('#availableCourses .course-item').each(function () {
             if (selectedCourseIds.includes($(this).data('course').courseId)) {
                 $(this).addClass('active');
             }
         });
     }
+
+    // 因為直接將html存在前端可能導致格式跑掉，所以用pk重新去資料庫查資料。
+    async function getCourseContent(pk) {
+        $('#courseContent').html('');
+        var param = {
+            coursePk: pk
+        }
+
+        var queryString = new URLSearchParams(param).toString();
+        const response = await fetch(`${ip}/course/getScheduleByClass?${queryString}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        const { state, message, data } = await response.json();
+        $('#courseContent').html(data[0].courseContent);
+    }
+
 </script>
