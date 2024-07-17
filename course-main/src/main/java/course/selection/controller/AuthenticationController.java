@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import course.selection.config.SchoolUserDetails;
 import course.selection.model.ApiResponse;
 import course.selection.service.RedisService;
@@ -53,8 +58,8 @@ public class AuthenticationController {
 				result.put("token", token);
 				result.put("user", loginUser.getUser());
 				result.put("permissionId", loginUser.getUser().getPermissionId());
-
-				redisService.save(loginUser.getUsername(), token);
+				
+				redisService.save(loginUser.getUser().getUserId(), result.toString());
 				switch (loginUser.getPermission()) {
 					case ADMIN:
 						result.put("page", "./root.html");
@@ -84,7 +89,7 @@ public class AuthenticationController {
 	 * @return
 	 */
 	@GetMapping("/singleSession")
-	public ResponseEntity<?> singleSession(HttpServletRequest req) {
+	public ResponseEntity<?> singleSession(HttpServletRequest req) throws JsonMappingException, JsonProcessingException {
 		// 取得 token
 		String authHeader = req.getHeader("Authorization");
 		final String userName;
@@ -93,11 +98,15 @@ public class AuthenticationController {
 		if (!(authHeader == null || !authHeader.startsWith("Bearer"))) {
 			jwtToken = authHeader.substring(7);
 			userName = jwtUtil.extractUsername(jwtToken);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			String user = redisService.get(userName);
+            Map<String, Object> resultMap = objectMapper.readValue(user, new TypeReference<Map<String, Object>>() {});
 
 			// 使用jwt token 的有效期限判斷登入的先後順序
 			if (jwtUtil.isTokenExpired(jwtToken)) {
 				return ResponseEntity.ok(new ApiResponse<>(false, "您的登入時間已超過15分鐘，請重新登入以繼續使用。", ""));
-			} else if (jwtUtil.extractExpiration(jwtToken).before(jwtUtil.extractExpiration(redisService.get(userName)))) {
+			} else if (jwtUtil.extractExpiration(jwtToken).before(jwtUtil.extractExpiration(redisService.get(resultMap.get("token")+"")))) {
 				return ResponseEntity.ok(new ApiResponse<>(false, "因為在另一個裝置進行了新的登入。如果這不是您的操作，請立即更改您的密碼並聯絡支援團隊。請重新登入以繼續使用服務。", ""));
 			} else {
 				return ResponseEntity.ok(new ApiResponse<>(true, "", ""));
