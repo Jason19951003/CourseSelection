@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import course.selection.config.SchoolUserDetails;
 import course.selection.model.ApiResponse;
+import course.selection.model.pojo.User;
 import course.selection.service.RedisService;
 import course.selection.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,14 +53,16 @@ public class AuthenticationController {
 			if (loginUser != null) {
 				Map<String, Object> result = new HashMap<>();
 				String token = jwtUtil.generateToken(loginUser);
-
+				ObjectMapper objectMapper = new ObjectMapper();
+				
 				result.put("userId", loginUser.getUser().getUserId());
 				result.put("userName", loginUser.getUser().getUserName());
 				result.put("token", token);
-				result.put("user", loginUser.getUser());
 				result.put("permissionId", loginUser.getUser().getPermissionId());
+				result.put("user", objectMapper.writeValueAsString(loginUser.getUser()));
 				
-				redisService.save(loginUser.getUser().getUserId(), result.toString());
+				String jsonString = objectMapper.writeValueAsString(result);
+				redisService.save(loginUser.getUser().getUserId(), jsonString);
 				switch (loginUser.getPermission()) {
 					case ADMIN:
 						result.put("page", "./root.html");
@@ -101,12 +104,12 @@ public class AuthenticationController {
 			
 			ObjectMapper objectMapper = new ObjectMapper();
 			String user = redisService.get(userName);
+			
             Map<String, Object> resultMap = objectMapper.readValue(user, new TypeReference<Map<String, Object>>() {});
-
 			// 使用jwt token 的有效期限判斷登入的先後順序
 			if (jwtUtil.isTokenExpired(jwtToken)) {
 				return ResponseEntity.ok(new ApiResponse<>(false, "您的登入時間已超過15分鐘，請重新登入以繼續使用。", ""));
-			} else if (jwtUtil.extractExpiration(jwtToken).before(jwtUtil.extractExpiration(redisService.get(resultMap.get("token")+"")))) {
+			} else if (jwtUtil.extractExpiration(jwtToken).before(jwtUtil.extractExpiration(resultMap.get("token")+""))) {
 				return ResponseEntity.ok(new ApiResponse<>(false, "因為在另一個裝置進行了新的登入。如果這不是您的操作，請立即更改您的密碼並聯絡支援團隊。請重新登入以繼續使用服務。", ""));
 			} else {
 				return ResponseEntity.ok(new ApiResponse<>(true, "", ""));
@@ -114,5 +117,17 @@ public class AuthenticationController {
 		}
 
 		return ResponseEntity.ok(new ApiResponse<String>(false, "找不到token,驗證錯誤!", "錯誤"));
+	}
+	
+	/*
+	 * 防止多開，如果有新的裝置登入，原本的裝置則會被踢下線 
+	 * @param req
+	 * @return
+	 */
+	@PostMapping("/logout")
+	public ResponseEntity<?> logout(@RequestBody User user) {
+		// 移除token
+		redisService.delete(user.getUserId());
+		return ResponseEntity.ok(new ApiResponse<String>(true, "登出成功", "登出"));
 	}
 }

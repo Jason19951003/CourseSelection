@@ -1,12 +1,16 @@
 package course.auth.util;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JwtUtil {
@@ -32,5 +36,36 @@ public class JwtUtil {
 
 	public Boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
+	}
+
+	public String generateToken(UserDetails userDetails) {
+		Map<String, Object> claims = new HashMap<>();
+		return createToken(claims, userDetails);
+	}
+	
+	public String generateToken(Map<String, Object> claims, String userId) {
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(userId)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
+				.signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+				.compact();
+	}
+
+	private String createToken(Map<String, Object> claims, UserDetails userDetails) {
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(userDetails.getUsername())
+				.claim("authorities", userDetails.getAuthorities())
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
+				.signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+				.compact();
+	}
+
+	public Boolean validateToken(String token, UserDetails userDetails) {
+		final String username = extractUsername(token);
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 }

@@ -1,4 +1,4 @@
-package course.selection.config;
+package course.auth.config;
 
 import java.util.Map;
 
@@ -21,9 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import course.selection.dao.UserRequestMapper;
-import course.selection.model.pojo.User;
-import course.selection.service.RedisService;
+import course.auth.dao.UserRequestMapper;
+import course.auth.model.pojo.User;
+import course.auth.service.RedisService;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

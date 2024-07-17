@@ -1,4 +1,4 @@
-package course.selection.model.pojo;
+package course.auth.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
