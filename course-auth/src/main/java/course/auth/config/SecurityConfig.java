@@ -82,15 +82,15 @@ public class SecurityConfig {
 			User user;
 			try {
 				// 查詢用戶訊息
-				String cache = redisService.get(username);
+				/*String cache = redisService.get(username);
 				if (cache != null) {
 					ObjectMapper objectMapper = new ObjectMapper();
 		            Map<String, Object> resultMap = objectMapper.readValue(cache, new TypeReference<Map<String, Object>>() {});
 		            user = objectMapper.readValue(resultMap.get("user")+"", new TypeReference<User>() {});	
 				} else {
 					user = userMapper.findUserByUserName(username);
-				}
-				
+				}*/
+				user = userMapper.findUserByUserName(username);
 				// 如果沒有User 就拋出異常
 				if (user == null) {
 					throw new RuntimeException("帳號或者密碼錯誤");
