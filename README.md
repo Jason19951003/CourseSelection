@@ -21,28 +21,3 @@
     * 成績查詢
     * 課表查詢
     * 選課系統
-
-## 演示圖
-
-<table>
-    <tr>
-        <td><img src="https://i.imgur.com/CJhZDOf.png"/></td>
-        <td><img src="https://i.imgur.com/X2lX3Ac.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://i.imgur.com/BhutNKV.png"/></td>
-        <td><img src="https://i.imgur.com/w8FJ6eV.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://i.imgur.com/oymTWo0.png"/></td>
-        <td><img src="https://i.imgur.com/wJjrWsT.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://i.imgur.com/tF0estl.png"/></td>
-        <td><img src="https://i.imgur.com/BVDwrkq.png"/></td>
-    </tr>	 
-    <tr>
-        <td><img src="https://i.imgur.com/BVzwp33.png"/></td>
-        <td><img src="https://i.imgur.com/kVSGg0a.png"/></td>
-    </tr>
-</table>
