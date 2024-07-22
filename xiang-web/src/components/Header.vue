@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <header class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid w-75">
             <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
                 <img src="/public/logo.png" alt="" class="logo">
@@ -45,10 +45,17 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </header>
+    <main>
+
+    </main>
+
+    <footer>
+        
+    </footer>
 </template>
 
-<script setup lang="ts" name="index">    
+<script setup lang="ts">
     import { onMounted } from 'vue'
     import { Dropdown } from 'bootstrap'
 
